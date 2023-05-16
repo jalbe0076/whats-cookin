@@ -1,6 +1,7 @@
 import { expect } from 'chai';
-import { getRecipeInstructions, getRecipeById } from '../src/recipes.js'
+import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getIngredientNames } from '../src/recipes.js'
 import { sampleRecipeData } from '../src/data/sample-recipes.js';
+import { sampleIngredientsData } from '../src/data/sample-ingredients.js';
 
 describe ('recipe info', () => {
   let findRecipe, findAnotherRecipe;
@@ -43,3 +44,62 @@ describe ('recipe info', () => {
     ])
   });
 });
+
+describe ('filter', function() {
+  
+  it('should return an array of filtered recipes by a tag', function() {
+    const filteredRecipes = filterRecipes(sampleRecipeData, 'starter')
+    expect(filteredRecipes).to.be.deep.equal([sampleRecipeData[0]])
+  })
+  
+  it('should be able return an array of filtered recipes by a different tag', function() {
+    const filteredRecipes = filterRecipes(sampleRecipeData, 'sauce')
+    expect(filteredRecipes).to.be.deep.equal([sampleRecipeData[2]])
+  })
+
+  it('should be able return an array of filtered recipes by a name', function() {
+    const filteredRecipes = filterRecipes(sampleRecipeData, "Dirty Steve's Original Wing Sauce")
+    expect(filteredRecipes).to.be.deep.equal([sampleRecipeData[2]]
+    )
+  })
+  
+  it('should let the user know if there were no results found', function() {
+    const filteredRecipes = filterRecipes(sampleRecipeData, 'Plastic Garbage')
+    expect(filteredRecipes).to.be.equal('Sorry, no matching results!')
+  })
+
+})
+
+describe('ingredients', () => {
+  let recipe1, recipe2;
+
+  beforeEach(() => {
+    recipe1 = getRecipeById(sampleRecipeData, 595736);
+    recipe2 = getRecipeById(sampleRecipeData, 678353);
+  });
+
+  it('should find the ingredient information needed for a recipe', () => {
+    const ingredients = getIngredients(recipe1, sampleIngredientsData)
+    expect(ingredients[1].id).to.equal(18372)
+    expect(ingredients[1].name).to.equal('bicarbonate of soda')
+    expect(ingredients[1].estimatedCostInCents).to.equal(582)
+  })
+
+  it('should return an error message if no ingredients are found', () => {
+    const ingredients = getIngredients(recipe2, [])
+    expect(ingredients).to.equal('Sorry, no ingredients given!')
+  })
+  
+  it('should determine the names of ingredients needed for a given recipe', () => {
+    const ingredients = getIngredients(recipe2, sampleIngredientsData)
+    const ingredientNames = getIngredientNames(ingredients)
+
+    expect(ingredientNames).to.deep.equal(['apple cider', 'apple', 'corn starch'])
+  })
+
+  it('should return an error message if no ingredients are found', () => {
+    const ingredientNames = getIngredientNames([])
+
+    expect(ingredientNames).to.equal('Sorry, no ingredients given!')
+  })
+})
