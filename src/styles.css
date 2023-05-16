@@ -1,3 +1,7 @@
+* {
+  border: solid red;
+}
+
 html, body {
   min-height: 100vh;
 }
@@ -10,6 +14,12 @@ body {
 
 h1 {
   font-family: 'Mogra', cursive;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* NAV BAR */
@@ -113,6 +123,32 @@ figure {
 
 #featured-recipes {
   background-color: #D8E2DC;
+}
+
+/* RECIPE VIEW */
+
+.recipe-name {
+  align-self: center;
+}
+
+#recipe-view {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
+#recipe-info-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-box {
+  height: 40vh;
+  width:45%;
+}
+
+#instructions-section {
+  margin-top: 4em;
 }
 
 .hidden {
