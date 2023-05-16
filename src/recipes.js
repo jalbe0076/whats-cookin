@@ -1,6 +1,3 @@
-const homeBanner = document.querySelector("#home-banner")
-
-homeBanner.addEventListener('click', upatdateCurrentRecipe)
 
 const getRecipeById = (recipes, id) => {
   const recipe = recipes.find(recipe => recipe.id === id);
@@ -24,14 +21,9 @@ const filterRecipes = (data, filterTerm) => {
   return filteredRecipes
 }
 
-currentRecipe = null
-
-// const upatdateCurrentRecipe = () => {
-//   currentRecipe = 
-// } 
-
-export {
-  filterRecipes,
+export { 
+  filterRecipes, 
   getRecipeInstructions, 
-  getRecipeById
-}
+  getRecipeById 
+};
+
