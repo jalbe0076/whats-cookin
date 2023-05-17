@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getIngredientNames } from '../src/recipes.js'
+import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getIngredientNames, calculateRecipeCost, getRandomRecipe } from '../src/recipes.js'
 import { sampleRecipeData } from '../src/data/sample-recipes.js';
 import { sampleIngredientsData } from '../src/data/sample-ingredients.js';
 
@@ -44,7 +44,6 @@ describe ('recipe info', () => {
     ])
   });
 });
-
 
 describe('select a random recipe', () => {
   it('should select a random recipe by index position', () => {
@@ -117,8 +116,34 @@ describe('ingredients', () => {
 
   it('should return an error message if no ingredients are found', () => {
     const ingredientNames = getIngredientNames([])
-
+    
     expect(ingredientNames).to.equal('Sorry, no ingredients given!')
   })
 })
 
+describe('calculate cost of ingredients', () => {
+  let recipe, ingredients, recipe2, ingredients2;
+
+  beforeEach(() => {
+    recipe = getRecipeById(sampleRecipeData, 595736);
+    ingredients = getIngredients(recipe, sampleIngredientsData);
+    recipe2 = getRecipeById(sampleRecipeData, 678353);
+    ingredients2 = getIngredients(recipe2, sampleIngredientsData);
+  });
+
+  it('should calculate the total cost of a given recipe\'s ingredients', () => {
+    const costOfCookieCup = calculateRecipeCost(ingredients, recipe)
+    expect(costOfCookieCup).to.equal(976)
+  });
+
+  it('should calculate the total cost of a different recipe\'s ingredients', () => {
+    const costOfPorkChops = calculateRecipeCost(ingredients2, recipe2)
+    expect(costOfPorkChops).to.equal(1352)
+  });
+
+  it('should show an error if ingredients don\'t exist', () => {
+    const badIngredients = calculateRecipeCost([], recipe2)
+    expect(badIngredients).to.equal('Error: no ingredients :(')
+  });
+
+})

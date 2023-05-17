@@ -1,4 +1,3 @@
-
 const getRecipeById = (recipes, id) => {
   const recipe = recipes.find(recipe => recipe.id === id);
   return recipe;
@@ -51,12 +50,23 @@ const getIngredientNames = (ingredients) => {
   return ingredientNames;
 }
 
+const calculateRecipeCost = (ingredients, recipe) => {
+  if(!ingredients.length){
+    return 'Error: no ingredients :('
+  }
+  return ingredients.reduce((totalCost, ingredient) => {
+    let ingredientQuantity = recipe.ingredients.find(recipe => recipe.id === ingredient.id) 
+    totalCost += (ingredient.estimatedCostInCents * ingredientQuantity.quantity.amount)
+    return totalCost
+  }, 0);
+};
 
-export {
-  filterRecipes,
+export { 
+  filterRecipes, 
   getRecipeInstructions, 
   getRecipeById, 
   getRandomRecipe,
   getIngredients,
-  getIngredientNames 
+  getIngredientNames,
+  calculateRecipeCost
 };
