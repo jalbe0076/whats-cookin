@@ -1,6 +1,6 @@
 //NOTE: Your DOM manipulation will occur in this file
 
-import { getIngredients, getRecipeInstructions, calculateRecipeCost } from "./recipes"
+import { getIngredients, getRecipeInstructions, calculateRecipeCost, getAllTags } from "./recipes"
 
 //Here are 2 example functions just to demonstrate one way you can export/import between the two js files. You'll want to delete these once you get your own code going.
 // function exampleFunction1(person) {
@@ -53,9 +53,17 @@ const displayRecipeOfTheDay = (recipe) => {
   homeBanner.id = `${recipe.id}`
 }
 
+const populateTags = (tags) => {
+  dropdownCategories.innerHTML = '';
+  tags.forEach(tag => {
+    dropdownCategories.innerHTML += `<p>${tag}</p>`;
+  });
+};
+
 export {
   displayRecipeInfo,
-  displayRecipeOfTheDay
+  displayRecipeOfTheDay,
+  populateTags
   // exampleFunction1,
   // exampleFunction2,
 }

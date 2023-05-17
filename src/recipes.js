@@ -75,9 +75,10 @@ const getAllTags = (recipes) => {
   const tags = getItems(recipes, 'tags');
   tags.flat(1).forEach(tag => {
     if(!availableTags.includes(tag)) {
-      availableTags.push();
+      availableTags.push(tag);
     }
-  })
+  });
+  return availableTags.sort();
 };
 
 export { 

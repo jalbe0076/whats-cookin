@@ -1,5 +1,5 @@
-import { getRecipeById, getRandomRecipe } from './recipes'
-import { displayRecipeInfo, displayRecipeOfTheDay } from './domUpdates'
+import { getRecipeById, getRandomRecipe, getAllTags } from './recipes'
+import { displayRecipeInfo, displayRecipeOfTheDay,populateTags } from './domUpdates'
 import './styles.css'
 import recipeData from './data/recipes'
 import ingredientsData from './data/ingredients'
@@ -10,7 +10,10 @@ let recipeOfTheDay = null
 const homeBanner = document.querySelector(".home-banner")
 
 window.addEventListener('load', function() {
-  updateRecipeOfTheDay()
+  const tags = getAllTags(recipeData)
+  console.log(tags)
+  updateRecipeOfTheDay();
+  populateTags(tags);
 })
 homeBanner.addEventListener('click', function(e) {
   updateCurrentRecipe(e)
