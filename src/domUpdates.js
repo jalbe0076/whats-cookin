@@ -9,6 +9,7 @@ searchBtn.addEventListener('click', () => {
   console.log('clicked')
   searchRecipes()
 })
+
 searchInput.addEventListener('keydown', function(event) {
   if (event.key === "Enter") {
     console.log('enter')
