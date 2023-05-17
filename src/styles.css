@@ -135,6 +135,10 @@ figure {
   width: 80%;
   display: flex;
   flex-direction: column;
+  padding: 2em;
+  margin: 2em;
+  border-radius: 1em;
+  background-color: #E8E8E4;
 }
 
 .recipe-info-row {
@@ -145,6 +149,7 @@ figure {
 .info-box {
   height: 40vh;
   width: 45%;
+  border-radius: 1em;
 }
 
 .instructions-section {
