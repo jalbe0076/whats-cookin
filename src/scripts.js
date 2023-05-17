@@ -11,7 +11,6 @@ const homeBanner = document.querySelector(".home-banner")
 
 window.addEventListener('load', function(e) {
   e.preventDefault()
-  console.log('hey')
   updateRecipeOfTheDay()
 })
 homeBanner.addEventListener('click', function(e) {
@@ -20,7 +19,7 @@ homeBanner.addEventListener('click', function(e) {
 })
 
 const updateCurrentRecipe  = (e) => {
-  currentRecipe = getRecipeById(recipeData, parseInt(e.target.id))
+  currentRecipe = getRecipeById(recipeData, parseInt(e.target.id || e.target.parentNode.id || e.target.parentNode.parentNode.id))
   displayRecipeInfo(currentRecipe, ingredientsData)
 }
 

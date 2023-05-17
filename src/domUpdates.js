@@ -43,11 +43,11 @@ const displayRecipeInfo = (recipe, data) => {
 
 const displayRecipeOfTheDay = (recipe) => {
   homeBanner.innerHTML = 
-      `<img id=${recipe.id} alt=${recipe.name} src=${recipe.image}>
-      <figcaption id="recipe-today">
+      `<img alt=${recipe.name} src=${recipe.image}>
+      <figcaption>
         <h1>${recipe.name}</h1>
       </figcaption>`
-  console.log('yoooo')
+  homeBanner.id = `${recipe.id}`
 }
 
 export {
