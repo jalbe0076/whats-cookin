@@ -1,6 +1,6 @@
 //NOTE: Your DOM manipulation will occur in this file
 import { sampleRecipeData } from '../src/data/sample-recipes.js';
-import { filterRecipes, getIngredientNames } from '../src/recipes.js';
+import { filterRecipes, getItems } from '../src/recipes.js';
 
 let searchInput = document.querySelector('#search-input');
 const searchBtn = document.querySelector('#search-btn');
@@ -25,10 +25,10 @@ const searchRecipes = (recipes) => {
   homeView.classList.add('hidden')
   const retrieved = retrieveInput()
   const foundRecipes = filterRecipes(recipes, retrieved)
-  console.log(foundRecipes)
-  // foundRecipes is an array of recipes meeting criteria.
-  const recipeNames = getIngredientNames(foundRecipes)
+  const recipeNames = getItems(foundRecipes, 'name')
+  const recipeImages = getItems(foundRecipes, 'image')
   console.log(recipeNames)
+  console.log(recipeImages)
 }
 
 const retrieveInput = () => {

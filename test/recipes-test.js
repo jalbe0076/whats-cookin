@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getNames } from '../src/recipes.js'
+import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getItems } from '../src/recipes.js'
 import { sampleRecipeData } from '../src/data/sample-recipes.js';
 import { sampleIngredientsData } from '../src/data/sample-ingredients.js';
 
@@ -92,13 +92,13 @@ describe('ingredients', () => {
   
   it('should determine the names of ingredients needed for a given recipe', () => {
     const ingredients = getIngredients(recipe2, sampleIngredientsData)
-    const ingredientNames = getNames(ingredients)
+    const ingredientNames = getItems(ingredients, 'name')
 
     expect(ingredientNames).to.deep.equal(['apple cider', 'apple', 'corn starch'])
   })
 
   it('should return an error message if no ingredients are found', () => {
-    const ingredientNames = getNames([])
+    const ingredientNames = getItems([])
 
     expect(ingredientNames).to.equal('Sorry, no list given!')
   })
