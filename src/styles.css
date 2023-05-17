@@ -1,6 +1,6 @@
-/* * {
+* {
   border: solid red;
-} */
+}
 
 html, body {
   min-height: 100vh;
@@ -144,11 +144,13 @@ figure {
 .recipe-info-row {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 2em;
 }
 
+
 .info-box {
-  height: 40vh;
-  width: 45%;
+  height: 50vh;
+  width: 48%;
   border-radius: 1em;
 }
 
