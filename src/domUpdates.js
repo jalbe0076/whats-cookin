@@ -18,6 +18,7 @@ const recipeCost = document.querySelector(".recipe-cost")
 const recipeView = document.querySelector(".recipe-view")
 const homeView = document.querySelector(".home-view")
 const homeBanner = document.querySelector(".home-banner")
+const recipeImage = document.querySelector(".recipe-image")
 
 const displayRecipeInfo = (recipe, data) => {
   recipeName.innerText = recipe.name
@@ -36,6 +37,7 @@ const displayRecipeInfo = (recipe, data) => {
   recipeCost.innerText = `Total Cost: $${(calculateRecipeCost(ingredients, recipe) / 100)}`
   recipeView.classList.toggle("hidden")
   homeView.classList.toggle("hidden")
+  recipeImage.src = `${recipe.image}`
 }
 
 const displayRecipeOfTheDay = (recipe) => {
