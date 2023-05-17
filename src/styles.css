@@ -138,10 +138,6 @@ figure {
   background-color: #D8E2DC;
 }
 
-<<<<<<< HEAD
-
-
-
 /* SEARCH VIEW */
 
 #search-results-view, #recipe-results-header {
@@ -179,7 +175,8 @@ figure {
   padding: 10px 15px;
   width: auto;
   font-size: 14px;
-=======
+}
+
 /* RECIPE VIEW */
 
 .recipe-name {
@@ -211,7 +208,6 @@ figure {
 
 .instructions-section {
   margin-top: 4em;
->>>>>>> 1bf00d3e3d86a7115146b6600d6db12edfe8c0d4
 }
 
 .hidden {
