@@ -1,50 +1,26 @@
 //NOTE: Your DOM manipulation will occur in this file
-import { sampleRecipeData } from '../src/data/sample-recipes.js';
-import { filterRecipes, getItems } from '../src/recipes.js';
+import { searchRecipes, retrieveInput } from "./scripts";
 
-let searchInput = document.querySelector('#search-input');
-const searchBtn = document.querySelector('#search-btn');
-let searchView = document.querySelector('#search-results-view')
-let homeView = document.querySelector('#home-view')
+let searchHeader = document.querySelector('#recipe-results-header')
+let recipeBoxes = document.querySelector('#recipe-results')
 
-searchBtn.addEventListener('click', () => {
-  console.log('clicked')
-  searchRecipes(sampleRecipeData)
-})
-
-searchInput.addEventListener('keydown', function(event) {
-  if (event.key === "Enter") {
-    console.log('enter')
-    event.preventDefault();
-    searchRecipes(sampleRecipeData);
-  }
-});
-
-const searchRecipes = (recipes) => {
-  searchView.classList.remove('hidden')
-  homeView.classList.add('hidden')
-  const retrieved = retrieveInput()
-  const foundRecipes = filterRecipes(recipes, retrieved)
-  const recipeNames = getItems(foundRecipes, 'name')
-  const recipeImages = getItems(foundRecipes, 'image')
-  console.log(recipeNames)
-  console.log(recipeImages)
-}
-
-const retrieveInput = () => {
-  searchInput = document.getElementById('search-input');
-  return searchInput.value
+const showSearchResults = (userValue, names, images) => {
+  searchHeader.innerHTML = '';
+  recipeBoxes.innerHTML = '';
+  searchHeader.innerHTML += `<h1>Showing search results for "${userValue}"...</h1>`
+  names.forEach((name, i) => {
+    recipeBoxes.innerHTML += `
+    <figure class="recipe-box">
+      <img src="${images[i]}" alt="image of ${name}">
+      <figcaption>${name}</figcaption>
+    </figure>
+    `
+  })
 }
 
 
-// load innerHTML for the search results
-// searchRecipe returns entire recipe objects
-// i want the header's innerText to change to `<h1>Showing search results for "${retrieved}"</h1>`
-// the body will show the image of the recipe with the name underneath.
-// make a function to display the recipe.name and recipe.image
 
 
 export {
-  searchRecipes,
-  
+  showSearchResults
 }

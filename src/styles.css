@@ -123,6 +123,48 @@ figure {
   background-color: #D8E2DC;
 }
 
+
+
+
+/* SEARCH VIEW */
+
+#search-results-view, #recipe-results-header {
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+#recipe-results {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.recipe-box {
+  position: relative;
+  display: inline-block;
+}
+
+.recipe-box > img {
+  border-radius: 10px;
+  margin: 20px;
+  height: 20vh;
+  width: fit-content;
+}
+
+.recipe-box > figcaption {
+  position: absolute;
+  bottom: 0;
+  background-color: #d8e2dce9;
+  border-radius: 20px;
+  color: #000000;
+  padding: 10px 15px;
+  width: auto;
+  font-size: 14px;
+}
+
 .hidden {
   display:none;
 }

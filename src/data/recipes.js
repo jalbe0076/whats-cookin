@@ -5381,3 +5381,6 @@ const recipeData = [
       ]
     }
   ]
+  export {
+    recipeData
+  }
