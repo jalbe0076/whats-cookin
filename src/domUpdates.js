@@ -34,7 +34,7 @@ const displayRecipeInfo = (recipe, data) => {
   })
   recipeIngredientList.innerText = `Ingredients: \n ${ingredientDisplays.join('\n')}`
   instructions.innerText = `Instructions: \n ${getRecipeInstructions(recipe).join('\n')}`
-  recipeCost.innerText = `Total Cost: $${(calculateRecipeCost(ingredients, recipe) / 100)}`
+  recipeCost.innerText = `Total Cost: $${(calculateRecipeCost(ingredients, recipe) / 100).toFixed(2)}`
   recipeView.classList.toggle("hidden")
   homeView.classList.toggle("hidden")
   recipeImage.src = `${recipe.image}`
