@@ -1,26 +1,48 @@
-// NOTE: Data model and non-dom manipulating logic will live in this file.
-
+import { getRecipeById, getRandomRecipe } from './recipes'
+import { displayRecipeInfo, displayRecipeOfTheDay } from './domUpdates'
 import './styles.css'
+import recipeData from './data/recipes'
+import ingredientsData from './data/ingredients'
 import apiCalls from './apiCalls'
 import { renderResults } from './domUpdates'
 import { recipeData } from '../src/data/recipes.js';
 import { filterRecipes, getItems } from '../src/recipes.js';
 
+let currentRecipe;
+let recipeOfTheDay;
 let searchInput = document.querySelector('#search-input');
 const searchBtn = document.querySelector('#search-btn');
 const searchView = document.querySelector('#search-results-view')
 const homeView = document.querySelector('#home-view')
+const homeBanner = document.querySelector(".home-banner")
+
+window.addEventListener('load', function() {
+  updateRecipeOfTheDay()
+})
+homeBanner.addEventListener('click', function(e) {
+  updateCurrentRecipe(e)
+})
 
 searchBtn.addEventListener('click', () => {
-  searchRecipes(recipeData)
+    searchRecipes(recipeData)
 })
 
 searchInput.addEventListener('keydown', (e) => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    searchRecipes(recipeData);
-  }
+    if (e.key === "Enter") {
+        e.preventDefault();
+        searchRecipes(recipeData);
+    }
 });
+
+const updateCurrentRecipe  = (e) => {
+  currentRecipe = getRecipeById(recipeData, parseInt(e.target.id || e.target.parentNode.id || e.target.parentNode.parentNode.id))
+  displayRecipeInfo(currentRecipe, ingredientsData)
+}
+
+const updateRecipeOfTheDay = () => {
+  recipeOfTheDay = getRandomRecipe(recipeData)
+  displayRecipeOfTheDay(recipeOfTheDay)
+}
 
 const searchRecipes = (recipes) => {
   searchView.classList.remove('hidden')
@@ -45,3 +67,18 @@ export {
     searchRecipes,
     retrieveInput
   }
+
+// import './styles.css'
+// import apiCalls from './apiCalls'
+
+// An example of how you tell webpack to use an image (also need to link to it in the index.html)
+// import './images/turing-logo.png'
+// import ingredientsData from './data/ingredients.js'
+
+// Example of one way to import functions from the domUpdates file. You will delete these examples.
+// import {exampleFunction1, exampleFunction2} from './domUpdates.js'
+
+// exampleFunction1('heather')
+// exampleFunction2('heather')
+
+// console.log(ingredientsData)

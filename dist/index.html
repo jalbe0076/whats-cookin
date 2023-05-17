@@ -26,10 +26,9 @@
       </nav>
     </header>
     <main>
-      <section id="home-view">
-        <figure id="home-banner">
-          <img id="recipe-of-the-day" alt="Recipe of the Day" src="https://spoonacular.com/recipeImages/595736-556x370.jpg">
-          <figcaption id="recipe-today"><h1>Recipe of the Day</h1></figcaption>
+      <section class="home-view">
+        <figure class="home-banner">
+          <!-- Random recipe will appear here -->
         </figure>
         <article class="featured" id="featured-recipes">
           <h1>Featured Recipes</h1>
@@ -38,8 +37,22 @@
           <h1>Featured Recipe Categories</h1>
         </article>
       </section>
-      <section id="recipe-view" class="hidden">
-        <h1>Your Recipe here</h1>
+      <section class="recipe-view hidden">
+        <h1 class="recipe-name">Your Recipe here</h1>
+        <section class="recipe-info-row">
+          <section class="info-box">
+            <p class="recipe-ingredients">
+              Current ingredients
+            </p>
+            <p class="recipe-cost">
+              Total cost
+            </p>
+          </section>
+          <img class="info-box recipe-image" alt="current recipe" src="https://spoonacular.com/recipeImages/595736-556x370.jpg">
+        </section>
+        <section class="instructions-section">
+          instructions
+        </section>
       </section>
       <section id="saved-view" class="hidden">
         <h1>Recipes to Cook</h1>
