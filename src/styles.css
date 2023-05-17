@@ -27,6 +27,11 @@ h1 {
   padding: 20px;
 }
 
+#search-input {
+  font-family: 'Kalam', cursive;
+  border-color: #D8E2DC;
+}
+
 figure {
   position: relative;
   display: inline-block;
