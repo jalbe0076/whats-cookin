@@ -11,10 +11,17 @@ let searchInput = document.querySelector('#search-input');
 const searchBtn = document.querySelector('#search-btn');
 const searchView = document.querySelector('#search-results-view')
 const homeBanner = document.querySelector(".home-banner")
+const homeView = document.querySelector(".home-view")
+const homeIcon = document.querySelector('#home-icon')
 let recipeResults = document.querySelectorAll('.recipe-box')
 
 window.addEventListener('load', function() {
   updateRecipeOfTheDay()
+})
+
+homeIcon.addEventListener('click', () => {
+	hideAllPages()
+	homeView.classList.remove('hidden')
 })
 
 homeBanner.addEventListener('click', function(e) {
