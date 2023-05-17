@@ -41,14 +41,14 @@ const getIngredients = (currentRecipe, allIngredients) => {
   },[]);
 };
 
-const getIngredientNames = (ingredients) => {
-  if(!ingredients.length){
-    return 'Sorry, no ingredients given!'
-  }
-  let ingredientNames = [];
-  ingredients.forEach(item => ingredientNames.push(item.name))
-  return ingredientNames;
-}
+// const getIngredientNames = (ingredients) => {
+//   if(!ingredients.length){
+//     return 'Sorry, no ingredients given!'
+//   }
+//   let ingredientNames = [];
+//   ingredients.forEach(item => ingredientNames.push(item.name))
+//   return ingredientNames;
+// }
 
 const calculateRecipeCost = (ingredients, recipe) => {
   if(!ingredients.length){
@@ -70,9 +70,15 @@ const getItems = (list, key) => {
   return allValues;
 }
 
-// const getAllTags = () => {
-
-// };
+const getAllTags = (recipes) => {
+  const availableTags = [];
+  const tags = getItems(recipes, 'tags');
+  tags.flat(1).forEach(tag => {
+    if(!availableTags.includes(tag)) {
+      availableTags.push();
+    }
+  })
+};
 
 export { 
   filterRecipes, 
@@ -82,5 +88,6 @@ export {
   getIngredients,
   // getIngredientNames,
   calculateRecipeCost,
-  getItems
+  getItems,
+  getAllTags
 };

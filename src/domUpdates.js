@@ -19,6 +19,9 @@ const recipeView = document.querySelector(".recipe-view")
 const homeView = document.querySelector(".home-view")
 const homeBanner = document.querySelector(".home-banner")
 const recipeImage = document.querySelector(".recipe-image")
+const dropdownCategories = document.querySelector('.dropdown-categories');
+const categoryBtn = document.querySelector('.all-categories-btn');
+
 
 const displayRecipeInfo = (recipe, data) => {
   recipeName.innerText = recipe.name

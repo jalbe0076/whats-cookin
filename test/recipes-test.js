@@ -106,14 +106,14 @@ describe('ingredients', () => {
     expect(ingredients).to.equal('Sorry, no ingredients given!')
   })
   
-  it.skip('should determine the names of ingredients needed for a given recipe', () => {
+  it('should determine the names of ingredients needed for a given recipe', () => {
     const ingredients = getIngredients(recipe2, sampleIngredientsData)
     const ingredientNames = getIngredientNames(ingredients)
 
     expect(ingredientNames).to.deep.equal(['apple cider', 'apple', 'corn starch'])
   })
 
-  it.skip('should return an error message if no ingredients are found', () => {
+  it('should return an error message if no ingredients are found', () => {
     const ingredientNames = getIngredientNames([])
     
     expect(ingredientNames).to.equal('Sorry, no ingredients given!')
@@ -146,9 +146,3 @@ describe('calculate cost of ingredients', () => {
   });
 })
 
-describe('get all tags', () => {
-  it('should return recipe tags', () => {
-    const getTags = getItems(sampleRecipeData, 'tags')
-    console.log(getTags)
-  });
-});
