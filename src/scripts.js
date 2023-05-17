@@ -7,9 +7,7 @@ import './images/turing-logo.png'
 import ingredientsData from './data/ingredients.js'
 
 // Example of one way to import functions from the domUpdates file. You will delete these examples.
-import {exampleFunction1, exampleFunction2} from './domUpdates.js'
 
-exampleFunction1('heather')
-exampleFunction2('heather')
+import * as domUpdates from './domUpdates.js'
 
-console.log(ingredientsData)
+// domUpdates.searchRecipes

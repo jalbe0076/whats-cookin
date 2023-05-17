@@ -1,16 +1,35 @@
 //NOTE: Your DOM manipulation will occur in this file
+import { sampleRecipeData } from '../src/data/sample-recipes.js';
+import { filterRecipes } from '../src/recipes.js';
 
-//Here are 2 example functions just to demonstrate one way you can export/import between the two js files. You'll want to delete these once you get your own code going.
-function exampleFunction1(person) {
-  console.log(`oh hi there ${person}`)
+let searchInput = document.querySelector('#search-input');
+const searchBtn = document.querySelector('#search-btn');
+
+searchBtn.addEventListener('click', () => {
+  console.log('clicked')
+  searchRecipes()
+})
+searchInput.addEventListener('keydown', function(event) {
+  if (event.key === "Enter") {
+    console.log('enter')
+    event.preventDefault();
+    searchRecipes(sampleRecipeData);
+  }
+});
+
+const searchRecipes = (recipes) => {
+  const retrieved = retrieveInput()
+  return filterRecipes(recipes, retrieved)
 }
 
-function exampleFunction2(person) {
-  console.log(`bye now ${person}`)
+const retrieveInput = () => {
+  searchInput = document.getElementById('search-input');
+  return searchInput.value
 }
+
 
 
 export {
-  exampleFunction1,
-  exampleFunction2,
+  searchRecipes,
+  
 }

@@ -13,7 +13,7 @@ const getRecipeInstructions = (recipe) => {
 
 const filterRecipes = (data, filterTerm) => {
   const filteredRecipes = data.filter((recipe) => {
-     return recipe.tags.includes(filterTerm) || recipe.name === filterTerm
+     return (recipe.tags.includes(filterTerm.toLowerCase()) || recipe.name.toLowerCase().includes(filterTerm.toLowerCase()))
   })
   if(filteredRecipes.length === 0) {
     return 'Sorry, no matching results!'
