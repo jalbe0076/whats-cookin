@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getIngredientNames, calculateRecipeCost } from '../src/recipes.js'
+import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getIngredientNames, calculateRecipeCost, getRandomRecipe } from '../src/recipes.js'
 import { sampleRecipeData } from '../src/data/sample-recipes.js';
 import { sampleIngredientsData } from '../src/data/sample-ingredients.js';
 
@@ -42,6 +42,23 @@ describe ('recipe info', () => {
       '5. Bake for 9 to 10 minutes, or until you see the edges start to brown.',
       '6. Remove the pan from the oven and let sit for 10 minutes before removing onto a cooling rack.Top with ice cream and a drizzle of chocolate sauce.'
     ])
+  });
+});
+
+describe('select a random recipe', () => {
+  it('should select a random recipe by index position', () => {
+    getRandomRecipe(sampleRecipeData);
+    expect(getRandomRecipe).to.be.a('function');
+  });
+
+  it('should get a random recipe as an object', () => {
+    const recipeList = getRandomRecipe(sampleRecipeData);
+    expect(recipeList).to.be.a('object');
+  });
+
+  it('should return a message if the recipe is not found', () => {
+    const recipeList = getRandomRecipe();
+    expect(recipeList).to.equal('Recipe not found');
   });
 });
 
