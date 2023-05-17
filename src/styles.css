@@ -100,13 +100,13 @@ figure {
   transform: scale(1.1);
 }
 
-#home-icon:hover, #home-banner:hover, #search-btn:hover {
+#home-icon:hover, .home-banner:hover, #search-btn:hover {
   cursor: pointer;
 }
 
 /* HOME VIEW */
 
-#home-banner, .featured {
+.home-banner, .featured {
   display: flex;
   align-items: center;
   justify-content: center;

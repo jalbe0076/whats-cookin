@@ -15,6 +15,9 @@ const recipeName = document.querySelector(".recipe-name")
 const recipeIngredientList = document.querySelector(".recipe-ingredients")
 const instructions = document.querySelector(".instructions-section") 
 const recipeCost = document.querySelector(".recipe-cost")
+const recipeView = document.querySelector(".recipe-view")
+const homeView = document.querySelector(".home-view")
+const homeBanner = document.querySelector(".home-banner")
 
 const displayRecipeInfo = (recipe, data) => {
   recipeName.innerText = recipe.name
@@ -31,10 +34,22 @@ const displayRecipeInfo = (recipe, data) => {
   recipeIngredientList.innerText = `Ingredients: \n ${ingredientDisplays.join('\n')}`
   instructions.innerText = `Instructions: \n ${getRecipeInstructions(recipe).join('\n')}`
   recipeCost.innerText = `Total Cost: $${(calculateRecipeCost(ingredients, recipe) / 100)}`
+  recipeView.classList.toggle("hidden")
+  homeView.classList.toggle("hidden")
+}
+
+const displayRecipeOfTheDay = (recipe) => {
+  homeBanner.innerHTML = 
+      `<img id=${recipe.id} alt=${recipe.name} src=${recipe.image}>
+      <figcaption id="recipe-today">
+        <h1>${recipe.name}</h1>
+      </figcaption>`
+  console.log('yoooo')
 }
 
 export {
-  displayRecipeInfo
+  displayRecipeInfo,
+  displayRecipeOfTheDay
   // exampleFunction1,
   // exampleFunction2,
 }

@@ -1,23 +1,36 @@
-import { getRecipeById } from './recipes'
-import { displayRecipeInfo } from './domUpdates'
+import { getRecipeById, getRandomRecipe } from './recipes'
+import { displayRecipeInfo, displayRecipeOfTheDay } from './domUpdates'
 import './styles.css'
-import { sampleRecipeData } from './data/sample-recipes'
-import { sampleIngredientsData } from './data/sample-ingredients'
+import recipeData from './data/recipes'
+import ingredientsData from './data/ingredients'
 
-let currentRecipe = null;
+let currentRecipe = null
+let recipeOfTheDay = null
 
-const homeBanner = document.querySelector("#home-banner")
-const recipeView = document.querySelector(".recipe-view")
-const homeView = document.querySelector(".home-view")
+const homeBanner = document.querySelector(".home-banner")
 
-homeBanner.addEventListener('click', upatdateCurrentRecipe)
+window.addEventListener('load', function(e) {
+  e.preventDefault()
+  console.log('hey')
+  updateRecipeOfTheDay()
+})
+homeBanner.addEventListener('click', function(e) {
+  e.preventDefault()
+  updateCurrentRecipe(e)
+})
 
-function upatdateCurrentRecipe (e) {
-  currentRecipe = getRecipeById(sampleRecipeData, parseInt(e.target.id))
-  recipeView.classList.toggle("hidden")
-  homeView.classList.toggle("hidden")
-  displayRecipeInfo(currentRecipe, sampleIngredientsData)
+const updateCurrentRecipe  = (e) => {
+  currentRecipe = getRecipeById(recipeData, parseInt(e.target.id))
+  displayRecipeInfo(currentRecipe, ingredientsData)
 }
+
+const updateRecipeOfTheDay = (e) => {
+  recipeOfTheDay = getRandomRecipe(recipeData)
+  displayRecipeOfTheDay(recipeOfTheDay)
+}
+
+
+
 
 //NOTE: Data model and non-dom manipulating logic will live in this file.
 
