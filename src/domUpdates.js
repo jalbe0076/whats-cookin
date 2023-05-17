@@ -17,12 +17,18 @@ const instructions = document.querySelector(".instructions-section")
 
 const displayRecipeInfo = (recipe, data) => {
   recipeName.innerText = recipe.name
-  console.log(recipe)
   const ingredients = getIngredients(recipe, data)
-  const ingredientNames = getIngredientNames(ingredients).join('\n')
-  recipeIngredientList.innerText = ingredientNames
-  const directions = getRecipeInstructions(recipe).join('\n')
-  instructions.innerText = directions
+  const amounts = recipe.ingredients.map(ingredient => {
+    return ingredient.quantity.amount
+  })
+  const units = recipe.ingredients.map(ingredient => {
+    return ingredient.quantity.unit
+  })
+  const ingredientDisplays = ingredients.map((ingredient, i) => {
+    return `${amounts[i]} ${units[i]} ${ingredient.name}`
+  })
+  recipeIngredientList.innerText = ingredientDisplays.join('\n')
+  instructions.innerText = getRecipeInstructions(recipe).join('\n')
 }
 
 export {

@@ -26,8 +26,8 @@ const getIngredients = (currentRecipe, allIngredients) => {
     return 'Sorry, no ingredients given!'
   }
   return currentRecipe.ingredients.reduce((ingredients, ingredient) => {
-    let foundIngredients = allIngredients.find(item => ingredient.id === item.id)
-    ingredients.push(foundIngredients)
+    let foundIngredient = allIngredients.find(item => ingredient.id === item.id)
+    ingredients.push(foundIngredient)
     return ingredients;
   },[]);
 };
