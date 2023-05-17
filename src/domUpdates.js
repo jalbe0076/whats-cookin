@@ -12,23 +12,29 @@ const homeBanner = document.querySelector(".home-banner")
 const recipeImage = document.querySelector(".recipe-image")
 const searchHeader = document.querySelector('#recipe-results-header')
 const recipeBoxes = document.querySelector('#recipe-results')
+const allPages = document.querySelectorAll('.page')
 let searchInput = document.querySelector('#search-input');
 
-const renderResults = (userValue, names, images) => {
+
+const hideAllPages = () => {
+  allPages.forEach(page => page.classList.add('hidden'))
+}
+
+const renderResults = (userValue, names, images, ids) => {
   searchHeader.innerHTML = '';
   recipeBoxes.innerHTML = '';
   searchInput.value = '';
-  showSearchResults(userValue, names, images)
+  showSearchResults(userValue, names, images, ids)
 }
 
-const showSearchResults = (userValue, names, images) => {
+const showSearchResults = (userValue, names, images, ids) => {
   if (!names) {
     searchHeader.innerHTML += `<h1>Sorry, no results for "${userValue}"!</h1>`
   } else {
     searchHeader.innerHTML += `<h1>Showing search results for "${userValue}"...</h1>`
     names.forEach((name, i) => {
       recipeBoxes.innerHTML += `
-      <figure class="recipe-box">
+      <figure id="${ids[i]}" class="recipe-box">
         <img src="${images[i]}" alt="image of ${name}">
         <figcaption>${name}</figcaption>
       </figure>`
@@ -52,8 +58,8 @@ const displayRecipeInfo = (recipe, data) => {
   recipeIngredientList.innerText = `Ingredients: \n ${ingredientDisplays.join('\n')}`
   instructions.innerText = `Instructions: \n ${getRecipeInstructions(recipe).join('\n')}`
   recipeCost.innerText = `Total Cost: $${(calculateRecipeCost(ingredients, recipe) / 100).toFixed(2)}`
-  recipeView.classList.toggle("hidden")
-  homeView.classList.toggle("hidden")
+  hideAllPages()
+  recipeView.classList.remove("hidden")
   recipeImage.src = `${recipe.image}`
   recipeImage.alt = `${recipe.name}`
 }
@@ -71,5 +77,6 @@ export {
   showSearchResults,
   renderResults,
   displayRecipeInfo,
-  displayRecipeOfTheDay
+  displayRecipeOfTheDay,
+  hideAllPages
 }

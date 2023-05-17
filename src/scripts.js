@@ -1,5 +1,5 @@
 import { getRecipeById, getRandomRecipe, filterRecipes, getItems } from './recipes'
-import { displayRecipeInfo, displayRecipeOfTheDay, renderResults } from './domUpdates'
+import { displayRecipeInfo, displayRecipeOfTheDay, renderResults, hideAllPages } from './domUpdates'
 import './styles.css'
 import recipeData from './data/recipes'
 import ingredientsData from './data/ingredients'
@@ -10,9 +10,8 @@ let recipeOfTheDay;
 let searchInput = document.querySelector('#search-input');
 const searchBtn = document.querySelector('#search-btn');
 const searchView = document.querySelector('#search-results-view')
-const homeView = document.querySelector('.home-view')
 const homeBanner = document.querySelector(".home-banner")
-const recipeResults = document.querySelectorAll('.recipe-box')
+let recipeResults = document.querySelectorAll('.recipe-box')
 
 window.addEventListener('load', function() {
   updateRecipeOfTheDay()
@@ -23,26 +22,26 @@ homeBanner.addEventListener('click', function(e) {
 })
 
 searchBtn.addEventListener('click', () => {
-    searchRecipes(recipeData)
+  searchRecipes(recipeData)
 })
 
 searchInput.addEventListener('keydown', (e) => {
-    if (e.key === "Enter") {
-        e.preventDefault();
-        searchRecipes(recipeData);
-    }
+  if (e.key === "Enter") {
+    e.preventDefault();
+      searchRecipes(recipeData);
+  }
 });
 
 const selectRecipe = () => {
-    recipeResults.forEach(recipe => {
-        recipe.addEventListener('click', (e) => {
-            console.log('clicked')
-            updateCurrentRecipe(e)        
-        })
-    })    
+	recipeResults = document.querySelectorAll('.recipe-box')
+	recipeResults.forEach(recipe => {
+		recipe.addEventListener('click', (e) => {
+			updateCurrentRecipe(e)        
+		})
+	})    
 }
 
-const updateCurrentRecipe  = (e) => {
+const updateCurrentRecipe = (e) => {
   currentRecipe = getRecipeById(recipeData, parseInt(e.target.id || e.target.parentNode.id || e.target.parentNode.parentNode.id))
   displayRecipeInfo(currentRecipe, ingredientsData)
 }
@@ -53,17 +52,18 @@ const updateRecipeOfTheDay = () => {
 }
 
 const searchRecipes = (recipes) => {
+  hideAllPages()
   searchView.classList.remove('hidden')
-  homeView.classList.add('hidden')
   const retrieved = retrieveInput()
   const foundRecipes = filterRecipes(recipes, retrieved)
   if (foundRecipes === 'Sorry, no matching results!'){
     renderResults(retrieved)
     return
   }
+	const recipeIDs = getItems(foundRecipes, 'id')
   const recipeNames = getItems(foundRecipes, 'name')
   const recipeImages = getItems(foundRecipes, 'image')
-  renderResults(retrieved, recipeNames, recipeImages)
+  renderResults(retrieved, recipeNames, recipeImages, recipeIDs)
 }
 
 const retrieveInput = () => {
@@ -72,9 +72,9 @@ const retrieveInput = () => {
 }
 
 export {
-    searchRecipes,
-    retrieveInput,
-    selectRecipe
+	searchRecipes,
+	retrieveInput,
+	selectRecipe
   }
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
