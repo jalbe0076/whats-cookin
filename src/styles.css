@@ -104,6 +104,40 @@ figure {
   cursor: pointer;
 }
 
+.category-position {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* background-color: #FEC5BB; */
+}
+
+.dropdown-categories {
+  position: absolute;
+  top: 3.5rem;
+  left: 1rem;
+  
+  /* margin: 0; */
+  background-color: #FEC5BB99; 
+  /* opacity: 0.7; */
+  /* padding: 0; */
+  font-size: 2rem;
+  z-index: 1;
+  width: 200px;
+}
+
+.dropdown-categories p {
+  /* opacity: 1; */
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.dropdown-categories p:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+
 /* HOME VIEW */
 
 .home-banner, .featured {
@@ -146,7 +180,6 @@ figure {
   justify-content: space-between;
   margin-bottom: 2em;
 }
-
 
 .info-box {
   height: 50vh;

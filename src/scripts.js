@@ -39,8 +39,16 @@ const updateRecipeOfTheDay = () => {
 // import apiCalls from './apiCalls'
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
+
 // import './images/turing-logo.png'
 // import ingredientsData from './data/ingredients.js'
+// import {} from './domUpdates.js';
+
+// const dropdownBox = document.querySelector('.category-position');
+// const filterCategories = document.querySelector('.dropdown-categories');
+
+// filterCategories.addEventListener('mouseover', )
+
 
 // Example of one way to import functions from the domUpdates file. You will delete these examples.
 // import {exampleFunction1, exampleFunction2} from './domUpdates.js'

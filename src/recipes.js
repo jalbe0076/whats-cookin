@@ -61,12 +61,26 @@ const calculateRecipeCost = (ingredients, recipe) => {
   }, 0);
 };
 
+const getItems = (list, key) => {
+  if(!list.length){
+    return 'Sorry, no list given!'
+  }
+  let allValues = [];
+  list.forEach(item => allValues.push(item[key]))
+  return allValues;
+}
+
+// const getAllTags = () => {
+
+// };
+
 export { 
   filterRecipes, 
   getRecipeInstructions, 
   getRecipeById, 
   getRandomRecipe,
   getIngredients,
-  getIngredientNames,
-  calculateRecipeCost
+  // getIngredientNames,
+  calculateRecipeCost,
+  getItems
 };
