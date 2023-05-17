@@ -1,6 +1,6 @@
 //NOTE: Your DOM manipulation will occur in this file
 
-import { getIngredients, getIngredientNames, getRecipeInstructions } from "./recipes"
+import { getIngredients, getRecipeInstructions, calculateRecipeCost } from "./recipes"
 
 //Here are 2 example functions just to demonstrate one way you can export/import between the two js files. You'll want to delete these once you get your own code going.
 // function exampleFunction1(person) {
@@ -14,6 +14,7 @@ import { getIngredients, getIngredientNames, getRecipeInstructions } from "./rec
 const recipeName = document.querySelector(".recipe-name")
 const recipeIngredientList = document.querySelector(".recipe-ingredients")
 const instructions = document.querySelector(".instructions-section") 
+const recipeCost = document.querySelector(".recipe-cost")
 
 const displayRecipeInfo = (recipe, data) => {
   recipeName.innerText = recipe.name
@@ -27,8 +28,9 @@ const displayRecipeInfo = (recipe, data) => {
   const ingredientDisplays = ingredients.map((ingredient, i) => {
     return `${amounts[i]} ${units[i]} ${ingredient.name}`
   })
-  recipeIngredientList.innerText = ingredientDisplays.join('\n')
-  instructions.innerText = getRecipeInstructions(recipe).join('\n')
+  recipeIngredientList.innerText = `Ingredients: \n ${ingredientDisplays.join('\n')}`
+  instructions.innerText = `Instructions: \n ${getRecipeInstructions(recipe).join('\n')}`
+  recipeCost.innerText = `Total Cost: $${(calculateRecipeCost(ingredients, recipe) / 100)}`
 }
 
 export {
