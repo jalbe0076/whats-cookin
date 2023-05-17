@@ -2,9 +2,6 @@
 
 import './styles.css'
 import apiCalls from './apiCalls'
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
-import ingredientsData from './data/ingredients.js'
 import { renderResults } from './domUpdates'
 import { recipeData } from '../src/data/recipes.js';
 import { filterRecipes, getItems } from '../src/recipes.js';
@@ -43,7 +40,6 @@ const retrieveInput = () => {
   searchInput = document.getElementById('search-input');
   return searchInput.value
 }
-
 
 export {
     searchRecipes,
