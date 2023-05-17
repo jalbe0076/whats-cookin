@@ -32,13 +32,13 @@ const getIngredients = (currentRecipe, allIngredients) => {
   },[]);
 };
 
-const getIngredientNames = (ingredients) => {
-  if(!ingredients.length){
-    return 'Sorry, no ingredients given!'
+const getNames = (list) => {
+  if(!list.length){
+    return 'Sorry, no list given!'
   }
-  let ingredientNames = [];
-  ingredients.forEach(item => ingredientNames.push(item.name))
-  return ingredientNames;
+  let names = [];
+  list.forEach(item => names.push(item.name))
+  return names;
 }
 
 export { 
@@ -46,6 +46,6 @@ export {
   getRecipeInstructions, 
   getRecipeById,
   getIngredients,
-  getIngredientNames 
+  getNames 
 };
 
