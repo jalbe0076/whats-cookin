@@ -45,6 +45,24 @@ describe ('recipe info', () => {
   });
 });
 
+
+describe('select a random recipe', () => {
+  it('should select a random recipe by index position', () => {
+    getRandomRecipe(sampleRecipeData);
+    expect(getRandomRecipe).to.be.a('function');
+  });
+
+  it('should get a random recipe as an object', () => {
+    const recipeList = getRandomRecipe(sampleRecipeData);
+    expect(recipeList).to.be.a('object');
+  });
+
+  it('should return a message if the recipe is not found', () => {
+    const recipeList = getRandomRecipe();
+    expect(recipeList).to.equal('Recipe not found');
+  });
+});
+
 describe ('filter', function() {
   
   it('should return an array of filtered recipes by a tag', function() {
@@ -103,3 +121,4 @@ describe('ingredients', () => {
     expect(ingredientNames).to.equal('Sorry, no ingredients given!')
   })
 })
+

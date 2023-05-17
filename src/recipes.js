@@ -21,6 +21,16 @@ const filterRecipes = (data, filterTerm) => {
   return filteredRecipes
 }
 
+
+const getRandomRecipe = (recipeList) => {
+  if(!recipeList) {
+    return `Recipe not found`;
+  }
+  const indexPosition = Math.floor(Math.random() * recipeList.length);
+
+  return recipeList[indexPosition];
+};
+
 const getIngredients = (currentRecipe, allIngredients) => {
   if(!allIngredients.length){
     return 'Sorry, no ingredients given!'
@@ -41,11 +51,12 @@ const getIngredientNames = (ingredients) => {
   return ingredientNames;
 }
 
-export { 
-  filterRecipes, 
+
+export {
+  filterRecipes,
   getRecipeInstructions, 
-  getRecipeById,
+  getRecipeById, 
+  getRandomRecipe,
   getIngredients,
   getIngredientNames 
 };
-
