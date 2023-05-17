@@ -1,19 +1,20 @@
 import { getRecipeById } from './recipes'
+import { displayRecipeInfo } from './domUpdates'
 import './styles.css'
 import { sampleRecipeData } from './data/sample-recipes'
+import { sampleIngredientsData } from './data/sample-ingredients'
 
-let currentRecipe = null
-console.log(currentRecipe)
+let currentRecipe = null;
 
 const homeBanner = document.querySelector("#home-banner")
+const recipeView = document.querySelector(".recipe-view")
 
 homeBanner.addEventListener('click', upatdateCurrentRecipe)
 
 function upatdateCurrentRecipe (e) {
   currentRecipe = getRecipeById(sampleRecipeData, parseInt(e.target.id))
-  console.log(sampleRecipeData)
-  console.log(e.target.id)
-  console.log(currentRecipe)
+  recipeView.classList.toggle("hidden")
+  displayRecipeInfo(currentRecipe, sampleIngredientsData)
 }
 
 //NOTE: Data model and non-dom manipulating logic will live in this file.
