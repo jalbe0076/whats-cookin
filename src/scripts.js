@@ -11,3 +11,7 @@ import ingredientsData from './data/ingredients.js'
 import * as domUpdates from './domUpdates.js'
 
 // domUpdates.searchRecipes
+
+// console.log(ingredientsData)
+
+

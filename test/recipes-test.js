@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getItems } from '../src/recipes.js'
+import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getItems, calculateRecipeCost, getRandomRecipe } from '../src/recipes.js'
 import { sampleRecipeData } from '../src/data/sample-recipes.js';
 import { sampleIngredientsData } from '../src/data/sample-ingredients.js';
 
@@ -42,6 +42,23 @@ describe ('recipe info', () => {
       '5. Bake for 9 to 10 minutes, or until you see the edges start to brown.',
       '6. Remove the pan from the oven and let sit for 10 minutes before removing onto a cooling rack.Top with ice cream and a drizzle of chocolate sauce.'
     ])
+  });
+});
+
+describe('select a random recipe', () => {
+  it('should select a random recipe by index position', () => {
+    getRandomRecipe(sampleRecipeData);
+    expect(getRandomRecipe).to.be.a('function');
+  });
+
+  it('should get a random recipe as an object', () => {
+    const recipeList = getRandomRecipe(sampleRecipeData);
+    expect(recipeList).to.be.a('object');
+  });
+
+  it('should return a message if the recipe is not found', () => {
+    const recipeList = getRandomRecipe();
+    expect(recipeList).to.equal('Recipe not found');
   });
 });
 
@@ -101,5 +118,33 @@ describe('ingredients', () => {
     const ingredientNames = getItems([])
 
     expect(ingredientNames).to.equal('Sorry, no list given!')
+
   })
+})
+
+describe('calculate cost of ingredients', () => {
+  let recipe, ingredients, recipe2, ingredients2;
+
+  beforeEach(() => {
+    recipe = getRecipeById(sampleRecipeData, 595736);
+    ingredients = getIngredients(recipe, sampleIngredientsData);
+    recipe2 = getRecipeById(sampleRecipeData, 678353);
+    ingredients2 = getIngredients(recipe2, sampleIngredientsData);
+  });
+
+  it('should calculate the total cost of a given recipe\'s ingredients', () => {
+    const costOfCookieCup = calculateRecipeCost(ingredients, recipe)
+    expect(costOfCookieCup).to.equal(976)
+  });
+
+  it('should calculate the total cost of a different recipe\'s ingredients', () => {
+    const costOfPorkChops = calculateRecipeCost(ingredients2, recipe2)
+    expect(costOfPorkChops).to.equal(1352)
+  });
+
+  it('should show an error if ingredients don\'t exist', () => {
+    const badIngredients = calculateRecipeCost([], recipe2)
+    expect(badIngredients).to.equal('Error: no ingredients :(')
+  });
+
 })
