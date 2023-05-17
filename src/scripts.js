@@ -8,12 +8,14 @@ let currentRecipe = null;
 
 const homeBanner = document.querySelector("#home-banner")
 const recipeView = document.querySelector(".recipe-view")
+const homeView = document.querySelector(".home-view")
 
 homeBanner.addEventListener('click', upatdateCurrentRecipe)
 
 function upatdateCurrentRecipe (e) {
   currentRecipe = getRecipeById(sampleRecipeData, parseInt(e.target.id))
   recipeView.classList.toggle("hidden")
+  homeView.classList.toggle("hidden")
   displayRecipeInfo(currentRecipe, sampleIngredientsData)
 }
 
