@@ -9,12 +9,10 @@ let recipeOfTheDay = null
 
 const homeBanner = document.querySelector(".home-banner")
 
-window.addEventListener('load', function(e) {
-  e.preventDefault()
+window.addEventListener('load', function() {
   updateRecipeOfTheDay()
 })
 homeBanner.addEventListener('click', function(e) {
-  e.preventDefault()
   updateCurrentRecipe(e)
 })
 
@@ -23,7 +21,7 @@ const updateCurrentRecipe  = (e) => {
   displayRecipeInfo(currentRecipe, ingredientsData)
 }
 
-const updateRecipeOfTheDay = (e) => {
+const updateRecipeOfTheDay = () => {
   recipeOfTheDay = getRandomRecipe(recipeData)
   displayRecipeOfTheDay(recipeOfTheDay)
 }
