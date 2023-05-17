@@ -38,6 +38,7 @@ const displayRecipeInfo = (recipe, data) => {
   recipeView.classList.toggle("hidden")
   homeView.classList.toggle("hidden")
   recipeImage.src = `${recipe.image}`
+  recipeImage.alt = `${recipe.name}`
 }
 
 const displayRecipeOfTheDay = (recipe) => {
