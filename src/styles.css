@@ -111,10 +111,13 @@ figure {
 .nav-btn:hover {
   cursor: pointer;
   transform: scale(1.1);
+  transition: .2s ease;
 }
 
-#home-icon:hover, .home-banner:hover, #search-btn:hover {
+#home-icon:hover, .home-banner:hover, #search-btn:hover, .recipe-box:hover {
   cursor: pointer;
+  opacity: 85%;
+  transition: .2s ease;
 }
 
 /* HOME VIEW */
@@ -126,12 +129,8 @@ figure {
   flex-direction: column;
 }
 
-#recipe-of-the-day {
-  border-radius: 10px;
-  height: auto;
-  max-height: 30vh;
-  width: 30%;
-  object-fit: cover;
+.recipe-of-the-day {
+  border-radius: 20px;
 }
 
 #featured-recipes {
@@ -199,7 +198,6 @@ figure {
   margin-bottom: 2em;
 }
 
-
 .info-box {
   height: 50vh;
   width: 48%;
@@ -211,5 +209,5 @@ figure {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }

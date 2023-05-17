@@ -1,24 +1,23 @@
-import { getRecipeById, getRandomRecipe } from './recipes'
-import { displayRecipeInfo, displayRecipeOfTheDay } from './domUpdates'
+import { getRecipeById, getRandomRecipe, filterRecipes, getItems } from './recipes'
+import { displayRecipeInfo, displayRecipeOfTheDay, renderResults } from './domUpdates'
 import './styles.css'
 import recipeData from './data/recipes'
 import ingredientsData from './data/ingredients'
 import apiCalls from './apiCalls'
-import { renderResults } from './domUpdates'
-import { recipeData } from '../src/data/recipes.js';
-import { filterRecipes, getItems } from '../src/recipes.js';
 
 let currentRecipe;
 let recipeOfTheDay;
 let searchInput = document.querySelector('#search-input');
 const searchBtn = document.querySelector('#search-btn');
 const searchView = document.querySelector('#search-results-view')
-const homeView = document.querySelector('#home-view')
+const homeView = document.querySelector('.home-view')
 const homeBanner = document.querySelector(".home-banner")
+const recipeResults = document.querySelectorAll('.recipe-box')
 
 window.addEventListener('load', function() {
   updateRecipeOfTheDay()
 })
+
 homeBanner.addEventListener('click', function(e) {
   updateCurrentRecipe(e)
 })
@@ -33,6 +32,15 @@ searchInput.addEventListener('keydown', (e) => {
         searchRecipes(recipeData);
     }
 });
+
+const selectRecipe = () => {
+    recipeResults.forEach(recipe => {
+        recipe.addEventListener('click', (e) => {
+            console.log('clicked')
+            updateCurrentRecipe(e)        
+        })
+    })    
+}
 
 const updateCurrentRecipe  = (e) => {
   currentRecipe = getRecipeById(recipeData, parseInt(e.target.id || e.target.parentNode.id || e.target.parentNode.parentNode.id))
@@ -65,11 +73,9 @@ const retrieveInput = () => {
 
 export {
     searchRecipes,
-    retrieveInput
+    retrieveInput,
+    selectRecipe
   }
-
-// import './styles.css'
-// import apiCalls from './apiCalls'
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 // import './images/turing-logo.png'

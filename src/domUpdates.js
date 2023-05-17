@@ -1,5 +1,6 @@
 //NOTE: Your DOM manipulation will occur in this file
 import { getIngredients, getRecipeInstructions, calculateRecipeCost } from "./recipes"
+import { selectRecipe } from "./scripts"
 
 const recipeName = document.querySelector(".recipe-name")
 const recipeIngredientList = document.querySelector(".recipe-ingredients")
@@ -32,6 +33,7 @@ const showSearchResults = (userValue, names, images) => {
         <figcaption>${name}</figcaption>
       </figure>`
     })
+    selectRecipe()
   }
 }
 
@@ -58,7 +60,7 @@ const displayRecipeInfo = (recipe, data) => {
 
 const displayRecipeOfTheDay = (recipe) => {
   homeBanner.innerHTML = 
-      `<img alt=${recipe.name} src=${recipe.image}>
+      `<img class="recipe-of-the-day" alt=${recipe.name} src=${recipe.image}>
       <figcaption>
         <h1>${recipe.name}</h1>
       </figcaption>`
