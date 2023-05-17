@@ -5,14 +5,14 @@ import apiCalls from './apiCalls'
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
 import ingredientsData from './data/ingredients.js'
-import { showSearchResults } from './domUpdates'
+import { renderResults } from './domUpdates'
 import { recipeData } from '../src/data/recipes.js';
 import { filterRecipes, getItems } from '../src/recipes.js';
 
 let searchInput = document.querySelector('#search-input');
 const searchBtn = document.querySelector('#search-btn');
-let searchView = document.querySelector('#search-results-view')
-let homeView = document.querySelector('#home-view')
+const searchView = document.querySelector('#search-results-view')
+const homeView = document.querySelector('#home-view')
 
 searchBtn.addEventListener('click', () => {
   searchRecipes(recipeData)
@@ -30,9 +30,13 @@ const searchRecipes = (recipes) => {
   homeView.classList.add('hidden')
   const retrieved = retrieveInput()
   const foundRecipes = filterRecipes(recipes, retrieved)
+  if (foundRecipes === 'Sorry, no matching results!'){
+    renderResults(retrieved)
+    return
+  }
   const recipeNames = getItems(foundRecipes, 'name')
   const recipeImages = getItems(foundRecipes, 'image')
-  showSearchResults(retrieved, recipeNames, recipeImages)
+  renderResults(retrieved, recipeNames, recipeImages)
 }
 
 const retrieveInput = () => {
