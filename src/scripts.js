@@ -53,7 +53,7 @@ searchInput.addEventListener('keydown', (e) => {
 dropdownCategories.addEventListener('click', (e) => {
   const tag = e.target.classList.value;
   const recipesList = filterRecipes(recipeData, tag);
-  searchRecipes(recipesList);
+  searchRecipes(recipesList, tag);
 });
 
 // =====================================================================
@@ -80,10 +80,10 @@ const updateRecipeOfTheDay = () => {
   displayRecipeOfTheDay(recipeOfTheDay)
 }
 
-const searchRecipes = (recipes) => {
+const searchRecipes = (recipes, search) => {
   hideAllPages()
   searchView.classList.remove('hidden')
-  const retrieved = retrieveInput()
+  const retrieved = retrieveInput() || search;
   const foundRecipes = filterRecipes(recipes, retrieved)
   if (foundRecipes === 'Sorry, no matching results!'){
     renderResults(retrieved)
