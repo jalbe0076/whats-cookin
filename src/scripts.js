@@ -119,7 +119,6 @@ const retrieveInput = () => {
 const saveRecipe = () => {
   const i = user.savedRecipes.indexOf(currentRecipe)
   !user.savedRecipes.includes(currentRecipe) ? user.savedRecipes.push(currentRecipe) : user.savedRecipes.splice(i, 1)
-  console.log(user.savedRecipes)
   renderHeartColor()
 }
 
