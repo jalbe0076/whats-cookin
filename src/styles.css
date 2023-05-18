@@ -122,24 +122,34 @@ figure {
 
 .category-position {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  margin: 0;
 }
 
 .dropdown-categories {
   position: absolute;
   top: 3.5rem;
   left: 10px;
-  visibility: hidden;
   background-color: rgb(254, 197, 187, 0.8);
+  visibility: hidden;
   opacity: 0;
   transition: all 0.5s ease;
   font-size: 1.3rem;
   z-index: 1;
   width: 125px;
-  margin: 0;
-  padding-left: 25px;
+  margin: 10px 0;
+  padding: 10px 0 10px 25px;
+}
+
+.dropdown-categories:after {
+  position: absolute;
+  content: '';
+  background-color: rgb(254, 197, 187, 0.8);
+  width: 16px;
+  height: 16px; 
+  bottom: 100%;
+  left: 50%;
+  margin-left: -8px;
+  transform: rotate(45deg);
+  margin-bottom: -8px;
 }
 
 .dropdown-categories p {
@@ -150,7 +160,7 @@ figure {
 
 .category-position:hover .dropdown-categories {
   visibility: visible; 
-   opacity: 1;
+  opacity: 1;
 }
 
 /* HOME VIEW */
