@@ -1,7 +1,8 @@
 import { expect } from 'chai';
-import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getItems, calculateRecipeCost, getRandomRecipe } from '../src/recipes.js'
+import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getItems, calculateRecipeCost, getRandomItem } from '../src/recipes.js'
 import { sampleRecipeData } from '../src/data/sample-recipes.js';
 import { sampleIngredientsData } from '../src/data/sample-ingredients.js';
+import { sampleUsersData } from '../src/data/sample-users.js';
 
 describe ('recipe info', () => {
   let findRecipe, findAnotherRecipe;
@@ -45,37 +46,41 @@ describe ('recipe info', () => {
   });
 });
 
-describe('select a random recipe', () => {
-  it('should select a random recipe by index position', () => {
-    getRandomRecipe(sampleRecipeData);
-    expect(getRandomRecipe).to.be.a('function');
+describe('select a random item', () => {
+  let recipe, user
+  
+  beforeEach(() => {
+    recipe = getRandomItem(sampleRecipeData)
+    user = getRandomItem(sampleUsersData)
+  })
+
+  it('should be a function', () => {
+    expect(getRandomItem).to.be.a('function');
   });
 
   it('should get a random recipe as an object', () => {
-    const recipeList = getRandomRecipe(sampleRecipeData);
-    expect(recipeList).to.be.a('object');
+    expect(recipe).to.be.a('object');
   });
 
   it('should return a message if the recipe is not found', () => {
-    const recipeList = getRandomRecipe();
-    expect(recipeList).to.equal('Recipe not found');
-  });
-});
-
-describe('select a random user', () => {
-  it('should select a random user by index position', () => {
-    getRandomRecipe(sampleRecipeData);
-    expect(getRandomRecipe).to.be.a('function');
+    recipe = getRandomItem()
+    expect(recipe).to.equal('data not found');
   });
 
-  it('should get a random recipe as an object', () => {
-    const recipeList = getRandomRecipe(sampleRecipeData);
-    expect(recipeList).to.be.a('object');
+  it('should get able random user as an object', () => {
+    expect(user).to.be.a('object');
   });
 
-  it('should return a message if the recipe is not found', () => {
-    const recipeList = getRandomRecipe();
-    expect(recipeList).to.equal('Recipe not found');
+  it('user should have a name', () => {
+    expect(user.name).to.exist;
+  });
+  
+  it('user should have an id', () => {
+    expect(user.id).to.exist;
+  });
+  
+  it('user should have a pantry', () => {
+    expect(user.pantry).to.exist;
   });
 });
 
