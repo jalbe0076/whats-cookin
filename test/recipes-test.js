@@ -67,7 +67,7 @@ describe('select a random item', () => {
     expect(recipe).to.equal('data not found');
   });
 
-  it('should get able random user as an object', () => {
+  it('should get random user as an object', () => {
     expect(user).to.be.a('object');
   });
 
