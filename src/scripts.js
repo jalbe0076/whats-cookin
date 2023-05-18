@@ -46,7 +46,6 @@ searchInput.addEventListener('keydown', (e) => {
 
 const updateUser = () => {
   user = getRandomUser(usersData)
-  console.log(user)
   renderUser(user)
 }
 
