@@ -21,6 +21,14 @@ const hideAllPages = () => {
   allPages.forEach(page => page.classList.add('hidden'))
 }
 
+const renderUser = (user) => {
+  const firstLast = user.name.split(" ")
+  const initials = firstLast.reduce((initials, substring) => {
+    return initials.concat(substring[0])
+  }, '')
+  userInitials.innerText = initials
+}
+
 const renderResults = (userValue, names, images, ids) => {
   searchHeader.innerHTML = '';
   recipeBoxes.innerHTML = '';
@@ -44,7 +52,7 @@ const showSearchResults = (userValue, names, images, ids) => {
   }
 }
 
-const displayRecipeInfo = (recipe, data) => {
+const renderRecipeInfo = (recipe, data) => {
   recipeName.innerText = recipe.name
   const ingredients = getIngredients(recipe, data)
   const amounts = recipe.ingredients.map(ingredient => {
@@ -65,7 +73,7 @@ const displayRecipeInfo = (recipe, data) => {
   recipeImage.alt = `${recipe.name}`
 }
 
-const displayRecipeOfTheDay = (recipe) => {
+const renderRecipeOfTheDay = (recipe) => {
   homeBanner.innerHTML = 
       `<img class="recipe-of-the-day" alt=${recipe.name} src=${recipe.image}>
       <figcaption>
@@ -77,7 +85,8 @@ const displayRecipeOfTheDay = (recipe) => {
 export {
   showSearchResults,
   renderResults,
-  displayRecipeInfo,
-  displayRecipeOfTheDay,
+  renderRecipeInfo,
+  renderRecipeOfTheDay,
+  renderUser,
   hideAllPages
 }

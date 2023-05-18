@@ -1,6 +1,6 @@
 import { getRecipeById, getRandomRecipe, filterRecipes, getItems } from './recipes'
 import { getRandomUser } from './users'
-import { displayRecipeInfo, displayRecipeOfTheDay, renderResults, hideAllPages } from './domUpdates'
+import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, renderUser, hideAllPages } from './domUpdates'
 import './styles.css'
 import recipeData from './data/recipes'
 import ingredientsData from './data/ingredients'
@@ -9,6 +9,8 @@ import apiCalls from './apiCalls'
 
 let currentRecipe;
 let recipeOfTheDay;
+let user;
+
 let searchInput = document.querySelector('#search-input');
 const searchBtn = document.querySelector('#search-btn');
 const searchView = document.querySelector('#search-results-view')
@@ -42,6 +44,12 @@ searchInput.addEventListener('keydown', (e) => {
   }
 });
 
+const updateUser = () => {
+  user = getRandomUser(usersData)
+  console.log(user)
+  renderUser(user)
+}
+
 const selectRecipe = () => {
 	recipeResults = document.querySelectorAll('.recipe-box')
 	recipeResults.forEach(recipe => {
@@ -53,12 +61,12 @@ const selectRecipe = () => {
 
 const updateCurrentRecipe = (e) => {
   currentRecipe = getRecipeById(recipeData, parseInt(e.target.id || e.target.parentNode.id || e.target.parentNode.parentNode.id))
-  displayRecipeInfo(currentRecipe, ingredientsData)
+  renderRecipeInfo(currentRecipe, ingredientsData)
 }
 
 const updateRecipeOfTheDay = () => {
   recipeOfTheDay = getRandomRecipe(recipeData)
-  displayRecipeOfTheDay(recipeOfTheDay)
+  renderRecipeOfTheDay(recipeOfTheDay)
 }
 
 const searchRecipes = (recipes) => {
