@@ -28,7 +28,9 @@ const renderResults = (userValue, names, images, ids) => {
 }
 
 const showSearchResults = (userValue, names, images, ids) => {
-  if (!names) {
+  if (userValue === ""){
+    searchHeader.innerHTML += `<h1>Please enter a valid search!</h1>`
+  } else if (!names) {
     searchHeader.innerHTML += `<h1>Sorry, no results for "${userValue}"!</h1>`
   } else {
     searchHeader.innerHTML += `<h1>Showing search results for "${userValue}"...</h1>`
