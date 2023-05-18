@@ -139,7 +139,7 @@ figure {
 
 /* SEARCH VIEW */
 
-#search-results-view, #recipe-results-header {
+#search-results-view, #recipe-results-header, #saved-recipes-header {
   display: flex;
   align-content: center;
   flex-direction: column;
@@ -208,6 +208,10 @@ figure {
 .instructions-section {
   margin-top: 4em;
 }
+
+/* RECIPES TO COOK / SAVED RECIPES VIEW */
+
+
 
 .hidden {
   display: none !important;

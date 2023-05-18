@@ -7,12 +7,12 @@ const recipeIngredientList = document.querySelector(".recipe-ingredients")
 const instructions = document.querySelector(".instructions-section") 
 const recipeCost = document.querySelector(".recipe-cost")
 const recipeView = document.querySelector(".recipe-view")
-const homeView = document.querySelector(".home-view")
 const homeBanner = document.querySelector(".home-banner")
 const recipeImage = document.querySelector(".recipe-image")
 const searchHeader = document.querySelector('#recipe-results-header')
 const recipeBoxes = document.querySelector('#recipe-results')
 const allPages = document.querySelectorAll('.page')
+let recipesToCook = document.querySelector('#recipes-to-cook')
 let searchInput = document.querySelector('#search-input');
 
 
@@ -76,11 +76,13 @@ const displayRecipeOfTheDay = (recipe) => {
 }
 
 const viewSavedRecipes = (user) => {
+  recipesToCook.innerHTML = '';
   user.savedRecipes.forEach(recipe => {
-    
+    recipesToCook.innerHTML += `<figure id="${recipe.id}" class="recipe-box">
+    <img src="${recipe.image}" alt="image of ${recipe.name}">
+    <figcaption>${recipe.name}</figcaption>
+  </figure>`
   }) 
-// access user.savedRecipes - array of recipe objects
-// display them
 }
 
 export {
