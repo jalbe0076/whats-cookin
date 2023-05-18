@@ -16,7 +16,7 @@ const sampleUsersData = [
         "amount": 5
       }
     ],
-    "recipesToCook": [
+    "savedRecipes": [
       {
         "id": 595736,
         "image": "https://spoonacular.com/recipeImages/595736-556x370.jpg",
@@ -98,7 +98,7 @@ const sampleUsersData = [
         "amount": 8
       }
     ],
-    "recipesToCook": [
+    "savedRecipes": [
       {
         "id": 678353,
         "image": "https://spoonacular.com/recipeImages/678353-556x370.jpg",
@@ -158,7 +158,7 @@ const sampleUsersData = [
         "amount": 4
       }
     ],
-    "recipesToCook": [
+    "savedRecipes": [
       {
         "id": 412309,
         "image": "https://spoonacular.com/recipeImages/412309-556x370.jpeg",

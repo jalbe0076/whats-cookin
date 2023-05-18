@@ -83,6 +83,7 @@ const viewSavedRecipes = (user) => {
     <figcaption>${recipe.name}</figcaption>
   </figure>`
   }) 
+  selectRecipe()
 }
 
 export {

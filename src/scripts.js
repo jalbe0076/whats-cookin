@@ -3,11 +3,12 @@ import { displayRecipeInfo, displayRecipeOfTheDay, renderResults, hideAllPages, 
 import './styles.css'
 import recipeData from './data/recipes'
 import ingredientsData from './data/ingredients'
+import { sampleUsersData } from './data/sample-users'
 import apiCalls from './apiCalls'
 
 let currentRecipe;
 let recipeOfTheDay;
-let user;
+let user = sampleUsersData[1]
 let searchInput = document.querySelector('#search-input');
 const searchBtn = document.querySelector('#search-btn');
 const searchView = document.querySelector('#search-results-view')
@@ -86,10 +87,6 @@ const retrieveInput = () => {
   searchInput = document.getElementById('search-input');
   return searchInput.value
 }
-
-// const renderSavedRecipes = (user) => {
-//  
-// }
 
 export {
 	searchRecipes,
