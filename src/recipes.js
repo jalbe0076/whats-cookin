@@ -12,7 +12,7 @@ const getRecipeInstructions = (recipe) => {
 
 const filterRecipes = (data, filterTerm) => {
   const filteredRecipes = data.filter((recipe) => {
-     return recipe.tags.includes(filterTerm) || recipe.name === filterTerm
+     return (recipe.tags.includes(filterTerm.toLowerCase()) || recipe.name.toLowerCase().includes(filterTerm.toLowerCase()))
   })
   if(filteredRecipes.length === 0) {
     return 'Sorry, no matching results!'
@@ -20,13 +20,11 @@ const filterRecipes = (data, filterTerm) => {
   return filteredRecipes
 }
 
-
 const getRandomRecipe = (recipeList) => {
   if(!recipeList) {
     return `Recipe not found`;
   }
   const indexPosition = Math.floor(Math.random() * recipeList.length);
-
   return recipeList[indexPosition];
 };
 
@@ -41,13 +39,13 @@ const getIngredients = (currentRecipe, allIngredients) => {
   },[]);
 };
 
-const getIngredientNames = (ingredients) => {
-  if(!ingredients.length){
-    return 'Sorry, no ingredients given!'
+const getItems = (list, key) => {
+  if(!list.length){
+    return 'Sorry, no list given!'
   }
-  let ingredientNames = [];
-  ingredients.forEach(item => ingredientNames.push(item.name))
-  return ingredientNames;
+  let allValues = [];
+  list.forEach(item => allValues.push(item[key]))
+  return allValues;
 }
 
 const calculateRecipeCost = (ingredients, recipe) => {
@@ -67,6 +65,6 @@ export {
   getRecipeById, 
   getRandomRecipe,
   getIngredients,
-  getIngredientNames,
+  getItems,
   calculateRecipeCost
 };
