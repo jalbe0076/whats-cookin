@@ -75,10 +75,19 @@ const displayRecipeOfTheDay = (recipe) => {
   homeBanner.id = `${recipe.id}`
 }
 
+const viewSavedRecipes = (user) => {
+  user.savedRecipes.forEach(recipe => {
+    
+  }) 
+// access user.savedRecipes - array of recipe objects
+// display them
+}
+
 export {
   showSearchResults,
   renderResults,
   displayRecipeInfo,
   displayRecipeOfTheDay,
-  hideAllPages
+  hideAllPages,
+  viewSavedRecipes
 }

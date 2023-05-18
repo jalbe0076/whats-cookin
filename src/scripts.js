@@ -1,5 +1,5 @@
 import { getRecipeById, getRandomRecipe, filterRecipes, getItems } from './recipes'
-import { displayRecipeInfo, displayRecipeOfTheDay, renderResults, hideAllPages } from './domUpdates'
+import { displayRecipeInfo, displayRecipeOfTheDay, renderResults, hideAllPages, viewSavedRecipes } from './domUpdates'
 import './styles.css'
 import recipeData from './data/recipes'
 import ingredientsData from './data/ingredients'
@@ -7,12 +7,15 @@ import apiCalls from './apiCalls'
 
 let currentRecipe;
 let recipeOfTheDay;
+let user;
 let searchInput = document.querySelector('#search-input');
 const searchBtn = document.querySelector('#search-btn');
 const searchView = document.querySelector('#search-results-view')
 const homeBanner = document.querySelector(".home-banner")
 const homeView = document.querySelector(".home-view")
 const homeIcon = document.querySelector('#home-icon')
+const savedView = document.querySelector('#saved-view')
+const savedViewBtn = document.querySelector('#view-saved-btn')
 let recipeResults = document.querySelectorAll('.recipe-box')
 
 window.addEventListener('load', function() {
@@ -38,6 +41,12 @@ searchInput.addEventListener('keydown', (e) => {
       searchRecipes(recipeData);
   }
 });
+
+savedViewBtn.addEventListener('click', () => {
+	hideAllPages()
+	savedView.classList.remove('hidden')
+	viewSavedRecipes(user)
+})
 
 const selectRecipe = () => {
 	recipeResults = document.querySelectorAll('.recipe-box')
@@ -78,20 +87,12 @@ const retrieveInput = () => {
   return searchInput.value
 }
 
+// const renderSavedRecipes = (user) => {
+//  
+// }
+
 export {
 	searchRecipes,
 	retrieveInput,
 	selectRecipe
   }
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-// import './images/turing-logo.png'
-// import ingredientsData from './data/ingredients.js'
-
-// Example of one way to import functions from the domUpdates file. You will delete these examples.
-// import {exampleFunction1, exampleFunction2} from './domUpdates.js'
-
-// exampleFunction1('heather')
-// exampleFunction2('heather')
-
-// console.log(ingredientsData)
