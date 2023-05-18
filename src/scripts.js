@@ -16,6 +16,7 @@ const searchView = document.querySelector('#search-results-view')
 const homeBanner = document.querySelector(".home-banner")
 const homeView = document.querySelector(".home-view")
 const homeIcon = document.querySelector('#home-icon')
+const addToSaved = document.querySelector(".add-to-saved")
 let recipeResults = document.querySelectorAll('.recipe-box')
 
 window.addEventListener('load', function() {
@@ -42,6 +43,10 @@ searchInput.addEventListener('keydown', (e) => {
       searchRecipes(recipeData);
   }
 });
+
+addToSaved.addEventListener('click', function() {
+  saveRecipe()
+})
 
 
 const selectRecipe = () => {
@@ -88,10 +93,17 @@ const retrieveInput = () => {
   return searchInput.value
 }
 
+const saveRecipe = () => {
+  !user.savedRecipes ? user.savedRecipes = [] : null
+  !user.savedRecipes.includes(currentRecipe) ? user.savedRecipes.push(currentRecipe) : null
+  console.log(user.savedRecipes)
+}
+
 export {
 	searchRecipes,
 	retrieveInput,
-	selectRecipe
+	selectRecipe,
+  saveRecipe
   }
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
