@@ -60,9 +60,12 @@ const calculateRecipeCost = (ingredients, recipe) => {
 };
 
 const getAllTags = (recipes) => {
+  if(!recipes) return `Error`;
   const availableTags = [];
   const tags = getItems(recipes, 'tags');
-  tags.flat(1).forEach(tag => {
+
+
+  tags.flat().forEach(tag => {
     if(!availableTags.includes(tag)) {
       availableTags.push(tag);
     }

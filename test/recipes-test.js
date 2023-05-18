@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getItems, calculateRecipeCost, getRandomRecipe } from '../src/recipes.js'
+import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getItems, calculateRecipeCost, getRandomRecipe, getAllTags } from '../src/recipes.js'
 import { sampleRecipeData } from '../src/data/sample-recipes.js';
 import { sampleIngredientsData } from '../src/data/sample-ingredients.js';
 
@@ -142,8 +142,58 @@ describe('calculate cost of ingredients', () => {
   });
 
   it('should show an error if ingredients don\'t exist', () => {
-    const badIngredients = calculateRecipeCost([], recipe2)
-    expect(badIngredients).to.equal('Error: no ingredients :(')
+    const badIngredients = calculateRecipeCost([], recipe2);
+    expect(badIngredients).to.equal('Error: no ingredients :(');
   });
 })
 
+describe('Should get tags from recipes', () => {
+  let tagList;
+  beforeEach(() => {
+    tagList = getAllTags(sampleRecipeData);
+  });
+  
+  it('Should return an array', () => {
+    expect(tagList).to.be.a('array');
+  });
+
+  it('Should return a list of array', () => {
+    expect(tagList).to.deep.equal([
+      'antipasti',    'antipasto',
+      'appetizer',    'dinner',
+      "hor d'oeuvre", 'lunch',
+      'main course',  'main dish',
+      'sauce',        'snack',
+      'starter'
+    ]);
+  });
+
+  it('Should return a list of array in alphabetical order', () => {
+    expect(tagList).to.deep.equal([
+      'antipasti',    'antipasto',
+      'appetizer',    'dinner',
+      "hor d'oeuvre", 'lunch',
+      'main course',  'main dish',
+      'sauce',        'snack',
+      'starter'
+    ]);
+  });
+
+  it('Should return a list of array in alphabetical order if the recipe list changes', () => {
+    const newTagList = getAllTags([sampleRecipeData[0]]);
+    expect(newTagList).to.deep.equal([
+      'antipasti',
+      'antipasto',
+      'appetizer',
+      "hor d'oeuvre",
+      'snack',
+      'starter'
+    ]);
+  });
+
+  it('Should let you know if recipe tags cannot be found', () => {
+    const newTagList = getAllTags();
+    console.log(newTagList)
+    expect(newTagList).to.equal(`Error`);
+  });
+});
