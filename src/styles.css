@@ -250,9 +250,9 @@ figure {
  background-color: #E8E8E4;
 }
 
-.add-to-saved:hover {
+/* .add-to-saved:hover {
   color: red;
-}
+} */
 
 .recipe-info-row {
   display: flex;
