@@ -1,4 +1,3 @@
-//NOTE: Your DOM manipulation will occur in this file
 import { getIngredients, getRecipeInstructions, calculateRecipeCost } from "./recipes"
 import { selectRecipe } from "./scripts"
 
@@ -15,7 +14,7 @@ const allPages = document.querySelectorAll('.page')
 const userInitials = document.querySelector('.initials')
 const addToSaved = document.querySelector('.add-to-saved')
 let searchInput = document.querySelector('#search-input');
-
+const dropdownCategories = document.querySelector('.dropdown-categories');
 
 const hideAllPages = () => {
   allPages.forEach(page => page.classList.add('hidden'))
@@ -37,7 +36,9 @@ const renderResults = (userValue, names, images, ids) => {
 }
 
 const showSearchResults = (userValue, names, images, ids) => {
-  if (!names) {
+  if (userValue === ""){
+    searchHeader.innerHTML += `<h1>Please enter a valid search!</h1>`
+  } else if (!names) {
     searchHeader.innerHTML += `<h1>Sorry, no results for "${userValue}"!</h1>`
   } else {
     searchHeader.innerHTML += `<h1>Showing search results for "${userValue}"...</h1>`
@@ -82,7 +83,12 @@ const renderRecipeOfTheDay = (recipe) => {
   homeBanner.id = `${recipe.id}`
 }
 
-
+const populateTags = (tags) => {
+  dropdownCategories.innerHTML = '';
+  tags.forEach(tag => {
+    dropdownCategories.innerHTML += `<p class="${tag}">${tag}</p>`;
+  });
+};
 
 export {
   showSearchResults,
@@ -90,5 +96,6 @@ export {
   renderRecipeInfo,
   renderRecipeOfTheDay,
   renderUser,
-  hideAllPages,
+  populateTags,
+  hideAllPages
 }

@@ -1,5 +1,9 @@
-import { getRecipeById, filterRecipes, getItems, getRandomItem } from './recipes'
-import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, renderUser, hideAllPages} from './domUpdates'
+// =====================================================================
+// ======================  IMPORTS AND VARIABLES  ======================
+// =====================================================================
+
+import { getRecipeById, getAllTags, filterRecipes, getItems, getRandomItem } from './recipes'
+import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, populateTags, renderUser, hideAllPages } from './domUpdates'
 import './styles.css'
 import recipeData from './data/recipes'
 import ingredientsData from './data/ingredients'
@@ -17,10 +21,17 @@ const homeBanner = document.querySelector(".home-banner")
 const homeView = document.querySelector(".home-view")
 const homeIcon = document.querySelector('#home-icon')
 const addToSaved = document.querySelector(".add-to-saved")
+const dropdownCategories = document.querySelector('.dropdown-categories');
 let recipeResults = document.querySelectorAll('.recipe-box')
 
+// =====================================================================
+// =========================  EVENT LISTENERS  =========================
+// =====================================================================
+
 window.addEventListener('load', function() {
-  updateRecipeOfTheDay()
+  const tags = getAllTags(recipeData);
+  updateRecipeOfTheDay();
+  populateTags(tags);
   updateUser()
 })
 
@@ -47,6 +58,16 @@ searchInput.addEventListener('keydown', (e) => {
 addToSaved.addEventListener('click', function() {
   saveRecipe()
 })
+
+dropdownCategories.addEventListener('click', (e) => {
+  const tag = e.target.classList.value;
+  const recipesList = filterRecipes(recipeData, tag);
+  searchRecipes(recipesList, tag);
+});
+
+// =====================================================================
+// ============================  FUNCTIONS  ============================
+// =====================================================================
 
 
 const selectRecipe = () => {
@@ -75,10 +96,10 @@ const updateRecipeOfTheDay = () => {
   renderRecipeOfTheDay(recipeOfTheDay)
 }
 
-const searchRecipes = (recipes) => {
+const searchRecipes = (recipes, search) => {
   hideAllPages()
   searchView.classList.remove('hidden')
-  const retrieved = retrieveInput()
+  const retrieved = retrieveInput() || search;
   const foundRecipes = filterRecipes(recipes, retrieved)
   if (foundRecipes === 'Sorry, no matching results!'){
     renderResults(retrieved)
@@ -109,18 +130,6 @@ const renderHeartColor = () => {
 export {
 	searchRecipes,
 	retrieveInput,
-	selectRecipe,
-  saveRecipe
+	saveRecipe,
+  selectRecipe
   }
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-// import './images/turing-logo.png'
-// import ingredientsData from './data/ingredients.js'
-
-// Example of one way to import functions from the domUpdates file. You will delete these examples.
-// import {exampleFunction1, exampleFunction2} from './domUpdates.js'
-
-// exampleFunction1('heather')
-// exampleFunction2('heather')
-
-// console.log(ingredientsData)
