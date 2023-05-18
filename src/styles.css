@@ -37,6 +37,11 @@ main {
   padding: 20px;
 }
 
+#search-input {
+  font-family: 'Kalam', cursive;
+  border-color: #D8E2DC;
+}
+
 figure {
   position: relative;
   display: inline-block;
@@ -49,23 +54,31 @@ figure {
 }
 
 #user-initials {
-  position: absolute;
-  bottom: 0;
+  padding: 5%;
+  border: 8px solid #D8E2DC;
+  border-radius: 50%;
   color: #FEC89A;
-  width: 100%;
-  height: 85px;
   font-size: 40px;
   text-align: center;
+  height: 32%;
+  margin: 2%;
+}
+
+.initials {
+  margin: 0;
 }
 
 #search-btn {
-  width: 50px;
+  width: 80px;
   height: 50px;
   border: none;
-  margin-top: 10px;
+  padding: 0px;
+  margin-top: 15px;
+  margin-left: 15px;
   background: transparent;
-  background-image: url('images/search.png');
-  background-size: cover;
+  background-image: url(images/search.png);
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .nav-pages {
@@ -98,10 +111,13 @@ figure {
 .nav-btn:hover {
   cursor: pointer;
   transform: scale(1.1);
+  transition: .2s ease;
 }
 
-#home-icon:hover, .home-banner:hover, #search-btn:hover {
+#home-icon:hover, .home-banner:hover, #search-btn:hover, .recipe-box:hover {
   cursor: pointer;
+  opacity: 85%;
+  transition: .2s ease;
 }
 
 .category-position {
@@ -147,16 +163,51 @@ figure {
   flex-direction: column;
 }
 
-#recipe-of-the-day {
-  border-radius: 10px;
-  height: auto;
-  max-height: 30vh;
-  width: 30%;
-  object-fit: cover;
+.recipe-of-the-day {
+  border-radius: 20px;
 }
 
 #featured-recipes {
   background-color: #D8E2DC;
+}
+
+/* SEARCH VIEW */
+
+#search-results-view, #recipe-results-header {
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+#recipe-results {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.recipe-box {
+  position: relative;
+  display: inline-block;
+}
+
+.recipe-box > img {
+  border-radius: 10px;
+  margin: 20px;
+  height: 20vh;
+  width: fit-content;
+}
+
+.recipe-box > figcaption {
+  position: absolute;
+  bottom: 0;
+  background-color: #d8e2dce9;
+  border-radius: 20px;
+  color: #000000;
+  padding: 10px 15px;
+  width: auto;
+  font-size: 14px;
 }
 
 /* RECIPE VIEW */
@@ -192,5 +243,5 @@ figure {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }

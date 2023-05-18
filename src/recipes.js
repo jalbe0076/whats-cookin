@@ -12,7 +12,7 @@ const getRecipeInstructions = (recipe) => {
 
 const filterRecipes = (data, filterTerm) => {
   const filteredRecipes = data.filter((recipe) => {
-     return recipe.tags.includes(filterTerm) || recipe.name === filterTerm
+     return (recipe.tags.includes(filterTerm.toLowerCase()) || recipe.name.toLowerCase().includes(filterTerm.toLowerCase()))
   })
   if(filteredRecipes.length === 0) {
     return 'Sorry, no matching results!'
@@ -20,13 +20,11 @@ const filterRecipes = (data, filterTerm) => {
   return filteredRecipes
 }
 
-
 const getRandomRecipe = (recipeList) => {
   if(!recipeList) {
     return `Recipe not found`;
   }
   const indexPosition = Math.floor(Math.random() * recipeList.length);
-
   return recipeList[indexPosition];
 };
 
@@ -41,14 +39,14 @@ const getIngredients = (currentRecipe, allIngredients) => {
   },[]);
 };
 
-// const getIngredientNames = (ingredients) => {
-//   if(!ingredients.length){
-//     return 'Sorry, no ingredients given!'
-//   }
-//   let ingredientNames = [];
-//   ingredients.forEach(item => ingredientNames.push(item.name))
-//   return ingredientNames;
-// }
+const getItems = (list, key) => {
+  if(!list.length){
+    return 'Sorry, no list given!'
+  }
+  let allValues = [];
+  list.forEach(item => allValues.push(item[key]))
+  return allValues;
+}
 
 const calculateRecipeCost = (ingredients, recipe) => {
   if(!ingredients.length){
@@ -60,15 +58,6 @@ const calculateRecipeCost = (ingredients, recipe) => {
     return totalCost
   }, 0);
 };
-
-const getItems = (list, key) => {
-  if(!list.length){
-    return 'Sorry, no list given!'
-  }
-  let allValues = [];
-  list.forEach(item => allValues.push(item[key]))
-  return allValues;
-}
 
 const getAllTags = (recipes) => {
   const availableTags = [];
@@ -87,8 +76,7 @@ export {
   getRecipeById, 
   getRandomRecipe,
   getIngredients,
-  // getIngredientNames,
   calculateRecipeCost,
   getItems,
-  getAllTags
+  getAllTags,
 };

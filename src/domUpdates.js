@@ -1,15 +1,5 @@
-//NOTE: Your DOM manipulation will occur in this file
-
 import { getIngredients, getRecipeInstructions, calculateRecipeCost, getAllTags } from "./recipes"
-
-//Here are 2 example functions just to demonstrate one way you can export/import between the two js files. You'll want to delete these once you get your own code going.
-// function exampleFunction1(person) {
-//   console.log(`oh hi there ${person}`)
-// }
-
-// function exampleFunction2(person) {
-//   console.log(`bye now ${person}`)
-// }
+import { selectRecipe } from "./scripts"
 
 const recipeName = document.querySelector(".recipe-name")
 const recipeIngredientList = document.querySelector(".recipe-ingredients")
@@ -19,9 +9,40 @@ const recipeView = document.querySelector(".recipe-view")
 const homeView = document.querySelector(".home-view")
 const homeBanner = document.querySelector(".home-banner")
 const recipeImage = document.querySelector(".recipe-image")
+const searchHeader = document.querySelector('#recipe-results-header')
+const recipeBoxes = document.querySelector('#recipe-results')
+const allPages = document.querySelectorAll('.page')
+let searchInput = document.querySelector('#search-input');
 const dropdownCategories = document.querySelector('.dropdown-categories');
 const categoryBtn = document.querySelector('.all-categories-btn');
 
+
+const hideAllPages = () => {
+  allPages.forEach(page => page.classList.add('hidden'))
+}
+
+const renderResults = (userValue, names, images, ids) => {
+  searchHeader.innerHTML = '';
+  recipeBoxes.innerHTML = '';
+  searchInput.value = '';
+  showSearchResults(userValue, names, images, ids)
+}
+
+const showSearchResults = (userValue, names, images, ids) => {
+  if (!names) {
+    searchHeader.innerHTML += `<h1>Sorry, no results for "${userValue}"!</h1>`
+  } else {
+    searchHeader.innerHTML += `<h1>Showing search results for "${userValue}"...</h1>`
+    names.forEach((name, i) => {
+      recipeBoxes.innerHTML += `
+      <figure id="${ids[i]}" class="recipe-box">
+        <img src="${images[i]}" alt="image of ${name}">
+        <figcaption>${name}</figcaption>
+      </figure>`
+    })
+    selectRecipe()
+  }
+}
 
 const displayRecipeInfo = (recipe, data) => {
   recipeName.innerText = recipe.name
@@ -38,15 +59,15 @@ const displayRecipeInfo = (recipe, data) => {
   recipeIngredientList.innerText = `Ingredients: \n ${ingredientDisplays.join('\n')}`
   instructions.innerText = `Instructions: \n ${getRecipeInstructions(recipe).join('\n')}`
   recipeCost.innerText = `Total Cost: $${(calculateRecipeCost(ingredients, recipe) / 100).toFixed(2)}`
-  recipeView.classList.toggle("hidden")
-  homeView.classList.toggle("hidden")
+  hideAllPages()
+  recipeView.classList.remove("hidden")
   recipeImage.src = `${recipe.image}`
   recipeImage.alt = `${recipe.name}`
 }
 
 const displayRecipeOfTheDay = (recipe) => {
   homeBanner.innerHTML = 
-      `<img alt=${recipe.name} src=${recipe.image}>
+      `<img class="recipe-of-the-day" alt=${recipe.name} src=${recipe.image}>
       <figcaption>
         <h1>${recipe.name}</h1>
       </figcaption>`
@@ -61,9 +82,10 @@ const populateTags = (tags) => {
 };
 
 export {
+  showSearchResults,
+  renderResults,
   displayRecipeInfo,
   displayRecipeOfTheDay,
-  populateTags
-  // exampleFunction1,
-  // exampleFunction2,
+  populateTags,
+  hideAllPages
 }
