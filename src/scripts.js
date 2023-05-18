@@ -2,15 +2,18 @@
 // ======================  IMPORTS AND VARIABLES  ======================
 // =====================================================================
 
-import { getRecipeById, getRandomRecipe, getAllTags, filterRecipes, getItems } from './recipes'
-import { displayRecipeInfo, displayRecipeOfTheDay, populateTags, renderResults, hideAllPages  } from './domUpdates'
+import { getRecipeById, getAllTags, filterRecipes, getItems, getRandomItem } from './recipes'
+import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, populateTags, renderUser, hideAllPages } from './domUpdates'
 import './styles.css'
 import recipeData from './data/recipes'
 import ingredientsData from './data/ingredients'
+import usersData from './data/users'
 import apiCalls from './apiCalls'
 
 let currentRecipe;
 let recipeOfTheDay;
+let user;
+
 let searchInput = document.querySelector('#search-input');
 const searchBtn = document.querySelector('#search-btn');
 const searchView = document.querySelector('#search-results-view')
@@ -28,6 +31,7 @@ window.addEventListener('load', function() {
   const tags = getAllTags(recipeData);
   updateRecipeOfTheDay();
   populateTags(tags);
+  updateUser()
 })
 
 homeIcon.addEventListener('click', () => {
@@ -62,22 +66,27 @@ dropdownCategories.addEventListener('click', (e) => {
 
 
 const selectRecipe = () => {
-	recipeResults = document.querySelectorAll('.recipe-box')
+  recipeResults = document.querySelectorAll('.recipe-box')
 	recipeResults.forEach(recipe => {
-		recipe.addEventListener('click', (e) => {
-			updateCurrentRecipe(e)        
+    recipe.addEventListener('click', (e) => {
+      updateCurrentRecipe(e)        
 		})
 	})    
 }
 
+
 const updateCurrentRecipe = (e) => {
   currentRecipe = getRecipeById(recipeData, parseInt(e.target.id || e.target.parentNode.id || e.target.parentNode.parentNode.id))
-  displayRecipeInfo(currentRecipe, ingredientsData)
+  renderRecipeInfo(currentRecipe, ingredientsData)
 }
 
+const updateUser = () => {
+  user = getRandomItem(usersData)
+  renderUser(user)
+}
 const updateRecipeOfTheDay = () => {
-  recipeOfTheDay = getRandomRecipe(recipeData)
-  displayRecipeOfTheDay(recipeOfTheDay)
+  recipeOfTheDay = getRandomItem(recipeData)
+  renderRecipeOfTheDay(recipeOfTheDay)
 }
 
 const searchRecipes = (recipes, search) => {

@@ -6,17 +6,25 @@ const recipeIngredientList = document.querySelector(".recipe-ingredients")
 const instructions = document.querySelector(".instructions-section") 
 const recipeCost = document.querySelector(".recipe-cost")
 const recipeView = document.querySelector(".recipe-view")
-const homeView = document.querySelector(".home-view")
 const homeBanner = document.querySelector(".home-banner")
 const recipeImage = document.querySelector(".recipe-image")
 const searchHeader = document.querySelector('#recipe-results-header')
 const recipeBoxes = document.querySelector('#recipe-results')
 const allPages = document.querySelectorAll('.page')
+const userInitials = document.querySelector('.initials')
 let searchInput = document.querySelector('#search-input');
 const dropdownCategories = document.querySelector('.dropdown-categories');
 
 const hideAllPages = () => {
   allPages.forEach(page => page.classList.add('hidden'))
+}
+
+const renderUser = (user) => {
+  const firstLast = user.name.split(" ")
+  const initials = firstLast.reduce((initials, substring) => {
+    return initials.concat(substring[0])
+  }, '')
+  userInitials.innerText = initials
 }
 
 const renderResults = (userValue, names, images, ids) => {
@@ -42,7 +50,7 @@ const showSearchResults = (userValue, names, images, ids) => {
   }
 }
 
-const displayRecipeInfo = (recipe, data) => {
+const renderRecipeInfo = (recipe, data) => {
   recipeName.innerText = recipe.name
   const ingredients = getIngredients(recipe, data)
   const amounts = recipe.ingredients.map(ingredient => {
@@ -63,7 +71,7 @@ const displayRecipeInfo = (recipe, data) => {
   recipeImage.alt = `${recipe.name}`
 }
 
-const displayRecipeOfTheDay = (recipe) => {
+const renderRecipeOfTheDay = (recipe) => {
   homeBanner.innerHTML = 
       `<img class="recipe-of-the-day" alt=${recipe.name} src=${recipe.image}>
       <figcaption>
@@ -82,8 +90,9 @@ const populateTags = (tags) => {
 export {
   showSearchResults,
   renderResults,
-  displayRecipeInfo,
-  displayRecipeOfTheDay,
+  renderRecipeInfo,
+  renderRecipeOfTheDay,
+  renderUser,
   populateTags,
   hideAllPages
 }
