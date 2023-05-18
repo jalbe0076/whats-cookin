@@ -17,7 +17,6 @@ const searchView = document.querySelector('#search-results-view')
 const homeBanner = document.querySelector(".home-banner")
 const homeView = document.querySelector(".home-view")
 const homeIcon = document.querySelector('#home-icon')
-const categoryBtn = document.querySelector('#all-categories-btn');
 const dropdownCategories = document.querySelector('.dropdown-categories');
 let recipeResults = document.querySelectorAll('.recipe-box')
 
@@ -51,8 +50,10 @@ searchInput.addEventListener('keydown', (e) => {
   }
 });
 
-categoryBtn.addEventListener('mouseover', () => {
-  // dropdownCategories.classList.toggle('hidden');
+dropdownCategories.addEventListener('click', (e) => {
+  const tag = e.target.classList.value;
+  const recipesList = filterRecipes(recipeData, tag);
+  searchRecipes(recipesList);
 });
 
 // =====================================================================

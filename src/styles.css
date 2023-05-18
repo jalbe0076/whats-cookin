@@ -1,6 +1,8 @@
-/* * {
-  border: solid red;
-} */
+* {
+  /* border: solid red; */
+  /* margin: 0; */
+  /* padding: 0; */
+}
 
 html, body {
   min-height: 100vh;
@@ -128,7 +130,7 @@ figure {
   position: absolute;
   top: 3.5rem;
   left: 10px;
-  background-color: rgb(254, 197, 187, 0.8);
+  background-color: rgb(254, 197, 187);
   visibility: hidden;
   opacity: 0;
   transition: all 0.5s ease;
@@ -142,7 +144,6 @@ figure {
 .dropdown-categories:after {
   position: absolute;
   content: '';
-  background-color: rgb(254, 197, 187, 0.8);
   width: 16px;
   height: 16px; 
   bottom: 100%;
@@ -150,6 +151,7 @@ figure {
   margin-left: -8px;
   transform: rotate(45deg);
   margin-bottom: -8px;
+  background-color: rgb(254, 197, 187);
 }
 
 .dropdown-categories p {
@@ -158,7 +160,8 @@ figure {
   text-align: left;
 }
 
-.category-position:hover .dropdown-categories {
+.category-position:hover .dropdown-categories, 
+.category-position:focus-within .dropdown-categories{
   visibility: visible; 
   opacity: 1;
 }

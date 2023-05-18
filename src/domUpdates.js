@@ -1,4 +1,4 @@
-import { getIngredients, getRecipeInstructions, calculateRecipeCost, getAllTags } from "./recipes"
+import { getIngredients, getRecipeInstructions, calculateRecipeCost } from "./recipes"
 import { selectRecipe } from "./scripts"
 
 const recipeName = document.querySelector(".recipe-name")
@@ -75,7 +75,7 @@ const displayRecipeOfTheDay = (recipe) => {
 const populateTags = (tags) => {
   dropdownCategories.innerHTML = '';
   tags.forEach(tag => {
-    dropdownCategories.innerHTML += `<p>${tag}</p>`;
+    dropdownCategories.innerHTML += `<p class="${tag}">${tag}</p>`;
   });
 };
 
