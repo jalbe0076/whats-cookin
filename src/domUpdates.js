@@ -14,8 +14,6 @@ const recipeBoxes = document.querySelector('#recipe-results')
 const allPages = document.querySelectorAll('.page')
 let searchInput = document.querySelector('#search-input');
 const dropdownCategories = document.querySelector('.dropdown-categories');
-const categoryBtn = document.querySelector('.all-categories-btn');
-
 
 const hideAllPages = () => {
   allPages.forEach(page => page.classList.add('hidden'))

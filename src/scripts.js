@@ -1,3 +1,7 @@
+// =====================================================================
+// ======================  IMPORTS AND VARIABLES  ======================
+// =====================================================================
+
 import { getRecipeById, getRandomRecipe, getAllTags, filterRecipes, getItems } from './recipes'
 import { displayRecipeInfo, displayRecipeOfTheDay, populateTags, renderResults, hideAllPages  } from './domUpdates'
 import './styles.css'
@@ -13,11 +17,16 @@ const searchView = document.querySelector('#search-results-view')
 const homeBanner = document.querySelector(".home-banner")
 const homeView = document.querySelector(".home-view")
 const homeIcon = document.querySelector('#home-icon')
+const categoryBtn = document.querySelector('#all-categories-btn');
+const dropdownCategories = document.querySelector('.dropdown-categories');
 let recipeResults = document.querySelectorAll('.recipe-box')
 
+// =====================================================================
+// =========================  EVENT LISTENERS  =========================
+// =====================================================================
+
 window.addEventListener('load', function() {
-  const tags = getAllTags(recipeData)
-  console.log(tags)
+  const tags = getAllTags(recipeData);
   updateRecipeOfTheDay();
   populateTags(tags);
 })
@@ -41,6 +50,15 @@ searchInput.addEventListener('keydown', (e) => {
       searchRecipes(recipeData);
   }
 });
+
+categoryBtn.addEventListener('mouseover', () => {
+  // dropdownCategories.classList.toggle('hidden');
+});
+
+// =====================================================================
+// ============================  FUNCTIONS  ============================
+// =====================================================================
+
 
 const selectRecipe = () => {
 	recipeResults = document.querySelectorAll('.recipe-box')

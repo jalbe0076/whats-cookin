@@ -193,7 +193,6 @@ describe('Should get tags from recipes', () => {
 
   it('Should let you know if recipe tags cannot be found', () => {
     const newTagList = getAllTags();
-    console.log(newTagList)
     expect(newTagList).to.equal(`Error`);
   });
 });

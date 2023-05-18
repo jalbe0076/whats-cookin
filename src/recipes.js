@@ -64,7 +64,6 @@ const getAllTags = (recipes) => {
   const availableTags = [];
   const tags = getItems(recipes, 'tags');
 
-
   tags.flat().forEach(tag => {
     if(!availableTags.includes(tag)) {
       availableTags.push(tag);
