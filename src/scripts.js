@@ -1,5 +1,5 @@
 import { getRecipeById, filterRecipes, getItems, getRandomItem } from './recipes'
-import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, renderUser, hideAllPages } from './domUpdates'
+import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, renderUser, hideAllPages} from './domUpdates'
 import './styles.css'
 import recipeData from './data/recipes'
 import ingredientsData from './data/ingredients'
@@ -61,11 +61,13 @@ const selectRecipe = () => {
 
 const updateCurrentRecipe = (e) => {
   currentRecipe = getRecipeById(recipeData, parseInt(e.target.id || e.target.parentNode.id || e.target.parentNode.parentNode.id))
+  renderHeartColor()
   renderRecipeInfo(currentRecipe, ingredientsData)
 }
 
 const updateUser = () => {
   user = getRandomItem(usersData)
+  !user.savedRecipes ? user.savedRecipes = [] : null
   renderUser(user)
 }
 const updateRecipeOfTheDay = () => {
@@ -94,9 +96,14 @@ const retrieveInput = () => {
 }
 
 const saveRecipe = () => {
-  !user.savedRecipes ? user.savedRecipes = [] : null
-  !user.savedRecipes.includes(currentRecipe) ? user.savedRecipes.push(currentRecipe) : null
+  const i = user.savedRecipes.indexOf(currentRecipe)
+  !user.savedRecipes.includes(currentRecipe) ? user.savedRecipes.push(currentRecipe) : user.savedRecipes.splice(i, 1)
   console.log(user.savedRecipes)
+  renderHeartColor()
+}
+
+const renderHeartColor = () => {
+  user.savedRecipes.includes(currentRecipe) ? addToSaved.style.color= 'red' : addToSaved.style.color= 'gray'
 }
 
 export {

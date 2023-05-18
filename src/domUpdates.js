@@ -13,6 +13,7 @@ const searchHeader = document.querySelector('#recipe-results-header')
 const recipeBoxes = document.querySelector('#recipe-results')
 const allPages = document.querySelectorAll('.page')
 const userInitials = document.querySelector('.initials')
+const addToSaved = document.querySelector('.add-to-saved')
 let searchInput = document.querySelector('#search-input');
 
 
@@ -81,11 +82,13 @@ const renderRecipeOfTheDay = (recipe) => {
   homeBanner.id = `${recipe.id}`
 }
 
+
+
 export {
   showSearchResults,
   renderResults,
   renderRecipeInfo,
   renderRecipeOfTheDay,
   renderUser,
-  hideAllPages
+  hideAllPages,
 }
