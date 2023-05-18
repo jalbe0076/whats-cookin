@@ -37,7 +37,7 @@ main {
   padding: 20px;
 }
 
-#search-input {
+#search-input, #search-saved {
   font-family: 'Kalam', cursive;
   border-color: #D8E2DC;
 }
@@ -146,7 +146,7 @@ figure {
   text-align: center;
 }
 
-#recipe-results {
+#recipe-results, #recipes-to-cook {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
