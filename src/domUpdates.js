@@ -13,6 +13,7 @@ const recipeImage = document.querySelector(".recipe-image")
 const searchHeader = document.querySelector('#recipe-results-header')
 const recipeBoxes = document.querySelector('#recipe-results')
 const allPages = document.querySelectorAll('.page')
+const userInitials = document.querySelector('.initials')
 let searchInput = document.querySelector('#search-input');
 
 

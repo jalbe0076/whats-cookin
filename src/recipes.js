@@ -66,5 +66,5 @@ export {
   getRandomRecipe,
   getIngredients,
   getItems,
-  calculateRecipeCost
+  calculateRecipeCost,
 };

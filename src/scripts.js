@@ -1,8 +1,10 @@
 import { getRecipeById, getRandomRecipe, filterRecipes, getItems } from './recipes'
+import { getRandomUser } from './users'
 import { displayRecipeInfo, displayRecipeOfTheDay, renderResults, hideAllPages } from './domUpdates'
 import './styles.css'
 import recipeData from './data/recipes'
 import ingredientsData from './data/ingredients'
+import usersData from './data/users'
 import apiCalls from './apiCalls'
 
 let currentRecipe;
@@ -17,6 +19,7 @@ let recipeResults = document.querySelectorAll('.recipe-box')
 
 window.addEventListener('load', function() {
   updateRecipeOfTheDay()
+  updateUser()
 })
 
 homeIcon.addEventListener('click', () => {
