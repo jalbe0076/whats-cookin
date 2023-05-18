@@ -41,7 +41,7 @@ const showSearchResults = (userValue, names, images, ids) => {
   } else if (!names) {
     searchHeader.innerHTML += `<h1>Sorry, no results for "${userValue}"!</h1>`
   } else {
-    searchHeader.innerHTML += `<h1>Showing search results for "${userValue}"...</h1>`
+    searchHeader.innerHTML += `<h1>Showing results for "${userValue}"...</h1>`
     names.forEach((name, i) => {
       recipeBoxes.innerHTML += `
       <figure id="${ids[i]}" class="recipe-box">
@@ -84,6 +84,7 @@ const renderRecipeOfTheDay = (recipe) => {
 }
 
 const viewSavedRecipes = (user) => {
+  console.log(user)
   recipesToCook.innerHTML = '';
   user.savedRecipes.forEach(recipe => {
     recipesToCook.innerHTML += `<figure id="${recipe.id}" class="recipe-box">
@@ -93,6 +94,7 @@ const viewSavedRecipes = (user) => {
   }) 
   selectRecipe()
 }
+
 const populateTags = (tags) => {
   dropdownCategories.innerHTML = '';
   tags.forEach(tag => {
@@ -103,9 +105,6 @@ const populateTags = (tags) => {
 export {
   showSearchResults,
   renderResults,
-  displayRecipeInfo,
-  displayRecipeOfTheDay,
-  hideAllPages,
   viewSavedRecipes,
   renderRecipeInfo,
   renderRecipeOfTheDay,

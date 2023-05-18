@@ -3,17 +3,16 @@
 // =====================================================================
 
 import { getRecipeById, getAllTags, filterRecipes, getItems, getRandomItem } from './recipes'
-import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, populateTags, renderUser, hideAllPages } from './domUpdates'
+import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, populateTags, renderUser, viewSavedRecipes, hideAllPages } from './domUpdates'
 import './styles.css'
 import recipeData from './data/recipes'
 import ingredientsData from './data/ingredients'
-import usersData from './data/users'
+// import usersData from './data/users'
 import { sampleUsersData } from './data/sample-users'
 import apiCalls from './apiCalls'
 
 let currentRecipe;
 let recipeOfTheDay;
-// let user = sampleUsersData[1]
 let user;
 
 let searchInput = document.querySelector('#search-input');
@@ -90,9 +89,10 @@ const updateCurrentRecipe = (e) => {
 }
 
 const updateUser = () => {
-  user = getRandomItem(usersData)
+  user = getRandomItem(sampleUsersData)
   renderUser(user)
 }
+
 const updateRecipeOfTheDay = () => {
   recipeOfTheDay = getRandomItem(recipeData)
   renderRecipeOfTheDay(recipeOfTheDay)

@@ -185,7 +185,7 @@ figure {
 
 /* SEARCH VIEW */
 
-#search-results-view, #recipe-results-header, #saved-recipes-header {
+#search-results-view, #recipe-results-header, #recipes-to-cook {
   display: flex;
   align-content: center;
   flex-direction: column;
@@ -257,6 +257,15 @@ figure {
 
 /* RECIPES TO COOK / SAVED RECIPES VIEW */
 
+#saved-recipes-header {
+  display: flex;
+  text-align: center;
+}
+
+#search-saved {
+  margin-left: 5%;
+  max-height:min-content;
+}
 
 
 .hidden {
