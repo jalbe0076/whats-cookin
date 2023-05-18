@@ -60,12 +60,26 @@ const calculateRecipeCost = (ingredients, recipe) => {
   }, 0);
 };
 
+const getAllTags = (recipes) => {
+  if(!recipes) return `Error`;
+  const availableTags = [];
+  const tags = getItems(recipes, 'tags');
+
+  tags.flat().forEach(tag => {
+    if(!availableTags.includes(tag)) {
+      availableTags.push(tag);
+    }
+  });
+  return availableTags.sort();
+};
+
 export { 
   filterRecipes, 
   getRecipeInstructions, 
   getRecipeById, 
   getRandomItem,
   getIngredients,
-  getItems,
   calculateRecipeCost,
+  getItems,
+  getAllTags,
 };

@@ -1,4 +1,3 @@
-//NOTE: Your DOM manipulation will occur in this file
 import { getIngredients, getRecipeInstructions, calculateRecipeCost } from "./recipes"
 import { selectRecipe } from "./scripts"
 
@@ -14,7 +13,7 @@ const recipeBoxes = document.querySelector('#recipe-results')
 const allPages = document.querySelectorAll('.page')
 const userInitials = document.querySelector('.initials')
 let searchInput = document.querySelector('#search-input');
-
+const dropdownCategories = document.querySelector('.dropdown-categories');
 
 const hideAllPages = () => {
   allPages.forEach(page => page.classList.add('hidden'))
@@ -83,11 +82,19 @@ const renderRecipeOfTheDay = (recipe) => {
   homeBanner.id = `${recipe.id}`
 }
 
+const populateTags = (tags) => {
+  dropdownCategories.innerHTML = '';
+  tags.forEach(tag => {
+    dropdownCategories.innerHTML += `<p class="${tag}">${tag}</p>`;
+  });
+};
+
 export {
   showSearchResults,
   renderResults,
   renderRecipeInfo,
   renderRecipeOfTheDay,
   renderUser,
+  populateTags,
   hideAllPages
 }
