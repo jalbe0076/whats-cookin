@@ -1,14 +1,21 @@
-import { getRecipeById, getRandomRecipe, filterRecipes, getItems } from './recipes'
-import { displayRecipeInfo, displayRecipeOfTheDay, renderResults, hideAllPages, viewSavedRecipes } from './domUpdates'
+// =====================================================================
+// ======================  IMPORTS AND VARIABLES  ======================
+// =====================================================================
+
+import { getRecipeById, getAllTags, filterRecipes, getItems, getRandomItem } from './recipes'
+import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, populateTags, renderUser, hideAllPages } from './domUpdates'
 import './styles.css'
 import recipeData from './data/recipes'
 import ingredientsData from './data/ingredients'
+import usersData from './data/users'
 import { sampleUsersData } from './data/sample-users'
 import apiCalls from './apiCalls'
 
 let currentRecipe;
 let recipeOfTheDay;
-let user = sampleUsersData[1]
+// let user = sampleUsersData[1]
+let user;
+
 let searchInput = document.querySelector('#search-input');
 const searchBtn = document.querySelector('#search-btn');
 const searchView = document.querySelector('#search-results-view')
@@ -17,10 +24,18 @@ const homeView = document.querySelector(".home-view")
 const homeIcon = document.querySelector('#home-icon')
 const savedView = document.querySelector('#saved-view')
 const savedViewBtn = document.querySelector('#view-saved-btn')
+const dropdownCategories = document.querySelector('.dropdown-categories');
 let recipeResults = document.querySelectorAll('.recipe-box')
 
+// =====================================================================
+// =========================  EVENT LISTENERS  =========================
+// =====================================================================
+
 window.addEventListener('load', function() {
-  updateRecipeOfTheDay()
+  const tags = getAllTags(recipeData);
+  updateRecipeOfTheDay();
+  populateTags(tags);
+  updateUser()
 })
 
 homeIcon.addEventListener('click', () => {
@@ -49,29 +64,44 @@ savedViewBtn.addEventListener('click', () => {
 	viewSavedRecipes(user)
 })
 
+dropdownCategories.addEventListener('click', (e) => {
+  const tag = e.target.classList.value;
+  const recipesList = filterRecipes(recipeData, tag);
+  searchRecipes(recipesList, tag);
+});
+
+// =====================================================================
+// ============================  FUNCTIONS  ============================
+// =====================================================================
+
+
 const selectRecipe = () => {
-	recipeResults = document.querySelectorAll('.recipe-box')
+  recipeResults = document.querySelectorAll('.recipe-box')
 	recipeResults.forEach(recipe => {
-		recipe.addEventListener('click', (e) => {
-			updateCurrentRecipe(e)        
+    recipe.addEventListener('click', (e) => {
+      updateCurrentRecipe(e)        
 		})
 	})    
 }
 
 const updateCurrentRecipe = (e) => {
   currentRecipe = getRecipeById(recipeData, parseInt(e.target.id || e.target.parentNode.id || e.target.parentNode.parentNode.id))
-  displayRecipeInfo(currentRecipe, ingredientsData)
+  renderRecipeInfo(currentRecipe, ingredientsData)
 }
 
+const updateUser = () => {
+  user = getRandomItem(usersData)
+  renderUser(user)
+}
 const updateRecipeOfTheDay = () => {
-  recipeOfTheDay = getRandomRecipe(recipeData)
-  displayRecipeOfTheDay(recipeOfTheDay)
+  recipeOfTheDay = getRandomItem(recipeData)
+  renderRecipeOfTheDay(recipeOfTheDay)
 }
 
-const searchRecipes = (recipes) => {
+const searchRecipes = (recipes, search) => {
   hideAllPages()
   searchView.classList.remove('hidden')
-  const retrieved = retrieveInput()
+  const retrieved = retrieveInput() || search;
   const foundRecipes = filterRecipes(recipes, retrieved)
   if (foundRecipes === 'Sorry, no matching results!'){
     renderResults(retrieved)
