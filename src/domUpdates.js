@@ -48,9 +48,20 @@ const showSearchResults = (userValue, names, images, ids) => {
 const displayAllRecipes = (recipeData) => {
   hideAllPages()  
   allRecipesView.classList.remove("hidden")
-  const recipeIds = getItems(recipeData, 'id')
-  const recipeNames = getItems(recipeData, 'name')
-  const recipeImages = getItems(recipeData, 'image')
+  const recipeDataAlpha = recipeData.sort((a, b) => {
+    const nameA = a.name.toUpperCase();
+    const nameB = b.name.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  });
+  const recipeIds = getItems(recipeDataAlpha, 'id')
+  const recipeNames = getItems(recipeDataAlpha, 'name')
+  const recipeImages = getItems(recipeDataAlpha, 'image')
   recipeData.forEach((recipe, i) => {
     allRecipesSection.innerHTML += `<figure id="${recipeIds[i]}" class="recipe-box">
     <img src="${recipeImages[i]}" alt="image of ${recipeNames[i]}">
