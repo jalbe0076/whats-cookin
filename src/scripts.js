@@ -80,7 +80,7 @@ searchSaved.addEventListener('keydown', (e) => {
   if (e.key === "Enter") {
     e.preventDefault();
 		currSavedRecipes.classList.add('hidden')
-    searchSavedRecipes(user.savedRecipes);
+    searchSavedRecipes(user.recipesToCook);
   }
 });
 
@@ -96,7 +96,7 @@ const selectRecipe = () => {
 const addDelete = (deleteBtn) => {
 	deleteBtn.forEach(btn => {
 		btn.addEventListener('click', (e) => {
-			deleteRecipe(e)
+			deletefromSaved(e)
 		})
 	})
 }
@@ -113,7 +113,7 @@ const updateCurrentRecipe = (e) => {
 
 const updateUser = () => {
   user = getRandomItem(usersData)
-  !user.savedRecipes ? user.savedRecipes = [] : null
+  !user.recipesToCook ? user.recipesToCook = [] : null
   renderUser(user)
 }
 
@@ -161,23 +161,19 @@ const retrieveSavedInput = () => {
 }
 
 const saveRecipe = () => {
-  const i = user.savedRecipes.indexOf(currentRecipe)
-  !user.savedRecipes.includes(currentRecipe) ? user.savedRecipes.push(currentRecipe) : user.savedRecipes.splice(i, 1)
+  const i = user.recipesToCook.indexOf(currentRecipe)
+  !user.recipesToCook.includes(currentRecipe) ? user.recipesToCook.push(currentRecipe) : user.recipesToCook.splice(i, 1)
   renderHeartColor()
 }
 
 const renderHeartColor = () => {
-  user.savedRecipes.includes(currentRecipe) ? addToSaved.style.color= 'red' : addToSaved.style.color= 'gray'
+  user.recipesToCook.includes(currentRecipe) ? addToSaved.style.color= 'red' : addToSaved.style.color= 'gray'
 }
 
-const deleteRecipe = (e) => {
+const deletefromSaved = (e) => {
 	const selectedRecipeID = parseInt(e.target.id)
-	console.log('id:', selectedRecipeID)
-	console.log('saved:', user.savedRecipes)
-	const updatedSavedRecipes = user.savedRecipes.filter(recipe => recipe.id !== selectedRecipeID)
-	console.log('found rec:', updatedSavedRecipes)
-	console.log('new saved:', user.savedRecipes)
-	user.savedRecipes = updatedSavedRecipes
+	const updatedSavedRecipes = user.recipesToCook.filter(recipe => recipe.id !== selectedRecipeID)
+	user.recipesToCook = updatedSavedRecipes
 	viewSavedRecipes(user)
 }
 

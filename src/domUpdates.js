@@ -92,11 +92,11 @@ const viewSavedRecipes = (user) => {
   searchHeader[0].innerHTML = '';
   recipeBoxes[0].innerHTML = '';
   recipesToCook.innerHTML = '';
-  if (!user.savedRecipes.length){
+  if (!user.recipesToCook.length){
     recipesToCook.innerHTML = `<p>Save a recipe to view it here!</p>`
     return
   }
-  user.savedRecipes.forEach(recipe => {
+  user.recipesToCook.forEach(recipe => {
     recipesToCook.innerHTML += `<article class="whole-recipe-box">
       <nav class="delete-btn">
         <button id="${recipe.id}" class="delete">✖️</button>
