@@ -51,7 +51,6 @@ const displayAllRecipes = (recipeData) => {
   const recipeIds = getItems(recipeData, 'id')
   const recipeNames = getItems(recipeData, 'name')
   const recipeImages = getItems(recipeData, 'image')
-  console.log(recipeNames)
   recipeData.forEach((recipe, i) => {
     allRecipesSection.innerHTML += `<figure id="${recipeIds[i]}" class="recipe-box">
     <img src="${recipeImages[i]}" alt="image of ${recipeNames[i]}">

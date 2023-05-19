@@ -42,7 +42,6 @@ searchInput.addEventListener('keydown', (e) => {
 });
 
 allRecipesButton.addEventListener('click', function() {
-console.log(recipeData)
   displayAllRecipes(recipeData)
 });
 
