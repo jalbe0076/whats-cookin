@@ -41,7 +41,14 @@ main {
 
 #search-input, #search-saved {
   font-family: 'Kalam', cursive;
-  border-color: #D8E2DC;
+  height: fit-content;
+  align-self: center;
+  border: none;
+  background: #FFD7BA;
+  border-radius: 15px;
+  width: 50%;
+  text-align: center;
+  padding: 5px;
 }
 
 figure {
@@ -262,11 +269,7 @@ figure {
   text-align: center;
 }
 
-#search-saved {
-  margin-left: 5%;
-  height: fit-content;
-  align-self: center;
-}
+
 
 
 .hidden {
