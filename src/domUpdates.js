@@ -1,7 +1,6 @@
 import { getIngredients, getRecipeInstructions, calculateRecipeCost } from "./recipes"
 import { selectRecipe } from "./scripts"
 
-const currSavedRecipes = document.querySelector('#recipes-to-cook')
 const recipeName = document.querySelector(".recipe-name")
 const recipeIngredientList = document.querySelector(".recipe-ingredients")
 const instructions = document.querySelector(".instructions-section") 
@@ -41,6 +40,7 @@ const renderResults = (userValue, formattedRecipes, container) => {
 }
 
 const showSearchResults = (userValue, formattedRecipes, currentHeader, currentRecipeResults) => {
+  console.log(userValue)
   if (!userValue){
     currentHeader.innerHTML += `<h1>Please enter a valid search!</h1>`
   } else if (!formattedRecipes.length) {
@@ -89,11 +89,14 @@ const renderRecipeOfTheDay = (recipe) => {
 }
 
 const viewSavedRecipes = (user) => {
-  currSavedRecipes.classList.remove('hidden')
+  recipesToCook.classList.remove('hidden')
   searchHeader[0].innerHTML = '';
   recipeBoxes[0].innerHTML = '';
   recipesToCook.innerHTML = '';
-  console.log(user.savedRecipes)
+  if (!user.savedRecipes.length){
+    recipesToCook.innerHTML = `<p>Save a recipe to view it here!</p>`
+    return
+  }
   user.savedRecipes.forEach(recipe => {
     recipesToCook.innerHTML += `<figure id="${recipe.id}" class="recipe-box">
     <img src="${recipe.image}" alt="image of ${recipe.name}">

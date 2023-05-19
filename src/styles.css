@@ -1,8 +1,8 @@
-* {
+/* * { */
   /* border: solid red; */
   /* margin: 0; */
   /* padding: 0; */
-}
+/* } */
 
 html, body {
   min-height: 100vh;
@@ -192,11 +192,12 @@ figure {
 
 /* SEARCH VIEW */
 
-#search-results-view, .recipe-results-header, #recipes-to-cook {
+#search-results-view, .recipe-results-header, #saved-view {
   display: flex;
   align-content: center;
   flex-direction: column;
   text-align: center;
+  align-items: center;
 }
 
 .recipe-results, #recipes-to-cook {
@@ -257,10 +258,6 @@ figure {
  background-color: #E8E8E4;
 }
 
-/* .add-to-saved:hover {
-  color: red;
-} */
-
 .recipe-info-row {
   display: flex;
   justify-content: space-between;
@@ -282,8 +279,13 @@ figure {
 #saved-recipes-header {
   display: flex;
   text-align: center;
+  width:fit-content;
 }
 
+#search-saved {
+  width: 150px;
+  margin: 10px;
+}
 
 
 

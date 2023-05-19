@@ -2,13 +2,12 @@
 // ======================  IMPORTS AND VARIABLES  ======================
 // =====================================================================
 
-import { getRecipeById, getAllTags, filterRecipes, getItems, getRandomItem } from './recipes'
+import { getRecipeById, getAllTags, filterRecipes, getRandomItem } from './recipes'
 import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, populateTags, renderUser, viewSavedRecipes, hideAllPages } from './domUpdates'
 import './styles.css'
 import recipeData from './data/recipes'
 import ingredientsData from './data/ingredients'
-// import usersData from './data/users'
-import { sampleUsersData } from './data/sample-users'
+import usersData from './data/users'
 import apiCalls from './apiCalls'
 
 let currentRecipe;
