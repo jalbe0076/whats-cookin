@@ -1,8 +1,8 @@
-* {
+/* * { */
   /* border: solid red; */
   /* margin: 0; */
   /* padding: 0; */
-}
+/* } */
 
 html, body {
   min-height: 100vh;
@@ -16,6 +16,7 @@ body {
 
 h1 {
   font-family: 'Mogra', cursive;
+  text-align: center;
 }
 
 main {
@@ -39,9 +40,16 @@ main {
   padding: 20px;
 }
 
-#search-input {
+#search-input, #search-saved {
   font-family: 'Kalam', cursive;
-  border-color: #D8E2DC;
+  height: fit-content;
+  align-self: center;
+  border: none;
+  background: #FFD7BA;
+  border-radius: 15px;
+  width: 50%;
+  text-align: center;
+  padding: 5px;
 }
 
 figure {
@@ -110,7 +118,7 @@ figure {
   font-family: 'Kalam', cursive;
 }
 
-.nav-btn:hover, .dropdown-categories p:hover {
+.nav-btn:hover, .dropdown-categories p:hover, .delete:hover {
   cursor: pointer;
   transform: scale(1.1);
   transition: .2s ease;
@@ -118,7 +126,7 @@ figure {
 
 #home-icon:hover, .home-banner:hover, #search-btn:hover, .recipe-box:hover {
   cursor: pointer;
-  opacity: 85%;
+  opacity: 80%;
   transition: .2s ease;
 }
 
@@ -185,14 +193,15 @@ figure {
 
 /* SEARCH VIEW */
 
-#search-results-view, #recipe-results-header {
+#search-results-view, .recipe-results-header, #saved-view, .whole-recipe-box {
   display: flex;
   align-content: center;
   flex-direction: column;
   text-align: center;
+  align-items: center;
 }
 
-#recipe-results {
+.recipe-results, #recipes-to-cook, #all-recipes {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -207,7 +216,6 @@ figure {
 
 .recipe-box > img {
   border-radius: 10px;
-  margin: 20px;
   height: 20vh;
   width: fit-content;
 }
@@ -215,7 +223,7 @@ figure {
 .recipe-box > figcaption {
   position: absolute;
   bottom: 0;
-  background-color: #d8e2dce9;
+  background-color: #ffe5d9e6;
   border-radius: 20px;
   color: #000000;
   padding: 10px 15px;
@@ -250,10 +258,6 @@ figure {
  background-color: #E8E8E4;
 }
 
-/* .add-to-saved:hover {
-  color: red;
-} */
-
 .recipe-info-row {
   display: flex;
   justify-content: space-between;
@@ -268,6 +272,36 @@ figure {
 
 .instructions-section {
   margin-top: 4em;
+}
+
+/* RECIPES TO COOK / SAVED RECIPES VIEW */
+
+#saved-recipes-header {
+  display: flex;
+  text-align: center;
+  width: fit-content;
+}
+
+#search-saved {
+  width: 150px;
+  margin: 10px;
+}
+
+.delete {
+  background-color: #fec5bbf0;
+  border: none;
+  border-radius: 45%;
+}
+
+.whole-recipe-box {
+  margin: 10px;
+  background-color: #D8E2DC;
+  border-radius: 20px;
+  padding: 5px 25px 20px;
+}
+
+.delete-btn {
+  align-self: flex-end;
 }
 
 .hidden {
