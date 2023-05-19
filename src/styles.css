@@ -117,7 +117,7 @@ figure {
   font-family: 'Kalam', cursive;
 }
 
-.nav-btn:hover, .dropdown-categories p:hover {
+.nav-btn:hover, .dropdown-categories p:hover, .delete:hover {
   cursor: pointer;
   transform: scale(1.1);
   transition: .2s ease;
@@ -287,7 +287,10 @@ figure {
   margin: 10px;
 }
 
-
+.delete {
+  background: none;
+  border: 0px;
+}
 
 .hidden {
   display: none !important;

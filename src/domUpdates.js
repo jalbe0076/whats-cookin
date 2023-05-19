@@ -99,9 +99,12 @@ const viewSavedRecipes = (user) => {
   }
   user.savedRecipes.forEach(recipe => {
     recipesToCook.innerHTML += `<figure id="${recipe.id}" class="recipe-box">
-    <img src="${recipe.image}" alt="image of ${recipe.name}">
-    <figcaption>${recipe.name}</figcaption>
-  </figure>`
+      <img src="${recipe.image}" alt="image of ${recipe.name}">
+      <figcaption>${recipe.name}</figcaption>
+    </figure>
+    <nav class="delete-btn">
+      <button class="delete">✖️</button>
+    </nav>`
   }) 
   selectRecipe()
 }
