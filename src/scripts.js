@@ -25,6 +25,7 @@ const homeView = document.querySelector(".home-view")
 const homeIcon = document.querySelector('#home-icon')
 const savedView = document.querySelector('#saved-view')
 const savedViewBtn = document.querySelector('#view-saved-btn')
+const addToSaved = document.querySelector(".add-to-saved")
 const dropdownCategories = document.querySelector('.dropdown-categories');
 let recipeResults = document.querySelectorAll('.recipe-box')
 
@@ -65,6 +66,10 @@ savedViewBtn.addEventListener('click', () => {
 	viewSavedRecipes(user)
 })
 
+addToSaved.addEventListener('click', function() {
+  saveRecipe()
+})
+
 dropdownCategories.addEventListener('click', (e) => {
   const tag = e.target.classList.value;
   const recipesList = filterRecipes(recipeData, tag);
@@ -95,11 +100,13 @@ const selectRecipe = () => {
 
 const updateCurrentRecipe = (e) => {
   currentRecipe = getRecipeById(recipeData, parseInt(e.target.id || e.target.parentNode.id || e.target.parentNode.parentNode.id))
+  renderHeartColor()
   renderRecipeInfo(currentRecipe, ingredientsData)
 }
 
 const updateUser = () => {
-  user = getRandomItem(sampleUsersData)
+  user = getRandomItem(usersData)
+  !user.savedRecipes ? user.savedRecipes = [] : null
   renderUser(user)
 }
 
@@ -146,6 +153,18 @@ const retrieveSavedInput = () => {
 	return searchSaved.value
 }
 
+const saveRecipe = () => {
+  const i = user.savedRecipes.indexOf(currentRecipe)
+  !user.savedRecipes.includes(currentRecipe) ? user.savedRecipes.push(currentRecipe) : user.savedRecipes.splice(i, 1)
+  renderHeartColor()
+}
+
+const renderHeartColor = () => {
+  user.savedRecipes.includes(currentRecipe) ? addToSaved.style.color= 'red' : addToSaved.style.color= 'gray'
+}
+
 export {
-	selectRecipe
+	retrieveInput,
+	saveRecipe,
+  selectRecipe
   }
