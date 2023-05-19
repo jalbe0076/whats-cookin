@@ -2,8 +2,8 @@
 // ======================  IMPORTS AND VARIABLES  ======================
 // =====================================================================
 
-import { getRecipeById, getAllTags, filterRecipes, getRandomItem } from './recipes'
-import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, populateTags, renderUser, viewSavedRecipes, hideAllPages } from './domUpdates'
+import { getRecipeById, getAllTags, filterRecipes, getItems, getRandomItem } from './recipes'
+import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, populateTags, renderUser, hideAllPages, displayAllRecipes, viewSavedRecipes } from './domUpdates'
 import './styles.css'
 import recipeData from './data/recipes'
 import ingredientsData from './data/ingredients'
@@ -28,6 +28,8 @@ const addToSaved = document.querySelector(".add-to-saved")
 const dropdownCategories = document.querySelector('.dropdown-categories');
 let recipeResults = document.querySelectorAll('.recipe-box')
 let deleteBtn = document.querySelectorAll('.delete-btn')
+const allRecipesButton = document.querySelector('#all-recipes-btn')
+
 
 // =====================================================================
 // =========================  EVENT LISTENERS  =========================
@@ -65,6 +67,10 @@ savedViewBtn.addEventListener('click', () => {
 	savedView.classList.remove('hidden')
 	viewSavedRecipes(user)
 })
+
+allRecipesButton.addEventListener('click', function() {
+  displayAllRecipes(recipeData)
+});
 
 addToSaved.addEventListener('click', function() {
   saveRecipe()
