@@ -1,7 +1,6 @@
 import { getIngredients, getRecipeInstructions, calculateRecipeCost } from "./recipes"
 import { selectRecipe } from "./scripts"
 
-
 const recipeName = document.querySelector(".recipe-name")
 const recipeIngredientList = document.querySelector(".recipe-ingredients")
 const instructions = document.querySelector(".instructions-section") 
