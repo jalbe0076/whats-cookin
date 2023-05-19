@@ -46,7 +46,7 @@ const showSearchResults = (userValue, names, images, ids) => {
 }
 
 const displayAllRecipes = (recipeData) => {
-  hideAllPages()  
+  hideAllPages();
   allRecipesView.classList.remove("hidden")
   const recipeDataAlpha = recipeData.sort((a, b) => {
     const nameA = a.name.toUpperCase();
@@ -62,13 +62,14 @@ const displayAllRecipes = (recipeData) => {
   const recipeIds = getItems(recipeDataAlpha, 'id')
   const recipeNames = getItems(recipeDataAlpha, 'name')
   const recipeImages = getItems(recipeDataAlpha, 'image')
-  recipeData.forEach((recipe, i) => {
-    allRecipesSection.innerHTML += `<figure id="${recipeIds[i]}" class="recipe-box">
-    <img src="${recipeImages[i]}" alt="image of ${recipeNames[i]}">
-    <figcaption>${recipeNames[i]}</figcaption>
-    </figure>`
-    })
-  selectRecipe()
+  recipeData.forEach((_, i) => {
+    allRecipesSection.innerHTML += `
+      <figure id="${recipeIds[i]}" class="recipe-box">
+      <img src="${recipeImages[i]}" alt="image of ${recipeNames[i]}">
+      <figcaption>${recipeNames[i]}</figcaption>
+      </figure>`
+    });
+  selectRecipe();
 }
 
 const displayRecipeInfo = (recipe, data) => {
