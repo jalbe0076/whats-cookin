@@ -1,6 +1,7 @@
 import { getIngredients, getRecipeInstructions, calculateRecipeCost } from "./recipes"
 import { selectRecipe } from "./scripts"
 
+const currSavedRecipes = document.querySelector('#recipes-to-cook')
 const recipeName = document.querySelector(".recipe-name")
 const recipeIngredientList = document.querySelector(".recipe-ingredients")
 const instructions = document.querySelector(".instructions-section") 
@@ -14,6 +15,7 @@ const allPages = document.querySelectorAll('.page')
 let recipesToCook = document.querySelector('#recipes-to-cook')
 const userInitials = document.querySelector('.initials')
 let searchInput = document.querySelector('#search-input');
+let searchSaved = document.querySelector('#search-saved');
 const dropdownCategories = document.querySelector('.dropdown-categories');
 
 const hideAllPages = () => {
@@ -34,6 +36,7 @@ const renderResults = (userValue, formattedRecipes, container) => {
   currentHeader.innerHTML = '';
   currentRecipeResults.innerHTML = '';
   searchInput.value = '';
+  searchSaved.value = '';
   showSearchResults(userValue, formattedRecipes, currentHeader, currentRecipeResults)
 }
 
@@ -86,7 +89,11 @@ const renderRecipeOfTheDay = (recipe) => {
 }
 
 const viewSavedRecipes = (user) => {
+  currSavedRecipes.classList.remove('hidden')
+  searchHeader[0].innerHTML = '';
+  recipeBoxes[0].innerHTML = '';
   recipesToCook.innerHTML = '';
+  console.log(user.savedRecipes)
   user.savedRecipes.forEach(recipe => {
     recipesToCook.innerHTML += `<figure id="${recipe.id}" class="recipe-box">
     <img src="${recipe.image}" alt="image of ${recipe.name}">
