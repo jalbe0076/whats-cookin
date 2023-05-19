@@ -2,7 +2,7 @@
 // =========================  FETCH REQUESTS  ==========================
 // =====================================================================
 
-function getData(data, otherFunction) {
+function getData(data) {
 
 // let test = new Promise((resolve, reject) => {
 

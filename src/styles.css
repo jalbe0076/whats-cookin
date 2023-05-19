@@ -239,6 +239,21 @@ figure {
   background-color: #E8E8E4;
 }
 
+.add-to-saved {
+ align-self: end;
+ cursor: pointer;
+ font-size: 3em;
+ border: none;
+ height: 40px;
+ width: 40px;
+ color: gray;
+ background-color: #E8E8E4;
+}
+
+/* .add-to-saved:hover {
+  color: red;
+} */
+
 .recipe-info-row {
   display: flex;
   justify-content: space-between;
