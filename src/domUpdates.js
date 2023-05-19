@@ -1,4 +1,4 @@
-import { getIngredients, getRecipeInstructions, calculateRecipeCost, getItems } from "./recipes"
+import { getIngredients, getRecipeInstructions, calculateRecipeCost, getItems, alphabetizeData } from "./recipes"
 import { selectRecipe } from "./scripts"
 
 const recipeName = document.querySelector(".recipe-name")
@@ -59,17 +59,7 @@ const displayAllRecipes = (recipeData) => {
   hideAllPages();
   allRecipesView.classList.remove("hidden")
   allRecipesSection.innerHTML = ''
-  const recipeDataAlpha = recipeData.sort((a, b) => {
-    const nameA = a.name.toUpperCase();
-    const nameB = b.name.toUpperCase();
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-    return 0;
-  });
+  const recipeDataAlpha = alphabetizeData(recipeData)
   const recipeIds = getItems(recipeDataAlpha, 'id')
   const recipeNames = getItems(recipeDataAlpha, 'name')
   const recipeImages = getItems(recipeDataAlpha, 'image')
