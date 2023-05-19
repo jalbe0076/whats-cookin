@@ -58,6 +58,7 @@ const showSearchResults = (userValue, names, images, ids) => {
 const displayAllRecipes = (recipeData) => {
   hideAllPages();
   allRecipesView.classList.remove("hidden")
+  allRecipesSection.innerHTML = ''
   const recipeDataAlpha = recipeData.sort((a, b) => {
     const nameA = a.name.toUpperCase();
     const nameB = b.name.toUpperCase();
