@@ -38,17 +38,19 @@ const renderResults = (userValue, formattedRecipes, container) => {
   currentRecipeResults.innerHTML = '';
   searchInput.value = '';
   searchSaved.value = '';
-  showSearchResults(userValue, formattedRecipes, currentHeader, currentRecipeResults)
+  const recipeDataAlpha = alphabetizeData(formattedRecipes)
+  showSearchResults(userValue, recipeDataAlpha, currentHeader, currentRecipeResults)
 }
 
-const showSearchResults = (userValue, formattedRecipes, currentHeader, currentRecipeResults) => {
+const showSearchResults = (userValue, searchResults, currentHeader, currentRecipeResults) => {
+  console.log(searchResults)
   if (!userValue){
     currentHeader.innerHTML += `<h1>Please enter a valid search!</h1>`
-  } else if (!formattedRecipes.length) {
+  } else if (!searchResults.length) {
     currentHeader.innerHTML += `<h1>Sorry, no results for "${userValue}"!</h1>`
   } else {
     currentHeader.innerHTML += `<h1>Showing results for "${userValue}"...</h1>`
-    formattedRecipes.forEach((recipe) => {
+    searchResults.forEach((recipe) => {
       currentRecipeResults.innerHTML += `
       <figure id="${recipe.id}" class="recipe-box">
         <img src="${recipe.image}" alt="image of ${recipe.name}">

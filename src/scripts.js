@@ -132,10 +132,10 @@ const searchAllRecipes = (recipes, search) => {
   hideAllPages()
   searchView.classList.remove('hidden')
 	const retrieved = retrieveInput() || search;
-	searchThisStuff(recipes, retrieved, 'all')
+	searchForRecipes(recipes, retrieved, 'all')
 }
 
-const searchThisStuff = (recipes, retrieved, container) => {
+const searchForRecipes = (recipes, retrieved, container) => {
   const foundRecipes = filterRecipes(recipes, retrieved)
   if (foundRecipes === 'Sorry, no matching results!'){
     renderResults(retrieved, [], container)
@@ -153,7 +153,7 @@ const searchThisStuff = (recipes, retrieved, container) => {
 
 const searchSavedRecipes = (recipes) => {
 	const retrieved = retrieveSavedInput()
-	searchThisStuff(recipes, retrieved, 'saved')
+	searchForRecipes(recipes, retrieved, 'saved')
 }
 
 const retrieveInput = () => {

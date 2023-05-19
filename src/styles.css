@@ -201,7 +201,7 @@ figure {
   align-items: center;
 }
 
-.recipe-results, #recipes-to-cook {
+.recipe-results, #recipes-to-cook, #all-recipes {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
