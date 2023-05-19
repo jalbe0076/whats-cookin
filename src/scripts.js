@@ -5,15 +5,14 @@
 import { getRecipeById, getAllTags, filterRecipes, getItems, getRandomItem } from './recipes'
 import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, populateTags, renderUser, hideAllPages } from './domUpdates'
 import './styles.css'
-import recipeData from './data/recipes'
-import ingredientsData from './data/ingredients'
-import usersData from './data/users'
-// import apiCalls from './apiCalls'
-import { getData } from './apiCalls'
+import { getAllData, getData } from './apiCalls'
 
 let currentRecipe;
 let recipeOfTheDay;
 let user;
+let usersData;
+let ingredientsData;
+let recipeData;
 
 let searchInput = document.querySelector('#search-input');
 const searchBtn = document.querySelector('#search-btn');
@@ -30,13 +29,13 @@ let recipeResults = document.querySelectorAll('.recipe-box')
 // =====================================================================
 
 window.addEventListener('load', function() {
+  setData();
   getData('recipes').then(result => {
     const tags = getAllTags(result.recipes)
     populateTags(tags);
+    updateRecipeOfTheDay();
+    updateUser()
   });
-
-  updateRecipeOfTheDay();
-  updateUser()
 });
 
 homeIcon.addEventListener('click', () => {
@@ -49,17 +48,13 @@ homeBanner.addEventListener('click', function(e) {
 })
 
 searchBtn.addEventListener('click', () => {
-  getData('recipes').then(result => {
-    searchRecipes(result.recipes)
-  });
+    searchRecipes(recipeData);
 })
 
 searchInput.addEventListener('keydown', (e) => {
   if (e.key === "Enter") {
     e.preventDefault();
-    getData('recipes').then(result => {
-      searchRecipes(result.recipes)
-    });
+      searchRecipes(recipeData)
   }
 });
 
@@ -69,21 +64,14 @@ addToSaved.addEventListener('click', function() {
 
 dropdownCategories.addEventListener('click', (e) => {
   const tag = e.target.classList.value;
-  getData('recipes').then(result => {
-    const recipesList = filterRecipes(result.recipes, tag)
-    searchRecipes(recipesList, tag);
-  });
+  console.log(recipeData)
+  const recipesList = filterRecipes(recipeData, tag)
+  searchRecipes(recipesList, tag);
 });
 
 // =====================================================================
 // ============================  FUNCTIONS  ============================
 // =====================================================================
-// getData('recipes')
-// getData('recipes').then(result => {
-//   console.log(result)
-//   // console.log(passFunction(result))
-//   return result.recipes
-// })
 
 const selectRecipe = () => {
   recipeResults = document.querySelectorAll('.recipe-box')
@@ -95,28 +83,21 @@ const selectRecipe = () => {
 }
 
 const updateCurrentRecipe = (e) => {
-  getData('recipes').then(recipeResult => {
-    getData('ingredients').then(ingredientResult => {
-      currentRecipe = getRecipeById(recipeResult.recipes, parseInt(e.target.id || e.target.parentNode.id || e.target.parentNode.parentNode.id))
+      currentRecipe = getRecipeById(recipeData, parseInt(e.target.id || e.target.parentNode.id || e.target.parentNode.parentNode.id))
       renderHeartColor()
-      renderRecipeInfo(currentRecipe, ingredientResult.ingredients)
-    });
-  });
+      renderRecipeInfo(currentRecipe, ingredientsData)
 }
 
 const updateUser = () => {
-  getData('users').then(result => {
       // console.log(result.users)
-    user = getRandomItem(result.users);
+    user = getRandomItem(usersData);
     // !user.savedRecipes ? user.savedRecipes = [] : null;
     renderUser(user);
-  });
 }
+
 const updateRecipeOfTheDay = () => {
-  getData('recipes').then(result => {
-    recipeOfTheDay = getRandomItem(result.recipes)
+    recipeOfTheDay = getRandomItem(recipeData)
     renderRecipeOfTheDay(recipeOfTheDay)
-  });
 }
 
 const searchRecipes = (recipes, search) => {
@@ -143,29 +124,71 @@ const saveRecipe = () => {
   // let i;
   console.log('saveRecipe', user.recipesToCook)
   // user.recipesToCook.find(reci)
-  const i = user.recipesToCook.indexOf(currentRecipe)
-  // const test = user.recipesToCook.find((recipe, index) recipe.id === currentRecipe.id);
+  // const i = user.recipesToCook.indexOf(currentRecipe)
+  // let test = user.recipesToCook.find((recipe, index) => recipe.id === currentRecipe.id);
   // console.log('index', i)
   // console.log('included?', test)
   // if(!user.recipesToCook.includes(currentRecipe)) {
-    // user.recipesToCook.forEach(recipe => {
-    //   if(recipe != currentRecipe) {
-
-    //   }
-    // })
-    // user.recipesToCook.push(currentRecipe)
-    console.log('current Recipe', currentRecipe)
+  // if(!user.recipesToCook.length) {
+  //   user.recipesToCook.push(currentRecipe)
   // }
-  !user.recipesToCook.includes(currentRecipe) ? user.recipesToCook.push(currentRecipe) : user.recipesToCook.splice(i, 1)
+
+  //   user.recipesToCook.forEach(recipe => {
+  //     console.log(recipe.id === currentRecipe.id)
+  //     if(recipe.id === currentRecipe.id) {
+  //       console.log('fasdkjfsdalk')
+  //     } else {
+  //       console.log("Mamma Mia")
+  //       user.recipesToCook.push(currentRecipe)
+  //     }
+  //   })
+//   console.log('currentRecipe', currentRecipe)
+// console.log('recipe to cook', user.recipesToCook)
+  const savedIds = user.recipesToCook.map(recipe => {
+    return recipe.id
+  });
+  if(!savedIds.includes(currentRecipe.id)) {
+    user.recipesToCook.push(currentRecipe)
+  } else {
+    savedIds.find((recipe, i) => {
+      if(recipe === currentRecipe.id) {
+        user.recipesToCook.splice(i, 1)
+      }
+    })
+  }
+
+    // user.recipesToCook.push(currentRecipe)
+    console.log('Recipe', savedIds)
+  // }
+  // !user.recipesToCook.includes(currentRecipe) ? user.recipesToCook.push(currentRecipe) : user.recipesToCook.splice(i, 1)
   
   renderHeartColor()
 }
 
 const renderHeartColor = () => {
   // console.log('user', user)
-  
-  return user.recipesToCook.includes(currentRecipe) ? addToSaved.style.color= 'red' : addToSaved.style.color= 'gray'
+  const savedIds = user.recipesToCook.map(recipe => {
+    return recipe.id
+  });
+  if(!savedIds.includes(currentRecipe.id)) {
+    return addToSaved.style.color= 'gray'
+  } else {
+    savedIds.find((recipe, i) => {
+      if(recipe === currentRecipe.id) {
+        return addToSaved.style.color= 'red'
+      }
+    })
+  }
+  // return user.recipesToCook.includes(currentRecipe.id) ? addToSaved.style.color= 'red' : addToSaved.style.color= 'gray'
 }
+
+const setData = () => {
+  getAllData().then(data => {
+    usersData = data[0].users;
+    ingredientsData = data[1].ingredients;
+    recipeData = data[2].recipes;
+  })
+ }
 
 export {
 	searchRecipes,
