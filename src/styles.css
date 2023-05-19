@@ -139,7 +139,7 @@ figure {
 
 /* SEARCH VIEW */
 
-#search-results-view, #recipe-results-header {
+#search-results-view, #recipe-results-header, h1 {
   display: flex;
   align-content: center;
   flex-direction: column;
