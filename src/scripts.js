@@ -16,6 +16,8 @@ let recipeOfTheDay;
 let user;
 
 let searchInput = document.querySelector('#search-input');
+let searchSaved = document.querySelector('#search-saved');
+const currSavedRecipes = document.querySelector('#recipes-to-cook')
 const searchBtn = document.querySelector('#search-btn');
 const searchView = document.querySelector('#search-results-view')
 const homeBanner = document.querySelector(".home-banner")
@@ -47,13 +49,13 @@ homeBanner.addEventListener('click', function(e) {
 })
 
 searchBtn.addEventListener('click', () => {
-  searchRecipes(recipeData)
+  searchAllRecipes(recipeData)
 })
 
 searchInput.addEventListener('keydown', (e) => {
   if (e.key === "Enter") {
     e.preventDefault();
-      searchRecipes(recipeData);
+      searchAllRecipes(recipeData);
   }
 });
 
@@ -66,7 +68,15 @@ savedViewBtn.addEventListener('click', () => {
 dropdownCategories.addEventListener('click', (e) => {
   const tag = e.target.classList.value;
   const recipesList = filterRecipes(recipeData, tag);
-  searchRecipes(recipesList, tag);
+  searchAllRecipes(recipesList, tag);
+});
+
+searchSaved.addEventListener('keydown', (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+		currSavedRecipes.classList.add('hidden')
+    searchSavedRecipes(user.savedRecipes);
+  }
 });
 
 // =====================================================================
@@ -98,19 +108,32 @@ const updateRecipeOfTheDay = () => {
   renderRecipeOfTheDay(recipeOfTheDay)
 }
 
-const searchRecipes = (recipes, search) => {
+const searchAllRecipes = (recipes, search) => {
   hideAllPages()
   searchView.classList.remove('hidden')
-  const retrieved = retrieveInput() || search;
+	const retrieved = retrieveInput() || search;
+	searchThisStuff(recipes, retrieved, 'all')
+}
+
+const searchThisStuff = (recipes, retrieved, container) => {
   const foundRecipes = filterRecipes(recipes, retrieved)
   if (foundRecipes === 'Sorry, no matching results!'){
-    renderResults(retrieved)
+    renderResults(retrieved, [], container)
     return
   }
-	const recipeIDs = getItems(foundRecipes, 'id')
-  const recipeNames = getItems(foundRecipes, 'name')
-  const recipeImages = getItems(foundRecipes, 'image')
-  renderResults(retrieved, recipeNames, recipeImages, recipeIDs)
+	const formattedRecipes = foundRecipes.map(recipe => {
+		return {
+			id: recipe.id,
+			name: recipe.name,
+			image: recipe.image
+		}
+	})
+  renderResults(retrieved, formattedRecipes, container)
+}
+
+const searchSavedRecipes = (recipes) => {
+	const retrieved = retrieveSavedInput()
+	searchThisStuff(recipes, retrieved, 'saved')
 }
 
 const retrieveInput = () => {
@@ -118,8 +141,11 @@ const retrieveInput = () => {
   return searchInput.value
 }
 
+const retrieveSavedInput = () => {
+	searchSaved = document.getElementById('search-saved')
+	return searchSaved.value
+}
+
 export {
-	searchRecipes,
-	retrieveInput,
 	selectRecipe
   }

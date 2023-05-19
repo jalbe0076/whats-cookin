@@ -185,14 +185,14 @@ figure {
 
 /* SEARCH VIEW */
 
-#search-results-view, #recipe-results-header, #recipes-to-cook {
+#search-results-view, .recipe-results-header, #recipes-to-cook {
   display: flex;
   align-content: center;
   flex-direction: column;
   text-align: center;
 }
 
-#recipe-results, #recipes-to-cook {
+.recipe-results, #recipes-to-cook {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -264,7 +264,8 @@ figure {
 
 #search-saved {
   margin-left: 5%;
-  max-height:min-content;
+  height: fit-content;
+  align-self: center;
 }
 
 

@@ -8,8 +8,8 @@ const recipeCost = document.querySelector(".recipe-cost")
 const recipeView = document.querySelector(".recipe-view")
 const homeBanner = document.querySelector(".home-banner")
 const recipeImage = document.querySelector(".recipe-image")
-const searchHeader = document.querySelector('#recipe-results-header')
-const recipeBoxes = document.querySelector('#recipe-results')
+const searchHeader = document.querySelectorAll('.recipe-results-header')
+const recipeBoxes = document.querySelectorAll('.recipe-results')
 const allPages = document.querySelectorAll('.page')
 let recipesToCook = document.querySelector('#recipes-to-cook')
 const userInitials = document.querySelector('.initials')
@@ -28,25 +28,27 @@ const renderUser = (user) => {
   userInitials.innerText = initials
 }
 
-const renderResults = (userValue, names, images, ids) => {
-  searchHeader.innerHTML = '';
-  recipeBoxes.innerHTML = '';
+const renderResults = (userValue, formattedRecipes, container) => {
+  const currentHeader = (container === 'saved') ? searchHeader[0] : searchHeader[1]
+  const currentRecipeResults = (container === 'saved') ? recipeBoxes[0] : recipeBoxes[1]
+  currentHeader.innerHTML = '';
+  currentRecipeResults.innerHTML = '';
   searchInput.value = '';
-  showSearchResults(userValue, names, images, ids)
+  showSearchResults(userValue, formattedRecipes, currentHeader, currentRecipeResults)
 }
 
-const showSearchResults = (userValue, names, images, ids) => {
-  if (userValue === ""){
-    searchHeader.innerHTML += `<h1>Please enter a valid search!</h1>`
-  } else if (!names) {
-    searchHeader.innerHTML += `<h1>Sorry, no results for "${userValue}"!</h1>`
+const showSearchResults = (userValue, formattedRecipes, currentHeader, currentRecipeResults) => {
+  if (!userValue){
+    currentHeader.innerHTML += `<h1>Please enter a valid search!</h1>`
+  } else if (!formattedRecipes.length) {
+    currentHeader.innerHTML += `<h1>Sorry, no results for "${userValue}"!</h1>`
   } else {
-    searchHeader.innerHTML += `<h1>Showing results for "${userValue}"...</h1>`
-    names.forEach((name, i) => {
-      recipeBoxes.innerHTML += `
-      <figure id="${ids[i]}" class="recipe-box">
-        <img src="${images[i]}" alt="image of ${name}">
-        <figcaption>${name}</figcaption>
+    currentHeader.innerHTML += `<h1>Showing results for "${userValue}"...</h1>`
+    formattedRecipes.forEach((recipe) => {
+      currentRecipeResults.innerHTML += `
+      <figure id="${recipe.id}" class="recipe-box">
+        <img src="${recipe.image}" alt="image of ${recipe.name}">
+        <figcaption>${recipe.name}</figcaption>
       </figure>`
     })
     selectRecipe()
@@ -84,7 +86,6 @@ const renderRecipeOfTheDay = (recipe) => {
 }
 
 const viewSavedRecipes = (user) => {
-  console.log(user)
   recipesToCook.innerHTML = '';
   user.savedRecipes.forEach(recipe => {
     recipesToCook.innerHTML += `<figure id="${recipe.id}" class="recipe-box">
