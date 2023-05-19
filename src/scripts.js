@@ -1,5 +1,5 @@
 import { getRecipeById, getRandomRecipe, filterRecipes, getItems } from './recipes'
-import { displayRecipeInfo, displayRecipeOfTheDay, renderResults, hideAllPages } from './domUpdates'
+import { displayRecipeInfo, displayRecipeOfTheDay, renderResults, hideAllPages, displayAllRecipes } from './domUpdates'
 import './styles.css'
 import recipeData from './data/recipes'
 import ingredientsData from './data/ingredients'
@@ -14,6 +14,8 @@ const homeBanner = document.querySelector(".home-banner")
 const homeView = document.querySelector(".home-view")
 const homeIcon = document.querySelector('#home-icon')
 let recipeResults = document.querySelectorAll('.recipe-box')
+const allRecipesButton = document.querySelector('#all-recipes-btn')
+
 
 window.addEventListener('load', function() {
   updateRecipeOfTheDay()
@@ -37,6 +39,11 @@ searchInput.addEventListener('keydown', (e) => {
     e.preventDefault();
       searchRecipes(recipeData);
   }
+});
+
+allRecipesButton.addEventListener('click', function() {
+console.log(recipeData)
+  displayAllRecipes(recipeData)
 });
 
 const selectRecipe = () => {

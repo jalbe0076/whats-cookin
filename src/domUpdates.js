@@ -1,5 +1,5 @@
 //NOTE: Your DOM manipulation will occur in this file
-import { getIngredients, getRecipeInstructions, calculateRecipeCost } from "./recipes"
+import { getIngredients, getRecipeInstructions, calculateRecipeCost, getItems } from "./recipes"
 import { selectRecipe } from "./scripts"
 
 const recipeName = document.querySelector(".recipe-name")
@@ -14,6 +14,8 @@ const searchHeader = document.querySelector('#recipe-results-header')
 const recipeBoxes = document.querySelector('#recipe-results')
 const allPages = document.querySelectorAll('.page')
 let searchInput = document.querySelector('#search-input');
+const allRecipesView = document.querySelector('#all-recipes-view');
+const allRecipesSection = document.querySelector('#all-recipes');
 
 
 const hideAllPages = () => {
@@ -41,6 +43,21 @@ const showSearchResults = (userValue, names, images, ids) => {
     })
     selectRecipe()
   }
+}
+
+const displayAllRecipes = (recipeData) => {
+  hideAllPages()  
+  allRecipesView.classList.remove("hidden")
+  const recipeIds = getItems(recipeData, 'id')
+  const recipeNames = getItems(recipeData, 'name')
+  const recipeImages = getItems(recipeData, 'image')
+  selectRecipe()
+  // console.log(recipeIds)
+  allRecipesSection.innerHTML = `<figure id="${recipeIds[0]}" class="recipe-box">
+  <img src="${recipeImages[0]}" alt="image of ${recipeNames[0]}">
+  <figcaption>${recipeNames[0]}</figcaption>
+</figure>`
+
 }
 
 const displayRecipeInfo = (recipe, data) => {
@@ -78,5 +95,6 @@ export {
   renderResults,
   displayRecipeInfo,
   displayRecipeOfTheDay,
-  hideAllPages
+  hideAllPages,
+  displayAllRecipes,
 }
