@@ -33,7 +33,7 @@ window.addEventListener('load', function() {
     const tags = getAllTags(result.recipes)
     populateTags(tags);
   });
-  
+
   updateRecipeOfTheDay();
   updateUser()
 });
@@ -48,20 +48,26 @@ homeBanner.addEventListener('click', function(e) {
 })
 
 searchBtn.addEventListener('click', () => {
-  searchRecipes(recipeData)
+  getData('recipes').then(result => {
+    searchRecipes(result.recipes)
+  });
 })
 
 searchInput.addEventListener('keydown', (e) => {
   if (e.key === "Enter") {
     e.preventDefault();
-      searchRecipes(recipeData);
+    getData('recipes').then(result => {
+      searchRecipes(result.recipes)
+    });
   }
 });
 
 dropdownCategories.addEventListener('click', (e) => {
   const tag = e.target.classList.value;
-  const recipesList = filterRecipes(recipeData, tag);
-  searchRecipes(recipesList, tag);
+  getData('recipes').then(result => {
+    const recipesList = filterRecipes(result.recipes, tag)
+    searchRecipes(recipesList, tag);
+  });
 });
 
 // =====================================================================
@@ -84,17 +90,25 @@ const selectRecipe = () => {
 }
 
 const updateCurrentRecipe = (e) => {
-  currentRecipe = getRecipeById(recipeData, parseInt(e.target.id || e.target.parentNode.id || e.target.parentNode.parentNode.id))
-  renderRecipeInfo(currentRecipe, ingredientsData)
+  getData('recipes').then(recipeResult => {
+    getData('ingredients').then(ingredientResult => {
+      currentRecipe = getRecipeById(recipeResult.recipes, parseInt(e.target.id || e.target.parentNode.id || e.target.parentNode.parentNode.id))
+      renderRecipeInfo(currentRecipe, ingredientResult.ingredients)
+    });
+  });
 }
 
 const updateUser = () => {
-  user = getRandomItem(usersData)
-  renderUser(user)
+  getData('users').then(result => {
+    user = getRandomItem(result.users)
+    renderUser(user)
+  });
 }
 const updateRecipeOfTheDay = () => {
-  recipeOfTheDay = getRandomItem(recipeData)
-  renderRecipeOfTheDay(recipeOfTheDay)
+  getData('recipes').then(result => {
+    recipeOfTheDay = getRandomItem(result.recipes)
+    renderRecipeOfTheDay(recipeOfTheDay)
+  });
 }
 
 const searchRecipes = (recipes, search) => {
@@ -121,4 +135,4 @@ export {
 	searchRecipes,
 	retrieveInput,
 	selectRecipe
-  }
+};
