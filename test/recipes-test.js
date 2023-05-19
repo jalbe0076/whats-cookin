@@ -1,7 +1,8 @@
 import { expect } from 'chai';
-import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getItems, calculateRecipeCost, getRandomRecipe } from '../src/recipes.js'
+import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getItems, calculateRecipeCost, getRandomItem, getAllTags } from '../src/recipes.js'
 import { sampleRecipeData } from '../src/data/sample-recipes.js';
 import { sampleIngredientsData } from '../src/data/sample-ingredients.js';
+import { sampleUsersData } from '../src/data/sample-users.js';
 
 describe ('recipe info', () => {
   let findRecipe, findAnotherRecipe;
@@ -45,20 +46,41 @@ describe ('recipe info', () => {
   });
 });
 
-describe('select a random recipe', () => {
-  it('should select a random recipe by index position', () => {
-    getRandomRecipe(sampleRecipeData);
-    expect(getRandomRecipe).to.be.a('function');
+describe('select a random item', () => {
+  let recipe, user
+  
+  beforeEach(() => {
+    recipe = getRandomItem(sampleRecipeData)
+    user = getRandomItem(sampleUsersData)
+  })
+
+  it('should be a function', () => {
+    expect(getRandomItem).to.be.a('function');
   });
 
   it('should get a random recipe as an object', () => {
-    const recipeList = getRandomRecipe(sampleRecipeData);
-    expect(recipeList).to.be.a('object');
+    expect(recipe).to.be.a('object');
   });
 
   it('should return a message if the recipe is not found', () => {
-    const recipeList = getRandomRecipe();
-    expect(recipeList).to.equal('Recipe not found');
+    recipe = getRandomItem()
+    expect(recipe).to.equal('data not found');
+  });
+
+  it('should get random user as an object', () => {
+    expect(user).to.be.a('object');
+  });
+
+  it('user should have a name', () => {
+    expect(user.name).to.exist;
+  });
+  
+  it('user should have an id', () => {
+    expect(user.id).to.exist;
+  });
+  
+  it('user should have a pantry', () => {
+    expect(user.pantry).to.exist;
   });
 });
 
@@ -84,8 +106,7 @@ describe ('filter', function() {
     const filteredRecipes = filterRecipes(sampleRecipeData, 'Plastic Garbage')
     expect(filteredRecipes).to.be.equal('Sorry, no matching results!')
   })
-
-})
+});
 
 describe('ingredients', () => {
   let recipe1, recipe2;
@@ -143,8 +164,57 @@ describe('calculate cost of ingredients', () => {
   });
 
   it('should show an error if ingredients don\'t exist', () => {
-    const badIngredients = calculateRecipeCost([], recipe2)
-    expect(badIngredients).to.equal('Error: no ingredients :(')
+    const badIngredients = calculateRecipeCost([], recipe2);
+    expect(badIngredients).to.equal('Error: no ingredients :(');
+  });
+})
+
+describe('Should get tags from recipes', () => {
+  let tagList;
+  beforeEach(() => {
+    tagList = getAllTags(sampleRecipeData);
+  });
+  
+  it('Should return an array', () => {
+    expect(tagList).to.be.a('array');
   });
 
-})
+  it('Should return a list of array', () => {
+    expect(tagList).to.deep.equal([
+      'antipasti',    'antipasto',
+      'appetizer',    'dinner',
+      "hor d'oeuvre", 'lunch',
+      'main course',  'main dish',
+      'sauce',        'snack',
+      'starter'
+    ]);
+  });
+
+  it('Should return a list of array in alphabetical order', () => {
+    expect(tagList).to.deep.equal([
+      'antipasti',    'antipasto',
+      'appetizer',    'dinner',
+      "hor d'oeuvre", 'lunch',
+      'main course',  'main dish',
+      'sauce',        'snack',
+      'starter'
+    ]);
+  });
+
+  it('Should return a list of array in alphabetical order if the recipe list changes', () => {
+    const newTagList = getAllTags([sampleRecipeData[0]]);
+    expect(newTagList).to.deep.equal([
+      'antipasti',
+      'antipasto',
+      'appetizer',
+      "hor d'oeuvre",
+      'snack',
+      'starter'
+    ]);
+  });
+
+  it('Should let you know if recipe tags cannot be found', () => {
+    const newTagList = getAllTags();
+    expect(newTagList).to.equal(`Error`);
+  });
+});

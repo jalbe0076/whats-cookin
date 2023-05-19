@@ -20,13 +20,14 @@ const filterRecipes = (data, filterTerm) => {
   return filteredRecipes
 }
 
-const getRandomRecipe = (recipeList) => {
-  if(!recipeList) {
-    return `Recipe not found`;
+const getRandomItem = (data) => {
+  if(!data) {
+    return `data not found`;
   }
-  const indexPosition = Math.floor(Math.random() * recipeList.length);
-  return recipeList[indexPosition];
+  const indexPosition = Math.floor(Math.random() * data.length);
+  return data[indexPosition];
 };
+
 
 const getIngredients = (currentRecipe, allIngredients) => {
   if(!allIngredients.length){
@@ -59,12 +60,26 @@ const calculateRecipeCost = (ingredients, recipe) => {
   }, 0);
 };
 
+const getAllTags = (recipes) => {
+  if(!recipes) return `Error`;
+  const availableTags = [];
+  const tags = getItems(recipes, 'tags');
+
+  tags.flat().forEach(tag => {
+    if(!availableTags.includes(tag)) {
+      availableTags.push(tag);
+    }
+  });
+  return availableTags.sort();
+};
+
 export { 
   filterRecipes, 
   getRecipeInstructions, 
   getRecipeById, 
-  getRandomRecipe,
+  getRandomItem,
   getIngredients,
+  calculateRecipeCost,
   getItems,
-  calculateRecipeCost
+  getAllTags,
 };

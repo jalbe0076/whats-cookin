@@ -1,4 +1,3 @@
-//NOTE: Your DOM manipulation will occur in this file
 import { getIngredients, getRecipeInstructions, calculateRecipeCost, getItems } from "./recipes"
 import { selectRecipe } from "./scripts"
 
@@ -7,19 +6,28 @@ const recipeIngredientList = document.querySelector(".recipe-ingredients")
 const instructions = document.querySelector(".instructions-section") 
 const recipeCost = document.querySelector(".recipe-cost")
 const recipeView = document.querySelector(".recipe-view")
-const homeView = document.querySelector(".home-view")
 const homeBanner = document.querySelector(".home-banner")
 const recipeImage = document.querySelector(".recipe-image")
 const searchHeader = document.querySelector('#recipe-results-header')
 const recipeBoxes = document.querySelector('#recipe-results')
 const allPages = document.querySelectorAll('.page')
+const userInitials = document.querySelector('.initials')
+const addToSaved = document.querySelector('.add-to-saved')
 let searchInput = document.querySelector('#search-input');
 const allRecipesView = document.querySelector('#all-recipes-view');
 const allRecipesSection = document.querySelector('#all-recipes');
-
+const dropdownCategories = document.querySelector('.dropdown-categories');
 
 const hideAllPages = () => {
   allPages.forEach(page => page.classList.add('hidden'))
+}
+
+const renderUser = (user) => {
+  const firstLast = user.name.split(" ")
+  const initials = firstLast.reduce((initials, substring) => {
+    return initials.concat(substring[0])
+  }, '')
+  userInitials.innerText = initials
 }
 
 const renderResults = (userValue, names, images, ids) => {
@@ -30,7 +38,9 @@ const renderResults = (userValue, names, images, ids) => {
 }
 
 const showSearchResults = (userValue, names, images, ids) => {
-  if (!names) {
+  if (userValue === ""){
+    searchHeader.innerHTML += `<h1>Please enter a valid search!</h1>`
+  } else if (!names) {
     searchHeader.innerHTML += `<h1>Sorry, no results for "${userValue}"!</h1>`
   } else {
     searchHeader.innerHTML += `<h1>Showing search results for "${userValue}"...</h1>`
@@ -72,7 +82,7 @@ const displayAllRecipes = (recipeData) => {
   selectRecipe();
 }
 
-const displayRecipeInfo = (recipe, data) => {
+const renderRecipeInfo = (recipe, data) => {
   recipeName.innerText = recipe.name
   const ingredients = getIngredients(recipe, data)
   const amounts = recipe.ingredients.map(ingredient => {
@@ -93,7 +103,7 @@ const displayRecipeInfo = (recipe, data) => {
   recipeImage.alt = `${recipe.name}`
 }
 
-const displayRecipeOfTheDay = (recipe) => {
+const renderRecipeOfTheDay = (recipe) => {
   homeBanner.innerHTML = 
       `<img class="recipe-of-the-day" alt=${recipe.name} src=${recipe.image}>
       <figcaption>
@@ -102,11 +112,20 @@ const displayRecipeOfTheDay = (recipe) => {
   homeBanner.id = `${recipe.id}`
 }
 
+const populateTags = (tags) => {
+  dropdownCategories.innerHTML = '';
+  tags.forEach(tag => {
+    dropdownCategories.innerHTML += `<p class="${tag}">${tag}</p>`;
+  });
+};
+
 export {
   showSearchResults,
   renderResults,
-  displayRecipeInfo,
-  displayRecipeOfTheDay,
+  renderRecipeInfo,
+  renderRecipeOfTheDay,
+  renderUser,
+  populateTags,
   hideAllPages,
-  displayAllRecipes,
+  displayAllRecipes
 }

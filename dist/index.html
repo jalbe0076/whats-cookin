@@ -14,14 +14,21 @@
             <input id="search-input" placeholder="Search for recipe"/>
             <button type="button" id="search-btn"></button>
             <div id="user-initials">
-              <h1 class="initials">AB</h1>
+              <h1 class="initials">
+                <!-- Initials will go here! -->
+              </h1>
             </div>
         </section>
         <section class="nav-pages">
           <button type="button" id="home-icon" alt="What's Cookin Chef"></button>
           <button type="button" class="nav-btn" id="saved-btn">Saved Recipes</button>
           <button type="button" class="nav-btn" id="all-recipes-btn">All Recipes</button>
-          <button type="button" class="nav-btn" id="all-categories-btn">All Categories</button>
+          <div class="category-position">
+            <button type="button" class="nav-btn" id="all-categories-btn">All Categories</button>
+            <ul class="dropdown-categories">
+              <!-- tag items get populated here -->
+            </ul>
+          </div>
         </section>
       </nav>
     </header>
@@ -38,6 +45,7 @@
         </article>
       </section>
       <section class="recipe-view page hidden">
+        <button class="add-to-saved">&#9829</button>
         <h1 class="recipe-name">Your Recipe here</h1>
         <section class="recipe-info-row">
           <section class="info-box">
