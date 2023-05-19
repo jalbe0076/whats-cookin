@@ -185,14 +185,14 @@ figure {
 
 /* SEARCH VIEW */
 
-#search-results-view, #recipe-results-header {
+#search-results-view, #recipe-results-header, h1 {
   display: flex;
   align-content: center;
   flex-direction: column;
   text-align: center;
 }
 
-#recipe-results {
+#recipe-results, #all-recipes {
   display: flex;
   flex-direction: row;
   justify-content: space-around;

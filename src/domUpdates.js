@@ -1,4 +1,4 @@
-import { getIngredients, getRecipeInstructions, calculateRecipeCost } from "./recipes"
+import { getIngredients, getRecipeInstructions, calculateRecipeCost, getItems, alphabetizeData } from "./recipes"
 import { selectRecipe } from "./scripts"
 
 const recipeName = document.querySelector(".recipe-name")
@@ -14,6 +14,8 @@ const allPages = document.querySelectorAll('.page')
 const userInitials = document.querySelector('.initials')
 const addToSaved = document.querySelector('.add-to-saved')
 let searchInput = document.querySelector('#search-input');
+const allRecipesView = document.querySelector('#all-recipes-view');
+const allRecipesSection = document.querySelector('#all-recipes');
 const dropdownCategories = document.querySelector('.dropdown-categories');
 
 const hideAllPages = () => {
@@ -51,6 +53,24 @@ const showSearchResults = (userValue, names, images, ids) => {
     })
     selectRecipe()
   }
+}
+
+const displayAllRecipes = (recipeData) => {
+  hideAllPages();
+  allRecipesView.classList.remove("hidden")
+  allRecipesSection.innerHTML = ''
+  const recipeDataAlpha = alphabetizeData(recipeData)
+  const recipeIds = getItems(recipeDataAlpha, 'id')
+  const recipeNames = getItems(recipeDataAlpha, 'name')
+  const recipeImages = getItems(recipeDataAlpha, 'image')
+  recipeData.forEach((_, i) => {
+    allRecipesSection.innerHTML += `
+      <figure id="${recipeIds[i]}" class="recipe-box">
+      <img src="${recipeImages[i]}" alt="image of ${recipeNames[i]}">
+      <figcaption>${recipeNames[i]}</figcaption>
+      </figure>`
+    });
+  selectRecipe();
 }
 
 const renderRecipeInfo = (recipe, data) => {
@@ -97,5 +117,6 @@ export {
   renderRecipeOfTheDay,
   renderUser,
   populateTags,
-  hideAllPages
+  hideAllPages,
+  displayAllRecipes
 }

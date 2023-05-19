@@ -3,7 +3,7 @@
 // =====================================================================
 
 import { getRecipeById, getAllTags, filterRecipes, getItems, getRandomItem } from './recipes'
-import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, populateTags, renderUser, hideAllPages } from './domUpdates'
+import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, populateTags, renderUser, hideAllPages, displayAllRecipes } from './domUpdates'
 import './styles.css'
 import recipeData from './data/recipes'
 import ingredientsData from './data/ingredients'
@@ -23,6 +23,8 @@ const homeIcon = document.querySelector('#home-icon')
 const addToSaved = document.querySelector(".add-to-saved")
 const dropdownCategories = document.querySelector('.dropdown-categories');
 let recipeResults = document.querySelectorAll('.recipe-box')
+const allRecipesButton = document.querySelector('#all-recipes-btn')
+
 
 // =====================================================================
 // =========================  EVENT LISTENERS  =========================
@@ -53,6 +55,10 @@ searchInput.addEventListener('keydown', (e) => {
     e.preventDefault();
       searchRecipes(recipeData);
   }
+});
+
+allRecipesButton.addEventListener('click', function() {
+  displayAllRecipes(recipeData)
 });
 
 addToSaved.addEventListener('click', function() {
