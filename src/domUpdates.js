@@ -118,7 +118,8 @@ const viewSavedRecipes = (user) => {
     recipesToCook.innerHTML = `<p>Save a recipe to view it here!</p>`
     return
   }
-  user.recipesToCook.forEach(recipe => {
+  const recipeDataAlpha = alphabetizeData(user.recipesToCook)
+  recipeDataAlpha.forEach(recipe => {
     recipesToCook.innerHTML += `<article class="whole-recipe-box">
       <nav class="delete-btn">
         <button id="${recipe.id}" class="delete">✖️</button>
