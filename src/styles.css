@@ -1,5 +1,5 @@
 * {
-  /* border: solid red; */
+  border: solid red;
   /* margin: 0; */
   /* padding: 0; */
 }
@@ -21,7 +21,7 @@ h1 {
 main {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
 }
 
 /* NAV BAR */
@@ -168,7 +168,15 @@ figure {
 
 /* HOME VIEW */
 
-.home-banner, .featured {
+.home-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-banner {
+  width: 30%;
+  justify-self: center;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -179,9 +187,19 @@ figure {
   border-radius: 20px;
 }
 
-#featured-recipes {
-  background-color: #D8E2DC;
+.featured {
+  display: flex;
 }
+
+#featured-recipes {
+  width: 100%;
+  background-color: #D8E2DC;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
 
 /* SEARCH VIEW */
 
@@ -230,6 +248,7 @@ figure {
 }
 
 .recipe-view {
+  align-self: center;
   width: 80%;
   display: flex;
   flex-direction: column;

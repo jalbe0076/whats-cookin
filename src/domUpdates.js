@@ -15,6 +15,7 @@ const userInitials = document.querySelector('.initials')
 const addToSaved = document.querySelector('.add-to-saved')
 let searchInput = document.querySelector('#search-input');
 const dropdownCategories = document.querySelector('.dropdown-categories');
+const featured = document.querySelector('.featured')
 
 const hideAllPages = () => {
   allPages.forEach(page => page.classList.add('hidden'))
@@ -83,6 +84,17 @@ const renderRecipeOfTheDay = (recipe) => {
   homeBanner.id = `${recipe.id}`
 }
 
+const renderFeaturedRecipes = (featuredRecipes) => {
+  featuredRecipes.forEach(recipe => {
+    featured.innerHTML += `
+      <figure id="${recipe.id}" class="recipe-box">
+        <img src="${recipe.image}" alt="image of ${recipe.name}">
+        <figcaption>${recipe.name}</figcaption>
+      </figure>
+      `
+  })
+}
+
 const populateTags = (tags) => {
   dropdownCategories.innerHTML = '';
   tags.forEach(tag => {
@@ -97,5 +109,6 @@ export {
   renderRecipeOfTheDay,
   renderUser,
   populateTags,
-  hideAllPages
+  hideAllPages,
+  renderFeaturedRecipes
 }

@@ -3,7 +3,7 @@
 // =====================================================================
 
 import { getRecipeById, getAllTags, filterRecipes, getItems, getRandomItem } from './recipes'
-import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, populateTags, renderUser, hideAllPages } from './domUpdates'
+import { renderRecipeInfo, renderRecipeOfTheDay, renderFeaturedRecipes, renderResults, populateTags, renderUser, hideAllPages } from './domUpdates'
 import './styles.css'
 import recipeData from './data/recipes'
 import ingredientsData from './data/ingredients'
@@ -13,16 +13,19 @@ import apiCalls from './apiCalls'
 let currentRecipe;
 let recipeOfTheDay;
 let user;
+let featuredRecipes = [];
 
 let searchInput = document.querySelector('#search-input');
 const searchBtn = document.querySelector('#search-btn');
 const searchView = document.querySelector('#search-results-view')
-const homeBanner = document.querySelector(".home-banner")
+// const homeBanner = document.querySelector(".home-banner")
 const homeView = document.querySelector(".home-view")
 const homeIcon = document.querySelector('#home-icon')
 const addToSaved = document.querySelector(".add-to-saved")
 const dropdownCategories = document.querySelector('.dropdown-categories');
+let featuredTitle = document.querySelector('.featured-title')
 let recipeResults = document.querySelectorAll('.recipe-box')
+let main = document.querySelector('main')
 
 // =====================================================================
 // =========================  EVENT LISTENERS  =========================
@@ -32,7 +35,8 @@ window.addEventListener('load', function() {
   const tags = getAllTags(recipeData);
   updateRecipeOfTheDay();
   populateTags(tags);
-  updateUser()
+  updateUser();
+  updateFeaturedRecipes();
 })
 
 homeIcon.addEventListener('click', () => {
@@ -40,7 +44,7 @@ homeIcon.addEventListener('click', () => {
 	homeView.classList.remove('hidden')
 })
 
-homeBanner.addEventListener('click', function(e) {
+main.addEventListener('click', function(e) {
   updateCurrentRecipe(e)
 })
 
@@ -94,6 +98,18 @@ const updateUser = () => {
 const updateRecipeOfTheDay = () => {
   recipeOfTheDay = getRandomItem(recipeData)
   renderRecipeOfTheDay(recipeOfTheDay)
+}
+
+const updateFeaturedRecipes = () => {
+  const tag = getRandomItem(getAllTags(recipeData))
+  // tag[0] = tag[0].toUpperCase()
+  featuredTitle.innerText = `${tag}`
+  const taggedRecipes = filterRecipes(recipeData, tag)
+  for (var i = 0; featuredRecipes.length < 4; i++) {
+    featuredRecipes.push(taggedRecipes[i])
+  }
+  console.log(featuredRecipes)
+  renderFeaturedRecipes(featuredRecipes)  
 }
 
 const searchRecipes = (recipes, search) => {
