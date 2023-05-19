@@ -125,7 +125,7 @@ figure {
 
 #home-icon:hover, .home-banner:hover, #search-btn:hover, .recipe-box:hover {
   cursor: pointer;
-  opacity: 85%;
+  opacity: 80%;
   transition: .2s ease;
 }
 
@@ -192,7 +192,7 @@ figure {
 
 /* SEARCH VIEW */
 
-#search-results-view, .recipe-results-header, #saved-view {
+#search-results-view, .recipe-results-header, #saved-view, .whole-recipe-box {
   display: flex;
   align-content: center;
   flex-direction: column;
@@ -215,7 +215,6 @@ figure {
 
 .recipe-box > img {
   border-radius: 10px;
-  margin: 20px;
   height: 20vh;
   width: fit-content;
 }
@@ -223,7 +222,7 @@ figure {
 .recipe-box > figcaption {
   position: absolute;
   bottom: 0;
-  background-color: #d8e2dce9;
+  background-color: #ffe5d9e6;
   border-radius: 20px;
   color: #000000;
   padding: 10px 15px;
@@ -279,7 +278,7 @@ figure {
 #saved-recipes-header {
   display: flex;
   text-align: center;
-  width:fit-content;
+  width: fit-content;
 }
 
 #search-saved {
@@ -288,8 +287,20 @@ figure {
 }
 
 .delete {
-  background: none;
-  border: 0px;
+  background-color: #fec5bbf0;
+  border: none;
+  border-radius: 45%;
+}
+
+.whole-recipe-box {
+  margin: 10px;
+  background-color: #D8E2DC;
+  border-radius: 20px;
+  padding: 5px 25px 20px;
+}
+
+.delete-btn {
+  align-self: flex-end;
 }
 
 .hidden {

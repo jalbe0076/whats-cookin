@@ -27,6 +27,7 @@ const savedViewBtn = document.querySelector('#view-saved-btn')
 const addToSaved = document.querySelector(".add-to-saved")
 const dropdownCategories = document.querySelector('.dropdown-categories');
 let recipeResults = document.querySelectorAll('.recipe-box')
+let deleteBtn = document.querySelectorAll('.delete-btn')
 
 // =====================================================================
 // =========================  EVENT LISTENERS  =========================
@@ -83,11 +84,6 @@ searchSaved.addEventListener('keydown', (e) => {
   }
 });
 
-// =====================================================================
-// ============================  FUNCTIONS  ============================
-// =====================================================================
-
-
 const selectRecipe = () => {
   recipeResults = document.querySelectorAll('.recipe-box')
 	recipeResults.forEach(recipe => {
@@ -96,6 +92,18 @@ const selectRecipe = () => {
 		})
 	})    
 }
+
+const addDelete = (deleteBtn) => {
+	deleteBtn.forEach(btn => {
+		btn.addEventListener('click', (e) => {
+			deleteRecipe(e)
+		})
+	})
+}
+
+// =====================================================================
+// ============================  FUNCTIONS  ============================
+// =====================================================================
 
 const updateCurrentRecipe = (e) => {
   currentRecipe = getRecipeById(recipeData, parseInt(e.target.id || e.target.parentNode.id || e.target.parentNode.parentNode.id))
@@ -162,7 +170,19 @@ const renderHeartColor = () => {
   user.savedRecipes.includes(currentRecipe) ? addToSaved.style.color= 'red' : addToSaved.style.color= 'gray'
 }
 
+const deleteRecipe = (e) => {
+	const selectedRecipeID = parseInt(e.target.id)
+	console.log('id:', selectedRecipeID)
+	console.log('saved:', user.savedRecipes)
+	const updatedSavedRecipes = user.savedRecipes.filter(recipe => recipe.id !== selectedRecipeID)
+	console.log('found rec:', updatedSavedRecipes)
+	console.log('new saved:', user.savedRecipes)
+	user.savedRecipes = updatedSavedRecipes
+	viewSavedRecipes(user)
+}
+
 export {
+	addDelete,
 	retrieveInput,
 	saveRecipe,
   selectRecipe

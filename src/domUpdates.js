@@ -1,5 +1,5 @@
 import { getIngredients, getRecipeInstructions, calculateRecipeCost } from "./recipes"
-import { selectRecipe } from "./scripts"
+import { selectRecipe, addDelete } from "./scripts"
 
 const recipeName = document.querySelector(".recipe-name")
 const recipeIngredientList = document.querySelector(".recipe-ingredients")
@@ -40,7 +40,6 @@ const renderResults = (userValue, formattedRecipes, container) => {
 }
 
 const showSearchResults = (userValue, formattedRecipes, currentHeader, currentRecipeResults) => {
-  console.log(userValue)
   if (!userValue){
     currentHeader.innerHTML += `<h1>Please enter a valid search!</h1>`
   } else if (!formattedRecipes.length) {
@@ -98,14 +97,18 @@ const viewSavedRecipes = (user) => {
     return
   }
   user.savedRecipes.forEach(recipe => {
-    recipesToCook.innerHTML += `<figure id="${recipe.id}" class="recipe-box">
-      <img src="${recipe.image}" alt="image of ${recipe.name}">
-      <figcaption>${recipe.name}</figcaption>
-    </figure>
-    <nav class="delete-btn">
-      <button class="delete">✖️</button>
-    </nav>`
+    recipesToCook.innerHTML += `<article class="whole-recipe-box">
+      <nav class="delete-btn">
+        <button id="${recipe.id}" class="delete">✖️</button>
+      </nav>
+      <figure id="${recipe.id}" class="recipe-box">
+        <img src="${recipe.image}" alt="image of ${recipe.name}">
+        <figcaption>${recipe.name}</figcaption>
+      </figure>
+    <article>`
   }) 
+  let deleteBtn = document.querySelectorAll('.delete-btn')
+  addDelete(deleteBtn)
   selectRecipe()
 }
 
