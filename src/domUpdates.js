@@ -1,5 +1,5 @@
 import { getIngredients, getRecipeInstructions, calculateRecipeCost, getItems, alphabetizeData } from "./recipes"
-import { selectRecipe } from "./scripts"
+import { selectRecipe, addDelete } from "./scripts"
 
 const recipeName = document.querySelector(".recipe-name")
 const recipeIngredientList = document.querySelector(".recipe-ingredients")
@@ -8,12 +8,13 @@ const recipeCost = document.querySelector(".recipe-cost")
 const recipeView = document.querySelector(".recipe-view")
 const homeBanner = document.querySelector(".home-banner")
 const recipeImage = document.querySelector(".recipe-image")
-const searchHeader = document.querySelector('#recipe-results-header')
-const recipeBoxes = document.querySelector('#recipe-results')
+const searchHeader = document.querySelectorAll('.recipe-results-header')
+const recipeBoxes = document.querySelectorAll('.recipe-results')
 const allPages = document.querySelectorAll('.page')
+let recipesToCook = document.querySelector('#recipes-to-cook')
 const userInitials = document.querySelector('.initials')
-const addToSaved = document.querySelector('.add-to-saved')
 let searchInput = document.querySelector('#search-input');
+let searchSaved = document.querySelector('#search-saved');
 const allRecipesView = document.querySelector('#all-recipes-view');
 const allRecipesSection = document.querySelector('#all-recipes');
 const dropdownCategories = document.querySelector('.dropdown-categories');
@@ -30,25 +31,30 @@ const renderUser = (user) => {
   userInitials.innerText = initials
 }
 
-const renderResults = (userValue, names, images, ids) => {
-  searchHeader.innerHTML = '';
-  recipeBoxes.innerHTML = '';
+const renderResults = (userValue, formattedRecipes, container) => {
+  const currentHeader = (container === 'saved') ? searchHeader[0] : searchHeader[1]
+  const currentRecipeResults = (container === 'saved') ? recipeBoxes[0] : recipeBoxes[1]
+  currentHeader.innerHTML = '';
+  currentRecipeResults.innerHTML = '';
   searchInput.value = '';
-  showSearchResults(userValue, names, images, ids)
+  searchSaved.value = '';
+  const recipeDataAlpha = alphabetizeData(formattedRecipes)
+  showSearchResults(userValue, recipeDataAlpha, currentHeader, currentRecipeResults)
 }
 
-const showSearchResults = (userValue, names, images, ids) => {
-  if (userValue === ""){
-    searchHeader.innerHTML += `<h1>Please enter a valid search!</h1>`
-  } else if (!names) {
-    searchHeader.innerHTML += `<h1>Sorry, no results for "${userValue}"!</h1>`
+const showSearchResults = (userValue, searchResults, currentHeader, currentRecipeResults) => {
+  console.log(searchResults)
+  if (!userValue){
+    currentHeader.innerHTML += `<h1>Please enter a valid search!</h1>`
+  } else if (!searchResults.length) {
+    currentHeader.innerHTML += `<h1>Sorry, no results for "${userValue}"!</h1>`
   } else {
-    searchHeader.innerHTML += `<h1>Showing search results for "${userValue}"...</h1>`
-    names.forEach((name, i) => {
-      recipeBoxes.innerHTML += `
-      <figure id="${ids[i]}" class="recipe-box">
-        <img src="${images[i]}" alt="image of ${name}">
-        <figcaption>${name}</figcaption>
+    currentHeader.innerHTML += `<h1>Showing results for "${userValue}"...</h1>`
+    searchResults.forEach((recipe) => {
+      currentRecipeResults.innerHTML += `
+      <figure id="${recipe.id}" class="recipe-box">
+        <img src="${recipe.image}" alt="image of ${recipe.name}">
+        <figcaption>${recipe.name}</figcaption>
       </figure>`
     })
     selectRecipe()
@@ -103,6 +109,32 @@ const renderRecipeOfTheDay = (recipe) => {
   homeBanner.id = `${recipe.id}`
 }
 
+const viewSavedRecipes = (user) => {
+  recipesToCook.classList.remove('hidden')
+  searchHeader[0].innerHTML = '';
+  recipeBoxes[0].innerHTML = '';
+  recipesToCook.innerHTML = '';
+  if (!user.recipesToCook.length){
+    recipesToCook.innerHTML = `<p>Save a recipe to view it here!</p>`
+    return
+  }
+  const recipeDataAlpha = alphabetizeData(user.recipesToCook)
+  recipeDataAlpha.forEach(recipe => {
+    recipesToCook.innerHTML += `<article class="whole-recipe-box">
+      <nav class="delete-btn">
+        <button id="${recipe.id}" class="delete">✖️</button>
+      </nav>
+      <figure id="${recipe.id}" class="recipe-box">
+        <img src="${recipe.image}" alt="image of ${recipe.name}">
+        <figcaption>${recipe.name}</figcaption>
+      </figure>
+    <article>`
+  }) 
+  let deleteBtn = document.querySelectorAll('.delete-btn')
+  addDelete(deleteBtn)
+  selectRecipe()
+}
+
 const populateTags = (tags) => {
   dropdownCategories.innerHTML = '';
   tags.forEach(tag => {
@@ -113,6 +145,7 @@ const populateTags = (tags) => {
 export {
   showSearchResults,
   renderResults,
+  viewSavedRecipes,
   renderRecipeInfo,
   renderRecipeOfTheDay,
   renderUser,
