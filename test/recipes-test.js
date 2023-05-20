@@ -49,6 +49,11 @@ describe ('recipe info', () => {
     const recipeById = getRecipeById(undefined, 678353);
     expect(recipeById).to.equal('Cannot find recipe')
   });
+
+  it('should return an error if the recipe ID does not exist', () => {
+    const recipeById = getRecipeById(sampleRecipeData, 6);
+    expect(recipeById).to.equal('Cannot find recipe')
+  });
 });
 
 describe('select a random item', () => {
