@@ -1,11 +1,12 @@
 * {
-  border: solid red;
+  /* border: solid red; */
   /* margin: 0; */
   /* padding: 0; */
 }
 
 html, body {
   min-height: 100vh;
+  /* min-width: 1200px; */
 }
 
 body {
@@ -175,8 +176,10 @@ figure {
 }
 
 .home-banner {
+  height: 54dvh;
   width: 30%;
   justify-self: center;
+  justify-content: center;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -193,10 +196,12 @@ figure {
 
 #featured-recipes {
   width: 100%;
+  height: 32dvh;
   background-color: #D8E2DC;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 
@@ -274,13 +279,14 @@ figure {
 } */
 
 .recipe-info-row {
+  /* min-width: 600px; */
   display: flex;
   justify-content: space-between;
   margin-bottom: 2em;
 }
 
 .info-box {
-  height: 50vh;
+  height: auto;
   width: 48%;
   border-radius: 1em;
 }
