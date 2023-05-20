@@ -88,20 +88,19 @@ describe('select a random item', () => {
 
   it('should have specific keys if a user', () => {
     const userKeys = Object.keys(sampleUsersData[0]);
-    console.log(userKeys)
-    expect(userKeys).to.deep.equal([ 'name', 'id', 'pantry', 'savedRecipes' ]);
+    expect(userKeys).to.deep.equal([ 'name', 'id', 'pantry', 'recipesToCook' ]);
   });
 
-  it('user should have a name', () => {
-    expect(user.name).to.exist;
+  it('user should have pantry list', () => {
+    expect(user.pantry).to.be.a('array');
   });
   
-  it('user should have an id', () => {
-    expect(user.id).to.exist;
+  it('user should have a recipesToCook list', () => {
+    expect(user.recipesToCook).to.be.a('array');
   });
   
-  it('user should have a pantry', () => {
-    expect(user.pantry).to.exist;
+  it('user should have a pantry with ingredients', () => {
+    expect(user.pantry[0].ingredient).to.exist;
   });
 });
 
