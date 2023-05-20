@@ -117,6 +117,12 @@ describe ('filter', function() {
   })
 
   it('should be able return an array of filtered recipes by a name', function() {
+    const filteredRecipes = filterRecipes(sampleRecipeData, "Loaded Chocolate Chip Pudding Cookie Cups")
+    expect(filteredRecipes).to.be.deep.equal([sampleRecipeData[0]]
+    )
+  })
+
+  it('should be able return an array of filtered recipes by another name', function() {
     const filteredRecipes = filterRecipes(sampleRecipeData, "Dirty Steve's Original Wing Sauce")
     expect(filteredRecipes).to.be.deep.equal([sampleRecipeData[2]]
     )
