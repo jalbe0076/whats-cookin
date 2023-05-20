@@ -260,6 +260,7 @@ figure {
 .recipe-view {
   align-self: center;
   width: 80%;
+  min-width: 1600px;
   display: flex;
   flex-direction: column;
   padding: 2em;
