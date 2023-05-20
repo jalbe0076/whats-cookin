@@ -121,7 +121,7 @@ describe ('filter', function() {
     expect(filteredRecipes).to.be.deep.equal([sampleRecipeData[0]]);
   });
 
-  it('should be able return an array of filtered recipes by a portion of the name', function() {
+  it('should be able return an array of filtered recipes by a portion of a word', function() {
     const filteredRecipes = filterRecipes(sampleRecipeData, "Cho");
     expect(filteredRecipes).to.be.deep.equal([sampleRecipeData[0], sampleRecipeData[1]]);
   });
@@ -160,15 +160,12 @@ describe('ingredients', () => {
   it('should determine the names of ingredients needed for a given recipe', () => {
     const ingredients = getIngredients(recipe2, sampleIngredientsData)
     const ingredientNames = getItems(ingredients, 'name')
-
     expect(ingredientNames).to.deep.equal(['apple cider', 'apple', 'corn starch'])
   })
 
   it('should return an error message if no ingredients are found', () => {
     const ingredientNames = getItems([])
-
     expect(ingredientNames).to.equal('Sorry, no list given!')
-
   })
 })
 
@@ -200,6 +197,7 @@ describe('calculate cost of ingredients', () => {
 
 describe('Should get tags from recipes', () => {
   let tagList;
+
   beforeEach(() => {
     tagList = getAllTags(sampleRecipeData);
   });
@@ -208,7 +206,7 @@ describe('Should get tags from recipes', () => {
     expect(tagList).to.be.a('array');
   });
 
-  it('Should return a list of array', () => {
+  it('Should return a list of tag categories', () => {
     expect(tagList).to.deep.equal([
       'antipasti',    'antipasto',
       'appetizer',    'dinner',
@@ -219,7 +217,7 @@ describe('Should get tags from recipes', () => {
     ]);
   });
 
-  it('Should return a list of array in alphabetical order', () => {
+  it('Should return a list of tag categories in alphabetical order', () => {
     expect(tagList).to.deep.equal([
       'antipasti',    'antipasto',
       'appetizer',    'dinner',
@@ -230,7 +228,7 @@ describe('Should get tags from recipes', () => {
     ]);
   });
 
-  it('Should return a list of array in alphabetical order if the recipe list changes', () => {
+  it('Should return a list of tag categories in alphabetical order if the recipe list changes', () => {
     const newTagList = getAllTags([sampleRecipeData[0]]);
     expect(newTagList).to.deep.equal([
       'antipasti',
