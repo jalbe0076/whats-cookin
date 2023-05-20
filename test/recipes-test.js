@@ -117,15 +117,18 @@ describe ('filter', function() {
   })
 
   it('should be able return an array of filtered recipes by a name', function() {
-    const filteredRecipes = filterRecipes(sampleRecipeData, "Loaded Chocolate Chip Pudding Cookie Cups")
-    expect(filteredRecipes).to.be.deep.equal([sampleRecipeData[0]]
-    )
-  })
+    const filteredRecipes = filterRecipes(sampleRecipeData, "Loaded Chocolate Chip Pudding Cookie Cups");
+    expect(filteredRecipes).to.be.deep.equal([sampleRecipeData[0]]);
+  });
+
+  it('should be able return an array of filtered recipes by a portion of the name', function() {
+    const filteredRecipes = filterRecipes(sampleRecipeData, "Cho");
+    expect(filteredRecipes).to.be.deep.equal([sampleRecipeData[0], sampleRecipeData[1]]);
+  });
 
   it('should be able return an array of filtered recipes by another name', function() {
     const filteredRecipes = filterRecipes(sampleRecipeData, "Dirty Steve's Original Wing Sauce")
-    expect(filteredRecipes).to.be.deep.equal([sampleRecipeData[2]]
-    )
+    expect(filteredRecipes).to.be.deep.equal([sampleRecipeData[2]])
   })
   
   it('should let the user know if there were no results found', function() {
