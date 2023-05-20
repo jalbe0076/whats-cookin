@@ -25,7 +25,7 @@ const addToSaved = document.querySelector(".add-to-saved")
 const dropdownCategories = document.querySelector('.dropdown-categories');
 let featuredTitle = document.querySelector('.featured-title')
 let recipeResults = document.querySelectorAll('.recipe-box')
-let main = document.querySelector('main')
+// let main = document.querySelector('main')
 
 // =====================================================================
 // =========================  EVENT LISTENERS  =========================
@@ -44,7 +44,7 @@ homeIcon.addEventListener('click', () => {
 	homeView.classList.remove('hidden')
 })
 
-main.addEventListener('click', function(e) {
+homeView.addEventListener('click', function(e) {
   updateCurrentRecipe(e)
 })
 
