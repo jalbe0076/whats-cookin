@@ -1,5 +1,6 @@
 const getRecipeById = (recipes, id) => {
   const recipe = recipes.find(recipe => recipe.id === id);
+  if(!recipes) { return 'Cannot find recipe'; }
   return recipe;
 };
 
