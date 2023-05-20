@@ -46,8 +46,8 @@ describe ('recipe info', () => {
   });
 
   it('should return an error if it can\'t find recipes', () => {
-    const recipeById = getRecipeById(undefined, 678353);
-    expect(recipeById).to.equal('Cannot find recipe')
+    const recipeMissingList = getRecipeById(undefined, 678353);
+    expect(recipeMissingList).to.equal('Cannot find recipe');
   });
 
   it('should return an error if the recipe ID does not exist', () => {
@@ -57,7 +57,7 @@ describe ('recipe info', () => {
 });
 
 describe('select a random item', () => {
-  let recipe, user
+  let recipe, user;
   
   beforeEach(() => {
     recipe = getRandomItem(sampleRecipeData)
@@ -70,6 +70,11 @@ describe('select a random item', () => {
 
   it('should get a random recipe as an object', () => {
     expect(recipe).to.be.a('object');
+  });
+
+  it('should have specific keys if a recipe', () => {
+    const recipeKeys = Object.keys(sampleRecipeData[0]);
+    expect(recipeKeys).to.deep.equal([ 'id', 'image', 'ingredients', 'instructions', 'name', 'tags' ]);
   });
 
   it('should return a message if the recipe is not found', () => {
