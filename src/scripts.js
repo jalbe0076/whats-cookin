@@ -69,15 +69,8 @@ savedViewBtn.addEventListener('click', () => {
 	hideAllPages()
 	savedView.classList.remove('hidden')
 	viewSavedRecipes(user)
-  // const savedTags = getAllTags(user.recipesToCook);
-  // populateTags(savedTags, savedDropdownCategories);    
   populateSavedTags()
 })
-
-const populateSavedTags= () => {
-  const savedTags = getAllTags(user.recipesToCook);
-  populateTags(savedTags, savedDropdownCategories);   
-}
 
 allRecipesButton.addEventListener('click', function() {
   displayAllRecipes(recipeData)
@@ -209,6 +202,11 @@ const setData = () => {
     recipeData = data[2].recipes;
   });
 };
+
+const populateSavedTags= () => {
+  const savedTags = getAllTags(user.recipesToCook);
+  populateTags(savedTags, savedDropdownCategories);   
+}
 
 export {
 	addDelete,
