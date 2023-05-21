@@ -69,9 +69,15 @@ savedViewBtn.addEventListener('click', () => {
 	hideAllPages()
 	savedView.classList.remove('hidden')
 	viewSavedRecipes(user)
-  const savedTags = getAllTags(user.recipesToCook);
-  populateTags(savedTags, savedDropdownCategories);    
+  // const savedTags = getAllTags(user.recipesToCook);
+  // populateTags(savedTags, savedDropdownCategories);    
+  populateSavedTags()
 })
+
+const populateSavedTags= () => {
+  const savedTags = getAllTags(user.recipesToCook);
+  populateTags(savedTags, savedDropdownCategories);   
+}
 
 allRecipesButton.addEventListener('click', function() {
   displayAllRecipes(recipeData)
@@ -193,6 +199,7 @@ const deletefromSaved = (e) => {
 	const updatedSavedRecipes = user.recipesToCook.filter(recipe => recipe.id !== selectedRecipeID)
 	user.recipesToCook = updatedSavedRecipes
 	viewSavedRecipes(user)
+  populateSavedTags()
 }
 
 const setData = () => {
