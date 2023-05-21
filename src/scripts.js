@@ -2,17 +2,18 @@
 // ======================  IMPORTS AND VARIABLES  ======================
 // =====================================================================
 
-import { getRecipeById, getAllTags, filterRecipes, getRandomItem } from './recipes'
-import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, populateTags, renderUser, hideAllPages, displayAllRecipes, viewSavedRecipes } from './domUpdates'
-import './styles.css'
-import recipeData from './data/recipes'
-import ingredientsData from './data/ingredients'
-import usersData from './data/users'
-import apiCalls from './apiCalls'
+import { getRecipeById, getAllTags, filterRecipes, getItems, getRandomItem } from './recipes';
+import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, populateTags, renderUser, hideAllPages, displayAllRecipes, viewSavedRecipes } from './domUpdates';
+import './styles.css';
+import { getAllData, getData } from './apiCalls';
 
 let currentRecipe;
 let recipeOfTheDay;
 let user;
+let usersData;
+let ingredientsData;
+let recipeData;
+
 let searchInput = document.querySelector('#search-input');
 let searchSaved = document.querySelector('#search-saved');
 const currSavedRecipes = document.querySelector('#recipes-to-cook')
@@ -35,11 +36,14 @@ const allRecipesButton = document.querySelector('#all-recipes-btn');
 // =====================================================================
 
 window.addEventListener('load', function() {
-  const tags = getAllTags(recipeData);
-  updateRecipeOfTheDay();
-  populateTags(tags, dropdownCategories);
-  updateUser()
-})
+  setData();
+  getData('recipes').then(result => {
+    const tags = getAllTags(result.recipes);
+    populateTags(tags, dropdownCategories);
+    updateRecipeOfTheDay();
+    updateUser();
+  });
+});
 
 homeIcon.addEventListener('click', () => {
 	hideAllPages()
@@ -144,6 +148,7 @@ const searchAllRecipes = (recipes, search) => {
 
 const searchForRecipes = (recipes, retrieved, container) => {
   const foundRecipes = filterRecipes(recipes, retrieved)
+
   if (foundRecipes === 'Sorry, no matching results!'){
     renderResults(retrieved, [], container)
     return
@@ -165,7 +170,7 @@ const searchSavedRecipes = (recipes) => {
 
 const retrieveInput = () => {
   searchInput = document.getElementById('search-input');
-  return searchInput.value
+  return searchInput.value;
 }
 
 const retrieveSavedInput = () => {
@@ -180,7 +185,7 @@ const saveRecipe = () => {
 }
 
 const renderHeartColor = () => {
-  user.recipesToCook.includes(currentRecipe) ? addToSaved.style.color= 'red' : addToSaved.style.color= 'gray'
+  return user.recipesToCook.includes(currentRecipe) ? addToSaved.style.color= 'red' : addToSaved.style.color= 'gray'
 }
 
 const deletefromSaved = (e) => {
@@ -190,9 +195,17 @@ const deletefromSaved = (e) => {
 	viewSavedRecipes(user)
 }
 
+const setData = () => {
+  getAllData().then(data => {
+    usersData = data[0].users;
+    ingredientsData = data[1].ingredients;
+    recipeData = data[2].recipes;
+  });
+};
+
 export {
 	addDelete,
 	retrieveInput,
 	saveRecipe,
   selectRecipe
-  }
+};
