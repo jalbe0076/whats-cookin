@@ -11,10 +11,13 @@ const getRecipeInstructions = (recipe) => {
 };
 
 const filterRecipes = (data, filterTerm) => {
+  if(!filterTerm) {
+    return 'Sorry, no matching results!'
+  }
   const filteredRecipes = data.filter((recipe) => {
      return (recipe.tags.includes(filterTerm.toLowerCase()) || recipe.name.toLowerCase().includes(filterTerm.toLowerCase()))
   })
-  if(filteredRecipes.length === 0) {
+  if(!filteredRecipes.length) {
     return 'Sorry, no matching results!'
   }
   return filteredRecipes
@@ -73,6 +76,21 @@ const getAllTags = (recipes) => {
   return availableTags.sort();
 };
 
+const alphabetizeData = (data) => {
+  data.sort((a, b) => {
+  const nameA = a.name.toUpperCase();
+  const nameB = b.name.toUpperCase();
+  if (nameA < nameB) {
+    return -1;
+  }
+  if (nameA > nameB) {
+    return 1;
+  }
+  return 0;
+});
+return data
+}
+
 export { 
   filterRecipes, 
   getRecipeInstructions, 
@@ -82,4 +100,5 @@ export {
   calculateRecipeCost,
   getItems,
   getAllTags,
+  alphabetizeData
 };
