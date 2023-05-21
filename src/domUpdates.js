@@ -135,11 +135,15 @@ const viewSavedRecipes = (user) => {
       <nav class="delete-btn">
         <button id="${recipe.id}" class="delete">✖️</button>
       </nav>
-      <article>`
-      }) 
-      let deleteBtn = document.querySelectorAll('.delete-btn')
-      addDelete(deleteBtn)
-      selectRecipe()
+      <figure id="${recipe.id}" class="recipe-box">
+        <img src="${recipe.image}" alt="image of ${recipe.name}">
+        <figcaption>${recipe.name}</figcaption>
+      </figure>
+    <article>`
+  }) 
+  let deleteBtn = document.querySelectorAll('.delete-btn')
+  addDelete(deleteBtn)
+  selectRecipe()
 }
 
 const populateTags = (tags) => {
