@@ -100,6 +100,5 @@ export {
   calculateRecipeCost,
   getItems,
   getAllTags,
-  // getAllSavedTags,
   alphabetizeData
 };

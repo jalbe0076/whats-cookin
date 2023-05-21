@@ -2,7 +2,7 @@
 // ======================  IMPORTS AND VARIABLES  ======================
 // =====================================================================
 
-import { getRecipeById, getAllTags, filterRecipes, getItems, getRandomItem } from './recipes'
+import { getRecipeById, getAllTags, filterRecipes, getRandomItem } from './recipes'
 import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, populateTags, renderUser, hideAllPages, displayAllRecipes, viewSavedRecipes } from './domUpdates'
 import './styles.css'
 import recipeData from './data/recipes'
@@ -13,7 +13,6 @@ import apiCalls from './apiCalls'
 let currentRecipe;
 let recipeOfTheDay;
 let user;
-
 let searchInput = document.querySelector('#search-input');
 let searchSaved = document.querySelector('#search-saved');
 const currSavedRecipes = document.querySelector('#recipes-to-cook')
@@ -27,8 +26,8 @@ const savedViewBtn = document.querySelector('#view-saved-btn')
 const addToSaved = document.querySelector(".add-to-saved")
 const dropdownCategories = document.querySelector('.dropdown-categories');
 const savedDropdownCategories = document.querySelector('.saved-dropdown-categories');
-let recipeResults = document.querySelectorAll('.recipe-box')
-const allRecipesButton = document.querySelector('#all-recipes-btn')
+let recipeResults = document.querySelectorAll('.recipe-box');
+const allRecipesButton = document.querySelector('#all-recipes-btn');
 
 
 // =====================================================================
@@ -67,8 +66,12 @@ savedViewBtn.addEventListener('click', () => {
 	savedView.classList.remove('hidden')
 	viewSavedRecipes(user)
   // <!-- --------------------------------------------------------------- -->
+
+  // if (user.recipesToCook.length) {
   const savedTags = getAllTags(user.recipesToCook);
-  populateTags(savedTags, savedDropdownCategories);
+  populateTags(savedTags, savedDropdownCategories);    
+  // }
+
   // <!-- --------------------------------------------------------------- -->
 })
 
@@ -87,13 +90,14 @@ dropdownCategories.addEventListener('click', (e) => {
 });
 
   // <!-- --------------------------------------------------------------- -->
+  // this is making the dropdown cats clickable
 savedDropdownCategories.addEventListener('click', (e) => {
   const tag = e.target.classList.value;
   const recipesList = filterRecipes(user.recipesToCook, tag);
   searchAllRecipes(recipesList, tag);
 });
   // <!-- --------------------------------------------------------------- -->
-  
+
 searchSaved.addEventListener('keydown', (e) => {
   if (e.key === "Enter") {
     e.preventDefault();
@@ -192,6 +196,8 @@ const deletefromSaved = (e) => {
 	const selectedRecipeID = parseInt(e.target.id)
 	const updatedSavedRecipes = user.recipesToCook.filter(recipe => recipe.id !== selectedRecipeID)
 	user.recipesToCook = updatedSavedRecipes
+  // const i = user.recipesToCook.indexOf(currentRecipe)
+  // !user.recipesToCook.includes(currentRecipe) ? user.recipesToCook.push(currentRecipe) : user.recipesToCook.splice(i, 1)
 	viewSavedRecipes(user)
 }
 

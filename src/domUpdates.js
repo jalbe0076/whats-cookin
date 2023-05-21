@@ -17,8 +17,8 @@ let searchInput = document.querySelector('#search-input');
 let searchSaved = document.querySelector('#search-saved');
 const allRecipesView = document.querySelector('#all-recipes-view');
 const allRecipesSection = document.querySelector('#all-recipes');
-// const dropdownCategories = document.querySelector('.dropdown-categories');
-// const savedDropDownCategories = document.querySelector('.saved-dropdown-categories');
+const savedDropdownCategories = document.querySelector('.saved-dropdown-categories');
+const dropdownPosition = document.querySelectorAll('.category-position');
 
 const hideAllPages = () => {
   allPages.forEach(page => page.classList.add('hidden'))
@@ -114,10 +114,16 @@ const viewSavedRecipes = (user) => {
   searchHeader[0].innerHTML = '';
   recipeBoxes[0].innerHTML = '';
   recipesToCook.innerHTML = '';
+  savedDropdownCategories.innerHTML = '';
+  
   if (!user.recipesToCook.length){
     recipesToCook.innerHTML = `<p>Save a recipe to view it here!</p>`
+    dropdownPosition[1].classList.add('hidden')
     return
+  } else {
+    dropdownPosition[1].classList.remove('hidden')
   }
+
   const recipeDataAlpha = alphabetizeData(user.recipesToCook)
   recipeDataAlpha.forEach(recipe => {
     recipesToCook.innerHTML += `<article class="whole-recipe-box">
@@ -137,9 +143,6 @@ const viewSavedRecipes = (user) => {
 
 const populateTags = (tags, category) => {
   category.innerHTML = '';
-  // if(!tags.length) {
-  //   category.innerHTML = '<p>No saved recipes yet!</p>';
-  // }
   tags.forEach(tag => {
     category.innerHTML += `<p class="${tag}">${tag}</p>`;
   });
