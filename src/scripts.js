@@ -10,7 +10,7 @@ import { getAllData, getData } from './apiCalls';
 let currentRecipe;
 let recipeOfTheDay;
 let user;
-let featuredRecipes = [];
+let featuredRecipes;
 
 
 let usersData;
@@ -23,7 +23,6 @@ let searchSaved = document.querySelector('#search-saved');
 const currSavedRecipes = document.querySelector('#recipes-to-cook')
 const searchBtn = document.querySelector('#search-btn');
 const searchView = document.querySelector('#search-results-view')
-// const homeBanner = document.querySelector(".home-banner")
 const homeView = document.querySelector(".home-view")
 const homeIcon = document.querySelector('#home-icon')
 const savedView = document.querySelector('#saved-view')
@@ -137,11 +136,11 @@ const updateRecipeOfTheDay = () => {
 }
 
 const updateFeaturedRecipes = () => {
+  featuredRecipes = []
   const tag = getRandomItem(getAllTags(recipeData))
   const taggedRecipes = filterRecipes(recipeData, tag)
   featuredRecipes = taggedRecipes.slice(0,4)
   if(featuredRecipes.length < 4) {
-    featuredRecipes = []
     updateFeaturedRecipes()
   } else {
     const capitalTag = tag.split(' ').map(substring => substring[0].toUpperCase() + substring.slice(1)).join(' ')
