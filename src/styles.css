@@ -181,7 +181,7 @@ figure {
   align-items: center;
   justify-content: center;
   position:relative;
-  height: 86dvh;
+  height: 60dvh;
 }
 
 .home-banner {
@@ -259,8 +259,8 @@ figure {
 
 .recipe-view {
   align-self: center;
-  width: 80%;
-  min-width: 1600px;
+  width: 60%;
+  min-width: 1200px;
   display: flex;
   flex-direction: column;
   padding: 2em;
