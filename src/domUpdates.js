@@ -17,8 +17,8 @@ let searchInput = document.querySelector('#search-input');
 let searchSaved = document.querySelector('#search-saved');
 const allRecipesView = document.querySelector('#all-recipes-view');
 const allRecipesSection = document.querySelector('#all-recipes');
-const dropdownCategories = document.querySelector('.dropdown-categories');
-const savedDropDownCategories = document.querySelector('.saved-dropdown-categories');
+// const dropdownCategories = document.querySelector('.dropdown-categories');
+// const savedDropDownCategories = document.querySelector('.saved-dropdown-categories');
 
 const hideAllPages = () => {
   allPages.forEach(page => page.classList.add('hidden'))
