@@ -76,19 +76,6 @@ const getAllTags = (recipes) => {
   return availableTags.sort();
 };
 
-// const getAllSavedTags = (recipesToCook) => {
-//   if(!recipesToCook) return `Error`;
-//   const availableSavedTags = [];
-//   const savedTags = getItems(recipesToCook, 'savedTags');
-
-//   savedTags.flat().forEach(tag => {
-//     if(!availableSavedTags.includes(tag)) {
-//       availableSavedTags.push(tag);
-//     }
-//   });
-//   return availableSavedTags.sort();
-// };
-
 const alphabetizeData = (data) => {
   data.sort((a, b) => {
   const nameA = a.name.toUpperCase();
