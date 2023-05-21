@@ -137,7 +137,7 @@ const viewSavedRecipes = (user) => {
 }
 
 const populateTags = (tags, category) => {
-  dropdownCategories.innerHTML = '';
+  category.innerHTML = '';
   tags.forEach(tag => {
     category.innerHTML += `<p class="${tag}">${tag}</p>`;
   });

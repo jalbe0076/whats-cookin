@@ -26,6 +26,7 @@ const savedView = document.querySelector('#saved-view')
 const savedViewBtn = document.querySelector('#view-saved-btn')
 const addToSaved = document.querySelector(".add-to-saved")
 const dropdownCategories = document.querySelector('.dropdown-categories');
+const savedDropDownCategories = document.querySelector('.saved-dropdown-categories');
 let recipeResults = document.querySelectorAll('.recipe-box')
 const allRecipesButton = document.querySelector('#all-recipes-btn')
 
@@ -67,7 +68,7 @@ savedViewBtn.addEventListener('click', () => {
 	viewSavedRecipes(user)
   // <!-- --------------------------------------------------------------- -->
   const savedTags = getAllTags(recipeData);
-  populateTags(savedTags);
+  populateTags(savedTags, savedDropDownCategories);
   // <!-- --------------------------------------------------------------- -->
 })
 
