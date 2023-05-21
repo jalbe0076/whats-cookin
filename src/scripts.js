@@ -65,14 +65,8 @@ savedViewBtn.addEventListener('click', () => {
 	hideAllPages()
 	savedView.classList.remove('hidden')
 	viewSavedRecipes(user)
-  // <!-- --------------------------------------------------------------- -->
-
-  // if (user.recipesToCook.length) {
   const savedTags = getAllTags(user.recipesToCook);
   populateTags(savedTags, savedDropdownCategories);    
-  // }
-
-  // <!-- --------------------------------------------------------------- -->
 })
 
 allRecipesButton.addEventListener('click', function() {
@@ -89,14 +83,11 @@ dropdownCategories.addEventListener('click', (e) => {
   searchAllRecipes(recipesList, tag);
 });
 
-  // <!-- --------------------------------------------------------------- -->
-  // this is making the dropdown cats clickable
 savedDropdownCategories.addEventListener('click', (e) => {
   const tag = e.target.classList.value;
   const recipesList = filterRecipes(user.recipesToCook, tag);
   searchAllRecipes(recipesList, tag);
 });
-  // <!-- --------------------------------------------------------------- -->
 
 searchSaved.addEventListener('keydown', (e) => {
   if (e.key === "Enter") {
@@ -196,8 +187,6 @@ const deletefromSaved = (e) => {
 	const selectedRecipeID = parseInt(e.target.id)
 	const updatedSavedRecipes = user.recipesToCook.filter(recipe => recipe.id !== selectedRecipeID)
 	user.recipesToCook = updatedSavedRecipes
-  // const i = user.recipesToCook.indexOf(currentRecipe)
-  // !user.recipesToCook.includes(currentRecipe) ? user.recipesToCook.push(currentRecipe) : user.recipesToCook.splice(i, 1)
 	viewSavedRecipes(user)
 }
 
