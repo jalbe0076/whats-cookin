@@ -43,7 +43,6 @@ const renderResults = (userValue, formattedRecipes, container) => {
 }
 
 const showSearchResults = (userValue, searchResults, currentHeader, currentRecipeResults) => {
-  console.log(searchResults)
   if (!userValue){
     currentHeader.innerHTML += `<h1>Please enter a valid search!</h1>`
   } else if (!searchResults.length) {
