@@ -102,14 +102,21 @@ const updateRecipeOfTheDay = () => {
 
 const updateFeaturedRecipes = () => {
   const tag = getRandomItem(getAllTags(recipeData))
-  // tag[0] = tag[0].toUpperCase()
-  featuredTitle.innerText = `${tag}`
   const taggedRecipes = filterRecipes(recipeData, tag)
-  for (var i = 0; featuredRecipes.length < 4; i++) {
-    featuredRecipes.push(taggedRecipes[i])
+  for (var i = 0; i < 4; i++) {
+    if (taggedRecipes[i]) {
+      featuredRecipes.push(taggedRecipes[i])
+      console.log(featuredRecipes)
+    }
   }
-  console.log(featuredRecipes)
-  renderFeaturedRecipes(featuredRecipes)  
+  if(featuredRecipes.length < 4) {
+    featuredRecipes = []
+    updateFeaturedRecipes()
+  } else {
+    const capitalTag = tag.split(' ').map(substring => substring[0].toUpperCase() + substring.slice(1)).join(' ')
+    featuredTitle.innerText = `${capitalTag}`
+    renderFeaturedRecipes(featuredRecipes.sort()) 
+  }
 }
 
 const searchRecipes = (recipes, search) => {
