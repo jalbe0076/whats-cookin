@@ -67,7 +67,7 @@ savedViewBtn.addEventListener('click', () => {
 	savedView.classList.remove('hidden')
 	viewSavedRecipes(user)
   // <!-- --------------------------------------------------------------- -->
-  const savedTags = getAllTags(recipeData);
+  const savedTags = getAllTags(user.recipesToCook);
   populateTags(savedTags, savedDropDownCategories);
   // <!-- --------------------------------------------------------------- -->
 })
