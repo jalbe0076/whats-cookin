@@ -18,6 +18,7 @@ let searchSaved = document.querySelector('#search-saved');
 const allRecipesView = document.querySelector('#all-recipes-view');
 const allRecipesSection = document.querySelector('#all-recipes');
 const dropdownCategories = document.querySelector('.dropdown-categories');
+const savedDropDownCategories = document.querySelector('.saved-dropdown-categories');
 
 const hideAllPages = () => {
   allPages.forEach(page => page.classList.add('hidden'))
@@ -135,10 +136,10 @@ const viewSavedRecipes = (user) => {
   selectRecipe()
 }
 
-const populateTags = (tags) => {
+const populateTags = (tags, category) => {
   dropdownCategories.innerHTML = '';
   tags.forEach(tag => {
-    dropdownCategories.innerHTML += `<p class="${tag}">${tag}</p>`;
+    category.innerHTML += `<p class="${tag}">${tag}</p>`;
   });
 };
 

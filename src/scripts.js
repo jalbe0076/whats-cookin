@@ -27,7 +27,6 @@ const savedViewBtn = document.querySelector('#view-saved-btn')
 const addToSaved = document.querySelector(".add-to-saved")
 const dropdownCategories = document.querySelector('.dropdown-categories');
 let recipeResults = document.querySelectorAll('.recipe-box')
-let deleteBtn = document.querySelectorAll('.delete-btn')
 const allRecipesButton = document.querySelector('#all-recipes-btn')
 
 
@@ -38,7 +37,7 @@ const allRecipesButton = document.querySelector('#all-recipes-btn')
 window.addEventListener('load', function() {
   const tags = getAllTags(recipeData);
   updateRecipeOfTheDay();
-  populateTags(tags);
+  populateTags(tags, dropdownCategories);
   updateUser()
 })
 
@@ -66,6 +65,10 @@ savedViewBtn.addEventListener('click', () => {
 	hideAllPages()
 	savedView.classList.remove('hidden')
 	viewSavedRecipes(user)
+  // <!-- --------------------------------------------------------------- -->
+  const savedTags = getAllTags(recipeData);
+  populateTags(savedTags);
+  // <!-- --------------------------------------------------------------- -->
 })
 
 allRecipesButton.addEventListener('click', function() {

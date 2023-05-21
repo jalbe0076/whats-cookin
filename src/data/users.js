@@ -143,7 +143,8 @@ const usersData = [
           "ingredient": 2027,
           "amount": 2
         }
-      ]
+      ],
+      "recipesToCook": []
     },
     {
       "name": "Ephraim Goyette",
