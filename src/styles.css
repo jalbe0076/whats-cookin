@@ -118,7 +118,7 @@ figure {
   font-family: 'Kalam', cursive;
 }
 
-.nav-btn:hover, .dropdown-categories p:hover, .delete:hover {
+.nav-btn:hover, .dropdown-categories p:hover, .delete:hover, .saved-dropdown-categories p:hover {
   cursor: pointer;
   transform: scale(1.1);
   transition: .2s ease;
