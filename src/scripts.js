@@ -86,12 +86,14 @@ dropdownCategories.addEventListener('click', (e) => {
   searchAllRecipes(recipesList, tag);
 });
 
+  // <!-- --------------------------------------------------------------- -->
 savedDropdownCategories.addEventListener('click', (e) => {
   const tag = e.target.classList.value;
-  const recipesList = filterRecipes(recipeData, tag);
+  const recipesList = filterRecipes(user.recipesToCook, tag);
   searchAllRecipes(recipesList, tag);
 });
-
+  // <!-- --------------------------------------------------------------- -->
+  
 searchSaved.addEventListener('keydown', (e) => {
   if (e.key === "Enter") {
     e.preventDefault();
