@@ -138,6 +138,9 @@ const viewSavedRecipes = (user) => {
 
 const populateTags = (tags, category) => {
   category.innerHTML = '';
+  // if(!tags.length) {
+  //   category.innerHTML = '<p>No saved recipes yet!</p>';
+  // }
   tags.forEach(tag => {
     category.innerHTML += `<p class="${tag}">${tag}</p>`;
   });
