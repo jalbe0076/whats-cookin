@@ -44,10 +44,20 @@ describe ('recipe info', () => {
       '6. Remove the pan from the oven and let sit for 10 minutes before removing onto a cooling rack.Top with ice cream and a drizzle of chocolate sauce.'
     ])
   });
+
+  it('should return an error if it can\'t find recipes', () => {
+    const recipeMissingList = getRecipeById(undefined, 678353);
+    expect(recipeMissingList).to.equal('Cannot find recipe');
+  });
+
+  it('should return an error if the recipe ID does not exist', () => {
+    const recipeById = getRecipeById(sampleRecipeData, 6);
+    expect(recipeById).to.equal('Cannot find recipe')
+  });
 });
 
 describe('select a random item', () => {
-  let recipe, user
+  let recipe, user;
   
   beforeEach(() => {
     recipe = getRandomItem(sampleRecipeData)
@@ -62,6 +72,11 @@ describe('select a random item', () => {
     expect(recipe).to.be.a('object');
   });
 
+  it('should have specific keys if a recipe', () => {
+    const recipeKeys = Object.keys(sampleRecipeData[0]);
+    expect(recipeKeys).to.deep.equal([ 'id', 'image', 'ingredients', 'instructions', 'name', 'tags' ]);
+  });
+
   it('should return a message if the recipe is not found', () => {
     recipe = getRandomItem()
     expect(recipe).to.equal('data not found');
@@ -71,16 +86,21 @@ describe('select a random item', () => {
     expect(user).to.be.a('object');
   });
 
-  it('user should have a name', () => {
-    expect(user.name).to.exist;
+  it('should have specific keys if a user', () => {
+    const userKeys = Object.keys(sampleUsersData[0]);
+    expect(userKeys).to.deep.equal([ 'name', 'id', 'pantry', 'recipesToCook' ]);
+  });
+
+  it('user should have pantry list', () => {
+    expect(user.pantry).to.be.a('array');
   });
   
-  it('user should have an id', () => {
-    expect(user.id).to.exist;
+  it('user should have a recipesToCook list', () => {
+    expect(user.recipesToCook).to.be.a('array');
   });
   
-  it('user should have a pantry', () => {
-    expect(user.pantry).to.exist;
+  it('user should have a pantry with ingredients', () => {
+    expect(user.pantry[0].ingredient).to.exist;
   });
 });
 
@@ -97,9 +117,18 @@ describe ('filter', function() {
   })
 
   it('should be able return an array of filtered recipes by a name', function() {
+    const filteredRecipes = filterRecipes(sampleRecipeData, "Loaded Chocolate Chip Pudding Cookie Cups");
+    expect(filteredRecipes).to.be.deep.equal([sampleRecipeData[0]]);
+  });
+
+  it('should be able return an array of filtered recipes by a portion of a word', function() {
+    const filteredRecipes = filterRecipes(sampleRecipeData, "Cho");
+    expect(filteredRecipes).to.be.deep.equal([sampleRecipeData[0], sampleRecipeData[1]]);
+  });
+
+  it('should be able return an array of filtered recipes by another name', function() {
     const filteredRecipes = filterRecipes(sampleRecipeData, "Dirty Steve's Original Wing Sauce")
-    expect(filteredRecipes).to.be.deep.equal([sampleRecipeData[2]]
-    )
+    expect(filteredRecipes).to.be.deep.equal([sampleRecipeData[2]])
   })
   
   it('should let the user know if there were no results found', function() {
@@ -131,15 +160,12 @@ describe('ingredients', () => {
   it('should determine the names of ingredients needed for a given recipe', () => {
     const ingredients = getIngredients(recipe2, sampleIngredientsData)
     const ingredientNames = getItems(ingredients, 'name')
-
     expect(ingredientNames).to.deep.equal(['apple cider', 'apple', 'corn starch'])
   })
 
   it('should return an error message if no ingredients are found', () => {
     const ingredientNames = getItems([])
-
     expect(ingredientNames).to.equal('Sorry, no list given!')
-
   })
 })
 
@@ -171,6 +197,7 @@ describe('calculate cost of ingredients', () => {
 
 describe('Should get tags from recipes', () => {
   let tagList;
+
   beforeEach(() => {
     tagList = getAllTags(sampleRecipeData);
   });
@@ -179,7 +206,7 @@ describe('Should get tags from recipes', () => {
     expect(tagList).to.be.a('array');
   });
 
-  it('Should return a list of array', () => {
+  it('Should return a list of tag categories', () => {
     expect(tagList).to.deep.equal([
       'antipasti',    'antipasto',
       'appetizer',    'dinner',
@@ -190,7 +217,7 @@ describe('Should get tags from recipes', () => {
     ]);
   });
 
-  it('Should return a list of array in alphabetical order', () => {
+  it('Should return a list of tag categories in alphabetical order', () => {
     expect(tagList).to.deep.equal([
       'antipasti',    'antipasto',
       'appetizer',    'dinner',
@@ -201,7 +228,7 @@ describe('Should get tags from recipes', () => {
     ]);
   });
 
-  it('Should return a list of array in alphabetical order if the recipe list changes', () => {
+  it('Should return a list of tag categories in alphabetical order if the recipe list changes', () => {
     const newTagList = getAllTags([sampleRecipeData[0]]);
     expect(newTagList).to.deep.equal([
       'antipasti',
