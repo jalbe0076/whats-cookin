@@ -99,7 +99,7 @@ const renderRecipeInfo = (recipe, data) => {
     return ingredient.quantity.unit
   })
   const ingredientDisplays = ingredients.map((ingredient, i) => {
-    return `${amounts[i]} ${units[i]} ${ingredient.name}`
+    return `${amounts[i].toFixed(2)} ${units[i]} ${ingredient.name}`
   })
 
   recipeIngredientList.innerText = `Ingredients: \n ${ingredientDisplays.join('\n')}`
