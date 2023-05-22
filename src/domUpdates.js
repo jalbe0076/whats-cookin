@@ -1,3 +1,7 @@
+// =====================================================================
+// ======================  IMPORTS AND VARIABLES  ======================
+// =====================================================================
+
 import { getIngredients, getRecipeInstructions, calculateRecipeCost, getItems, alphabetizeData } from "./recipes"
 import { selectRecipe, addDelete } from "./scripts"
 
@@ -21,6 +25,10 @@ const savedDropdownCategories = document.querySelector('.saved-dropdown-categori
 const dropdownPosition = document.querySelectorAll('.category-position');
 const featured = document.querySelector('.featured')
 
+// =====================================================================
+// ============================  FUNCTIONS  ============================
+// =====================================================================
+
 const hideAllPages = () => {
   allPages.forEach(page => page.classList.add('hidden'))
 }
@@ -36,6 +44,7 @@ const renderUser = (user) => {
 const renderResults = (userValue, formattedRecipes, container) => {
   const currentHeader = (container === 'saved') ? searchHeader[0] : searchHeader[1]
   const currentRecipeResults = (container === 'saved') ? recipeBoxes[0] : recipeBoxes[1]
+
   currentHeader.innerHTML = '';
   currentRecipeResults.innerHTML = '';
   searchInput.value = '';
@@ -92,6 +101,7 @@ const renderRecipeInfo = (recipe, data) => {
   const ingredientDisplays = ingredients.map((ingredient, i) => {
     return `${amounts[i]} ${units[i]} ${ingredient.name}`
   })
+
   recipeIngredientList.innerText = `Ingredients: \n ${ingredientDisplays.join('\n')}`
   instructions.innerText = `Instructions: \n ${getRecipeInstructions(recipe).join('\n')}`
   recipeCost.innerText = `Total Cost: $${(calculateRecipeCost(ingredients, recipe) / 100).toFixed(2)}`
