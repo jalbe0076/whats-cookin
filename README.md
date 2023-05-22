@@ -1,5 +1,13 @@
 # What's Cookin?
 
+## Table of Contents
+* [Description](#Description)
+* [Learning Goals](#Learning-Goals)
+* [Features](#Features)
+* [Installation](#Installation)
+* [Contributers](#Contributers)
+* [Technologies Used](#Technologies-Used)
+
 ## Description
 Welcome to What's Cookin! - your go-to website for cooking and baking inspiration. Discover a wide range of dinner ideas and delightful desserts. On our home page, you'll find the Recipe of the Day and a featured category. Feel free to use the search bar, browse by category, or explore all recipes. Each recipe provides a list of ingredients, total price, and directions. Save your favorite recipes by clicking the ❤️ icon in the top right corner and visit your saved recipes on the "Saved Recipes" page.
 
@@ -12,24 +20,25 @@ Welcome to What's Cookin! - your go-to website for cooking and baking inspiratio
 - Collaborate productively and professionally as a team. Ensure all team members are able to be heard and contribute throughout the project.
 
 ## Features
-1. Upon page load, you'll find randomized user initials displayed in the top right corner, along with a random Recipe of the Day and a featured category for added variety and excitement:
+- Upon page load, you'll find randomized user initials displayed in the top right corner, along with a random Recipe of the Day and a featured category for added variety and excitement:
 ![Home Screen Preview](src/gifs/Home-Screen.gif)
 
-1. View all recipes, choose a category, or search by name/category while being able to navigate to the home screen by clicking our icon:
+- View all recipes, choose a category, or search by name/category while being able to navigate to the home screen by clicking our icon:
 ![Navigating Preview](src/gifs/Navigation.gif)
 
-1. Click on a recipe to see recipe details including ingredients, total cost, and instructions to make the food item. Click the ❤️ icon in the top right corner and visit your saved recipes on the "Saved Recipes" page:
+- Click on a recipe to see recipe details including ingredients, total cost, and instructions to make the food item. Click the ❤️ icon in the top right corner and visit your saved recipes on the "Saved Recipes" page:
 ![Recipes Preview](src/gifs/Recipes.gif)
 
-1. While viewing your saved recipes, you can search through them by name or by choosing a category; as well as delete them by clicking the x or unhearting it:
+- While viewing your saved recipes, you can search through them by name or by choosing a category; as well as delete them by clicking the x or unhearting it:
 ![Saved Recipes Preview](src/gifs/Saved-Recipes.gif)
 
 ## Installation
-1. fork this repository and/or clone it to local
-1. Once you have cloned the repo, change (cd) into the directory and install the project dependencies. Run npm install or npm i to install project dependencies.
-1. Run npm test to see tests
-1. Run npm start and visit localhost:8080
-1. Run npm start with Whats Cookin API Starter Kit
+1. `fork` this repository and/or `clone` it to local
+2. Once you have cloned the repo, change (cd) into the directory and install the project dependencies. Run `npm install` or `npm i` to install project dependencies.
+3. Run `npm test` to see tests
+4. Run `npm run lint` if you would like to see the linter
+5. Run `npm start` and visit `localhost:8080`
+6. Run `npm start` with Whats Cookin API Starter Kit
 
 ## Contributers
 - [Alec Livaditis](https://github.com/alivaditis)
