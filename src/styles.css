@@ -71,10 +71,12 @@ figure {
   border: 8px solid #D8E2DC;
   border-radius: 50%;
   color: #FEC89A;
+  background-color: #F8EDEB;
   font-size: 40px;
   text-align: center;
   height: 32%;
   margin: 2%;
+  box-shadow: 10px 10px 15px -4px rgba(0,0,0,0.2);
 }
 
 .initials {
@@ -88,7 +90,8 @@ figure {
   padding: 0px;
   margin-top: 15px;
   margin-left: 15px;
-  background: transparent;
+  background-color: #F8EDEB;
+  border-radius: 20px 20px 20px 0px;
   background-image: url(images/search.png);
   background-size: contain;
   background-repeat: no-repeat;
@@ -106,7 +109,6 @@ figure {
   margin: 10px 20px 10px 10px;
   border-radius: 30px;
   background-color: #FEC5BB;
-  background-color: radial-gradient(at center, #FEC5BB, #FFD7BA);
   background-image: url('images/chef.png');
   background-size: cover;
   box-shadow: 10px 10px 15px -4px rgba(0,0,0,0.22);
@@ -138,8 +140,7 @@ figure {
 }
 
 #home-icon:hover {
-  background-color: #FFD7BA;
-  background-color: radial-gradient(at center, #FFD7BA, #FEC5BB);
+  background-color: #f8bfb5;
 }
 
 .category-position {
@@ -263,6 +264,7 @@ figure {
   border-radius: 10px;
   height: 20vh;
   width: fit-content;
+  box-shadow: 10px 10px 15px -4px rgba(0,0,0,0.25);
 }
 
 .recipe-box > figcaption {
