@@ -2,7 +2,7 @@
 // ======================  IMPORTS AND VARIABLES  ======================
 // =====================================================================
 
-import { getRecipeById, getAllTags, filterRecipes, getItems, getRandomItem } from './recipes';
+import { getRecipeById, getAllTags, filterRecipes, getRandomItem } from './recipes';
 import { renderRecipeInfo, renderRecipeOfTheDay, renderFeaturedRecipes, renderResults, populateTags, renderUser, hideAllPages, displayAllRecipes, viewSavedRecipes } from './domUpdates';
 import './styles.css';
 import { getAllData, getData } from './apiCalls';
@@ -11,12 +11,9 @@ let currentRecipe;
 let recipeOfTheDay;
 let user;
 let featuredRecipes;
-
-
 let usersData;
 let ingredientsData;
 let recipeData;
-
 
 let searchInput = document.querySelector('#search-input');
 let searchSaved = document.querySelector('#search-saved');
@@ -39,13 +36,13 @@ const allRecipesButton = document.querySelector('#all-recipes-btn');
 // =====================================================================
 
 window.addEventListener('load', function() {
-setData();
-getData('recipes').then(result => {
-  const tags = getAllTags(result.recipes);
-  populateTags(tags, dropdownCategories);
-  updateRecipeOfTheDay();
-  updateUser();
-  updateFeaturedRecipes();
+  setData();
+  getData('recipes').then(result => {
+    const tags = getAllTags(result.recipes);
+    populateTags(tags, dropdownCategories);
+    updateRecipeOfTheDay();
+    updateUser();
+    updateFeaturedRecipes();
   });
 });
 
@@ -65,7 +62,7 @@ searchBtn.addEventListener('click', () => {
 searchInput.addEventListener('keydown', (e) => {
   if (e.key === "Enter") {
     e.preventDefault();
-      searchAllRecipes(recipeData);
+    searchAllRecipes(recipeData);
   }
 });
 
@@ -147,6 +144,7 @@ const updateFeaturedRecipes = () => {
   const tag = getRandomItem(getAllTags(recipeData))
   const taggedRecipes = filterRecipes(recipeData, tag)
   featuredRecipes = taggedRecipes.slice(0,4)
+
   if(featuredRecipes.length < 4) {
     updateFeaturedRecipes()
   } else {
@@ -170,6 +168,7 @@ const searchForRecipes = (recipes, retrieved, container) => {
     renderResults(retrieved, [], container)
     return
   }
+
 	const formattedRecipes = foundRecipes.map(recipe => {
 		return {
 			id: recipe.id,

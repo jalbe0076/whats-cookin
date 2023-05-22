@@ -1,12 +1,5 @@
-/* * { */
-  /* border: solid red; */
-  /* margin: 0; */
-  /* padding: 0; */
-/* } */
-
 html, body {
   min-height: 100vh;
-  /* min-width: 1200px; */
 }
 
 body {
@@ -23,7 +16,6 @@ h1 {
 main {
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
 }
 
 /* NAV BAR */
@@ -223,8 +215,6 @@ figure {
   align-items: center;
   justify-content: center;
 }
-
-
 
 /* SEARCH VIEW */
 
