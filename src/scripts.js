@@ -144,7 +144,7 @@ const updateFeaturedRecipes = () => {
     updateFeaturedRecipes()
   } else {
     const capitalTag = tag.split(' ').map(substring => substring[0].toUpperCase() + substring.slice(1)).join(' ')
-    featuredTitle.innerText = `${capitalTag}`
+    featuredTitle.innerText = `Featured Category: ${capitalTag}`
     renderFeaturedRecipes(featuredRecipes) 
   }
 }
