@@ -108,7 +108,7 @@ figure {
 }
 
 .nav-btn {
-  width: 150px;
+  width: 160px;
   height: 40px;
   font-size: 20px;
   border: none;
@@ -119,7 +119,7 @@ figure {
   font-family: 'Kalam', cursive;
 }
 
-.nav-btn:hover, .dropdown-categories p:hover, .delete:hover {
+.nav-btn:hover, .dropdown-categories p:hover, .delete:hover, .saved-dropdown-categories p:hover {
   cursor: pointer;
   transform: scale(1.1);
   transition: .2s ease;
@@ -135,7 +135,7 @@ figure {
   position: relative;
 }
 
-.dropdown-categories {
+.dropdown-categories, .saved-dropdown-categories {
   position: absolute;
   top: 3.5rem;
   left: 10px;
@@ -150,7 +150,9 @@ figure {
   padding: 10px 0 10px 25px;
 }
 
-.dropdown-categories:after {
+.dropdown-categories:after,
+.saved-dropdown-categories:after 
+ {
   position: absolute;
   content: '';
   width: 16px;
@@ -163,15 +165,18 @@ figure {
   background-color: rgb(254, 197, 187);
 }
 
-.dropdown-categories p {
+.dropdown-categories p,
+.saved-dropdown-categories p {
   margin: 0;
   padding: 0;
   text-align: left;
 }
 
-.category-position:hover .dropdown-categories, 
-.category-position:focus-within .dropdown-categories{
-  visibility: visible; 
+.category-position:hover .dropdown-categories,
+.category-position:focus-within .dropdown-categories,
+.category-position:hover .saved-dropdown-categories,
+.category-position:focus-within .saved-ropdown-categories {
+  visibility: visible;
   opacity: 1;
 }
 

@@ -30,9 +30,9 @@ const savedViewBtn = document.querySelector('#view-saved-btn')
 const addToSaved = document.querySelector(".add-to-saved")
 const dropdownCategories = document.querySelector('.dropdown-categories');
 let featuredTitle = document.querySelector('.featured-title')
-let recipeResults = document.querySelectorAll('.recipe-box')
-let deleteBtn = document.querySelectorAll('.delete-btn')
-const allRecipesButton = document.querySelector('#all-recipes-btn')
+const savedDropdownCategories = document.querySelector('.saved-dropdown-categories');
+let recipeResults = document.querySelectorAll('.recipe-box');
+const allRecipesButton = document.querySelector('#all-recipes-btn');
 
 // =====================================================================
 // =========================  EVENT LISTENERS  =========================
@@ -42,7 +42,7 @@ window.addEventListener('load', function() {
 setData();
 getData('recipes').then(result => {
   const tags = getAllTags(result.recipes);
-  populateTags(tags);
+  populateTags(tags, dropdownCategories);
   updateRecipeOfTheDay();
   updateUser();
   updateFeaturedRecipes();
@@ -73,6 +73,7 @@ savedViewBtn.addEventListener('click', () => {
 	hideAllPages()
 	savedView.classList.remove('hidden')
 	viewSavedRecipes(user)
+  populateSavedTags()
 })
 
 allRecipesButton.addEventListener('click', function() {
@@ -86,6 +87,12 @@ addToSaved.addEventListener('click', function() {
 dropdownCategories.addEventListener('click', (e) => {
   const tag = e.target.classList.value;
   const recipesList = filterRecipes(recipeData, tag);
+  searchAllRecipes(recipesList, tag);
+});
+
+savedDropdownCategories.addEventListener('click', (e) => {
+  const tag = e.target.classList.value;
+  const recipesList = filterRecipes(user.recipesToCook, tag);
   searchAllRecipes(recipesList, tag);
 });
 
@@ -203,6 +210,7 @@ const deletefromSaved = (e) => {
 	const updatedSavedRecipes = user.recipesToCook.filter(recipe => recipe.id !== selectedRecipeID)
 	user.recipesToCook = updatedSavedRecipes
 	viewSavedRecipes(user)
+  populateSavedTags()
 }
 
 const setData = () => {
@@ -212,6 +220,11 @@ const setData = () => {
     recipeData = data[2].recipes;
   });
 };
+
+const populateSavedTags= () => {
+  const savedTags = getAllTags(user.recipesToCook);
+  populateTags(savedTags, savedDropdownCategories);   
+}
 
 export {
 	addDelete,
