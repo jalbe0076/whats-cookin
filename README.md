@@ -13,16 +13,23 @@ Welcome to What's Cookin! - your go-to website for cooking and baking inspiratio
 
 ## Features
 1. Upon page load, you'll find randomized user initials displayed in the top right corner, along with a random Recipe of the Day and a featured category for added variety and excitement:
+![Home Screen Preview](src/gifs/Home-Screen.gif)
 
 1. View all recipes, choose a category, or search by name/category while being able to navigate to the home screen by clicking our icon:
+![Navigating Preview](src/gifs/Navigation.gif)
 
 1. Click on a recipe to see recipe details including ingredients, total cost, and instructions to make the food item. Click the ❤️ icon in the top right corner and visit your saved recipes on the "Saved Recipes" page:
+![Recipes Preview](src/gifs/Recipes.gif)
 
-1. While viewing your saved recipes, you can search through them by name or by choosing a category:
-
+1. While viewing your saved recipes, you can search through them by name or by choosing a category; as well as delete them by clicking the x or unhearting it:
+![Saved Recipes Preview](src/gifs/Saved-Recipes.gif)
 
 ## Installation
-
+1. fork this repository and/or clone it to local
+1. Once you have cloned the repo, change (cd) into the directory and install the project dependencies. Run npm install or npm i to install project dependencies.
+1. Run npm test to see tests
+1. Run npm start and visit localhost:8080
+1. Run npm start with Whats Cookin API Starter Kit
 
 ## Contributers
 - [Alec Livaditis](https://github.com/alivaditis)
@@ -31,4 +38,9 @@ Welcome to What's Cookin! - your go-to website for cooking and baking inspiratio
 - [Paulina Rubio](https://github.com/paulina-isabel)
 
 ## Technologies Used
-
+- JavaScript (ES6)
+- CSS
+- HTML
+- Mocha
+- Chai
+- Webpack
