@@ -3,45 +3,49 @@
 // =====================================================================
 
 import { getRecipeById, getAllTags, filterRecipes, getItems, getRandomItem } from './recipes';
-import { renderRecipeInfo, renderRecipeOfTheDay, renderResults, populateTags, renderUser, hideAllPages, displayAllRecipes, viewSavedRecipes } from './domUpdates';
+import { renderRecipeInfo, renderRecipeOfTheDay, renderFeaturedRecipes, renderResults, populateTags, renderUser, hideAllPages, displayAllRecipes, viewSavedRecipes } from './domUpdates';
 import './styles.css';
 import { getAllData, getData } from './apiCalls';
 
 let currentRecipe;
 let recipeOfTheDay;
 let user;
+let featuredRecipes;
+
+
 let usersData;
 let ingredientsData;
 let recipeData;
+
 
 let searchInput = document.querySelector('#search-input');
 let searchSaved = document.querySelector('#search-saved');
 const currSavedRecipes = document.querySelector('#recipes-to-cook')
 const searchBtn = document.querySelector('#search-btn');
 const searchView = document.querySelector('#search-results-view')
-const homeBanner = document.querySelector(".home-banner")
 const homeView = document.querySelector(".home-view")
 const homeIcon = document.querySelector('#home-icon')
 const savedView = document.querySelector('#saved-view')
 const savedViewBtn = document.querySelector('#view-saved-btn')
 const addToSaved = document.querySelector(".add-to-saved")
 const dropdownCategories = document.querySelector('.dropdown-categories');
+let featuredTitle = document.querySelector('.featured-title')
 let recipeResults = document.querySelectorAll('.recipe-box')
 let deleteBtn = document.querySelectorAll('.delete-btn')
 const allRecipesButton = document.querySelector('#all-recipes-btn')
-
 
 // =====================================================================
 // =========================  EVENT LISTENERS  =========================
 // =====================================================================
 
 window.addEventListener('load', function() {
-  setData();
-  getData('recipes').then(result => {
-    const tags = getAllTags(result.recipes);
-    populateTags(tags);
-    updateRecipeOfTheDay();
-    updateUser();
+setData();
+getData('recipes').then(result => {
+  const tags = getAllTags(result.recipes);
+  populateTags(tags);
+  updateRecipeOfTheDay();
+  updateUser();
+  updateFeaturedRecipes();
   });
 });
 
@@ -50,7 +54,7 @@ homeIcon.addEventListener('click', () => {
 	homeView.classList.remove('hidden')
 })
 
-homeBanner.addEventListener('click', function(e) {
+homeView.addEventListener('click', function(e) {
   updateCurrentRecipe(e)
 })
 
@@ -129,6 +133,20 @@ const updateUser = () => {
 const updateRecipeOfTheDay = () => {
   recipeOfTheDay = getRandomItem(recipeData)
   renderRecipeOfTheDay(recipeOfTheDay)
+}
+
+const updateFeaturedRecipes = () => {
+  featuredRecipes = []
+  const tag = getRandomItem(getAllTags(recipeData))
+  const taggedRecipes = filterRecipes(recipeData, tag)
+  featuredRecipes = taggedRecipes.slice(0,4)
+  if(featuredRecipes.length < 4) {
+    updateFeaturedRecipes()
+  } else {
+    const capitalTag = tag.split(' ').map(substring => substring[0].toUpperCase() + substring.slice(1)).join(' ')
+    featuredTitle.innerText = `${capitalTag}`
+    renderFeaturedRecipes(featuredRecipes) 
+  }
 }
 
 const searchAllRecipes = (recipes, search) => {
