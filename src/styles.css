@@ -1,12 +1,5 @@
-/* * { */
-  /* border: solid red; */
-  /* margin: 0; */
-  /* padding: 0; */
-/* } */
-
 html, body {
   min-height: 100vh;
-  /* min-width: 1200px; */
 }
 
 body {
@@ -24,7 +17,6 @@ h1 {
 main {
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
 }
 
 /* NAV BAR */
@@ -115,7 +107,7 @@ figure {
 }
 
 .nav-btn {
-  width: 150px;
+  width: 160px;
   height: 40px;
   font-size: 20px;
   border: none;
@@ -127,7 +119,7 @@ figure {
   box-shadow: 10px 10px 15px -4px rgba(0,0,0,0.22);
 }
 
-.nav-btn:hover, .dropdown-categories p:hover, .delete:hover {
+.nav-btn:hover, .dropdown-categories p:hover, .delete:hover, .saved-dropdown-categories p:hover {
   cursor: pointer;
   transform: scale(1.1);
   transition: .2s ease;
@@ -147,7 +139,7 @@ figure {
   position: relative;
 }
 
-.dropdown-categories {
+.dropdown-categories, .saved-dropdown-categories {
   position: absolute;
   border-radius: 10px;
   top: 3.5rem;
@@ -163,7 +155,9 @@ figure {
   padding: 10px 0 10px 25px;
 }
 
-.dropdown-categories:after {
+.dropdown-categories:after,
+.saved-dropdown-categories:after 
+ {
   position: absolute;
   content: '';
   width: 16px;
@@ -176,15 +170,18 @@ figure {
   background-color: rgb(254, 197, 187);
 }
 
-.dropdown-categories p {
+.dropdown-categories p,
+.saved-dropdown-categories p {
   margin: 0;
   padding: 0;
   text-align: left;
 }
 
-.category-position:hover .dropdown-categories, 
-.category-position:focus-within .dropdown-categories{
-  visibility: visible; 
+.category-position:hover .dropdown-categories,
+.category-position:focus-within .dropdown-categories,
+.category-position:hover .saved-dropdown-categories,
+.category-position:focus-within .saved-ropdown-categories {
+  visibility: visible;
   opacity: 1;
 }
 
@@ -233,8 +230,6 @@ figure {
   background-color: #d8e2dc;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='44' viewBox='0 0 34 44'%3E%3Cg fill='%23e8e8e4' fill-opacity='1'%3E%3Cpath fill-rule='evenodd' d='M1 6.2C.72 5.55.38 4.94 0 4.36v13.28c.38-.58.72-1.2 1-1.84A12.04 12.04 0 0 0 7.2 22 12.04 12.04 0 0 0 1 28.2c-.28-.65-.62-1.26-1-1.84v13.28c.38-.58.72-1.2 1-1.84A12.04 12.04 0 0 0 7.2 44h21.6a12.05 12.05 0 0 0 5.2-4.36V26.36A12.05 12.05 0 0 0 28.8 22a12.05 12.05 0 0 0 5.2-4.36V4.36A12.05 12.05 0 0 0 28.8 0H7.2A12.04 12.04 0 0 0 1 6.2zM17.36 23H12a10 10 0 1 0 0 20h5.36a11.99 11.99 0 0 1 0-20zm1.28-2H24a10 10 0 1 0 0-20h-5.36a11.99 11.99 0 0 1 0 20zM12 1a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 14a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-3.46-2a2 2 0 1 0-3.47 2 2 2 0 0 0 3.47-2zm0-4a2 2 0 1 0-3.47-2 2 2 0 0 0 3.47 2zM12 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3.46 2a2 2 0 1 0 3.47-2 2 2 0 0 0-3.47 2zm0 4a2 2 0 1 0 3.47 2 2 2 0 0 0-3.47-2zM24 43a10 10 0 1 0 0-20 10 10 0 0 0 0 20zm0-14a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3.46 2a2 2 0 1 0 3.47-2 2 2 0 0 0-3.47 2zm0 4a2 2 0 1 0 3.47 2 2 2 0 0 0-3.47-2zM24 37a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-3.46-2a2 2 0 1 0-3.47 2 2 2 0 0 0 3.47-2zm0-4a2 2 0 1 0-3.47-2 2 2 0 0 0 3.47 2z'/%3E%3C/g%3E%3C/svg%3E");
 }
-
-
 
 /* SEARCH VIEW */
 
