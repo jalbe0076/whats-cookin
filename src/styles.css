@@ -8,6 +8,10 @@ body {
   margin: 0px;
 }
 
+h1, .main-title {
+  font-family: 'Mogra', cursive;
+}
+
 .main-title {
   display: flex;
   flex-grow: 1;
@@ -16,7 +20,6 @@ body {
 }
 
 h1 {
-  font-family: 'Mogra', cursive;
   text-align: center;
 }
 
