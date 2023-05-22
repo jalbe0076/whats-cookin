@@ -1,15 +1,15 @@
-# What's Cookin?
+# What's Cookin!
 
 ## Table of Contents
 * [Description](#Description)
 * [Learning Goals](#Learning-Goals)
 * [Features](#Features)
 * [Installation](#Installation)
-* [Contributers](#Contributers)
+* [Contributors](#Contributors)
 * [Technologies Used](#Technologies-Used)
 
 ## Description
-Welcome to What's Cookin! - your go-to website for cooking and baking inspiration. Discover a wide range of dinner ideas and delightful desserts. On our home page, you'll find the Recipe of the Day and a featured category. Feel free to use the search bar, browse by category, or explore all recipes. Each recipe provides a list of ingredients, total price, and directions. Save your favorite recipes by clicking the ❤️ icon in the top right corner and visit your saved recipes on the "Saved Recipes" page.
+Welcome to [What's Cookin!](https://jalbe0076.github.io/whats-cooking/) - your go-to website for cooking and baking inspiration. Discover a wide range of dinner ideas and delightful desserts. On our home page, you'll find the Recipe of the Day and a featured category. Feel free to use the search bar, browse by category, or explore all recipes. Each recipe provides a list of ingredients, total price, and directions. Save your favorite recipes by clicking the ❤️ icon in the top right corner and visit your saved recipes on the "Saved Recipes" page.
 
 ## Learning Goals
 - Use object and array prototype methods to perform data manipulation
