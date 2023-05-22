@@ -19,7 +19,6 @@ const allRecipesView = document.querySelector('#all-recipes-view');
 const allRecipesSection = document.querySelector('#all-recipes');
 const savedDropdownCategories = document.querySelector('.saved-dropdown-categories');
 const dropdownPosition = document.querySelectorAll('.category-position');
-const dropdownCategories = document.querySelector('.dropdown-categories');
 const featured = document.querySelector('.featured')
 
 const hideAllPages = () => {
