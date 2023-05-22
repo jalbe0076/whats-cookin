@@ -19,6 +19,8 @@ const allRecipesView = document.querySelector('#all-recipes-view');
 const allRecipesSection = document.querySelector('#all-recipes');
 const savedDropdownCategories = document.querySelector('.saved-dropdown-categories');
 const dropdownPosition = document.querySelectorAll('.category-position');
+const dropdownCategories = document.querySelector('.dropdown-categories');
+const featured = document.querySelector('.featured')
 
 const hideAllPages = () => {
   allPages.forEach(page => page.classList.add('hidden'))
@@ -109,6 +111,17 @@ const renderRecipeOfTheDay = (recipe) => {
   homeBanner.id = `${recipe.id}`
 }
 
+const renderFeaturedRecipes = (featuredRecipes) => {
+  featuredRecipes.forEach(recipe => {
+    featured.innerHTML += `
+    <figure id="${recipe.id}" class="recipe-box">
+      <img src="${recipe.image}" alt="image of ${recipe.name}">
+      <figcaption>${recipe.name}</figcaption>
+    </figure>
+    `
+  })
+}
+
 const viewSavedRecipes = (user) => {
   recipesToCook.classList.remove('hidden')
   searchHeader[0].innerHTML = '';
@@ -157,5 +170,6 @@ export {
   renderUser,
   populateTags,
   hideAllPages,
+  renderFeaturedRecipes,
   displayAllRecipes
 }
