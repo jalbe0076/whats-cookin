@@ -1,3 +1,7 @@
+// =====================================================================
+// ======================  IMPORTS AND VARIABLES  ======================
+// =====================================================================
+
 import { getIngredients, getRecipeInstructions, calculateRecipeCost, getItems, alphabetizeData } from "./recipes"
 import { selectRecipe, addDelete } from "./scripts"
 
@@ -17,8 +21,13 @@ let searchInput = document.querySelector('#search-input');
 let searchSaved = document.querySelector('#search-saved');
 const allRecipesView = document.querySelector('#all-recipes-view');
 const allRecipesSection = document.querySelector('#all-recipes');
-const dropdownCategories = document.querySelector('.dropdown-categories');
+const savedDropdownCategories = document.querySelector('.saved-dropdown-categories');
+const dropdownPosition = document.querySelectorAll('.category-position');
 const featured = document.querySelector('.featured')
+
+// =====================================================================
+// ============================  FUNCTIONS  ============================
+// =====================================================================
 
 const hideAllPages = () => {
   allPages.forEach(page => page.classList.add('hidden'))
@@ -35,6 +44,7 @@ const renderUser = (user) => {
 const renderResults = (userValue, formattedRecipes, container) => {
   const currentHeader = (container === 'saved') ? searchHeader[0] : searchHeader[1]
   const currentRecipeResults = (container === 'saved') ? recipeBoxes[0] : recipeBoxes[1]
+
   currentHeader.innerHTML = '';
   currentRecipeResults.innerHTML = '';
   searchInput.value = '';
@@ -89,8 +99,9 @@ const renderRecipeInfo = (recipe, data) => {
     return ingredient.quantity.unit
   })
   const ingredientDisplays = ingredients.map((ingredient, i) => {
-    return `${amounts[i]} ${units[i]} ${ingredient.name}`
+    return `${amounts[i].toFixed(2)} ${units[i]} ${ingredient.name}`
   })
+
   recipeIngredientList.innerText = `Ingredients: \n ${ingredientDisplays.join('\n')}`
   instructions.innerText = `Instructions: \n ${getRecipeInstructions(recipe).join('\n')}`
   recipeCost.innerText = `Total Cost: $${(calculateRecipeCost(ingredients, recipe) / 100).toFixed(2)}`
@@ -104,7 +115,7 @@ const renderRecipeOfTheDay = (recipe) => {
   homeBanner.innerHTML = 
       `<img class="recipe-of-the-day" alt=${recipe.name} src=${recipe.image}>
       <figcaption>
-        <h1>${recipe.name}</h1>
+        <h1>Recipe of the Day: ${recipe.name}</h1>
       </figcaption>`
   homeBanner.id = `${recipe.id}`
 }
@@ -113,7 +124,7 @@ const renderFeaturedRecipes = (featuredRecipes) => {
   featuredRecipes.forEach(recipe => {
     featured.innerHTML += `
     <figure id="${recipe.id}" class="recipe-box">
-      <img src="${recipe.image}" alt="image of ${recipe.name}">
+      <img src="${recipe.image}" alt="${recipe.name}">
       <figcaption>${recipe.name}</figcaption>
     </figure>
     `
@@ -125,10 +136,16 @@ const viewSavedRecipes = (user) => {
   searchHeader[0].innerHTML = '';
   recipeBoxes[0].innerHTML = '';
   recipesToCook.innerHTML = '';
+  savedDropdownCategories.innerHTML = '';
+  
   if (!user.recipesToCook.length){
     recipesToCook.innerHTML = `<p>Save a recipe to view it here!</p>`
+    dropdownPosition[1].classList.add('hidden')
     return
+  } else {
+    dropdownPosition[1].classList.remove('hidden')
   }
+
   const recipeDataAlpha = alphabetizeData(user.recipesToCook)
   recipeDataAlpha.forEach(recipe => {
     recipesToCook.innerHTML += `<article class="whole-recipe-box">
@@ -136,7 +153,7 @@ const viewSavedRecipes = (user) => {
         <button id="${recipe.id}" class="delete">✖️</button>
       </nav>
       <figure id="${recipe.id}" class="recipe-box">
-        <img src="${recipe.image}" alt="image of ${recipe.name}">
+        <img src="${recipe.image}" alt="${recipe.name}">
         <figcaption>${recipe.name}</figcaption>
       </figure>
     <article>`
@@ -146,10 +163,10 @@ const viewSavedRecipes = (user) => {
   selectRecipe()
 }
 
-const populateTags = (tags) => {
-  dropdownCategories.innerHTML = '';
+const populateTags = (tags, category) => {
+  category.innerHTML = '';
   tags.forEach(tag => {
-    dropdownCategories.innerHTML += `<p class="${tag}">${tag}</p>`;
+    category.innerHTML += `<p class="${tag}">${tag}</p>`;
   });
 };
 
