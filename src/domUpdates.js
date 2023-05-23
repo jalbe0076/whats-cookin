@@ -115,7 +115,7 @@ const renderRecipeOfTheDay = (recipe) => {
   homeBanner.innerHTML = 
       `<img class="recipe-of-the-day" alt=${recipe.name} src=${recipe.image}>
       <figcaption>
-        <h1>${recipe.name}</h1>
+        <h1>Recipe of the Day: ${recipe.name}</h1>
       </figcaption>`
   homeBanner.id = `${recipe.id}`
 }
@@ -124,7 +124,7 @@ const renderFeaturedRecipes = (featuredRecipes) => {
   featuredRecipes.forEach(recipe => {
     featured.innerHTML += `
     <figure id="${recipe.id}" class="recipe-box">
-      <img src="${recipe.image}" alt="image of ${recipe.name}">
+      <img src="${recipe.image}" alt="${recipe.name}">
       <figcaption>${recipe.name}</figcaption>
     </figure>
     `
@@ -153,7 +153,7 @@ const viewSavedRecipes = (user) => {
         <button id="${recipe.id}" class="delete">✖️</button>
       </nav>
       <figure id="${recipe.id}" class="recipe-box">
-        <img src="${recipe.image}" alt="image of ${recipe.name}">
+        <img src="${recipe.image}" alt="${recipe.name}">
         <figcaption>${recipe.name}</figcaption>
       </figure>
     <article>`
