@@ -14,10 +14,8 @@ h1, .main-title {
 }
 
 .main-title {
-  display: flex;
-  flex-grow: 1;
   font-size: 50px;
-  margin-top: 2%;
+  margin-top: 5%;
 }
 
 h1 {
@@ -35,6 +33,7 @@ main {
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
+  text-align: center;
 }
 
 #user-search {
@@ -364,42 +363,71 @@ figure {
   display: none !important;
 }
 
+@media (max-width: 1600px) {
+  .featured {
+    margin-bottom: 5%;
+  }
+}
+
 @media (max-width: 1300px){
   .featured {
     flex-wrap: wrap;
   }
-}
-
-@media (max-width: 1110px){
   #user-search {
     flex-direction: column-reverse;
+    min-width: 230px;
   }
-
-  #user-input {
-    width: 100%;
-  }
-  #user-initials {
-    height: 25%;
+  #search-btn {
+    width: 50px;
+    height: 40px;
   }
 }
 
-@media (max-width: 970px) {
+@media (max-width: 1180px){
   .nav-pages {
     flex-direction: column;
   }
-
-  .recipe-box > img {
-    height: 15vh;
+  #user-input {
+    width: 100%;
   }
-
   #user-initials {
     height: 15%;
   }
 }
 
-@media(max-width: 580px) {
+@media (max-width: 970px) {
+  .recipe-box > img {
+    height: 15vh;
+  }
+  #user-initials {
+    height: 15%;
+  }
+  #user-search {
+    min-width: 180px;
+  }
+}
+
+@media(max-width: 670px) {
   .recipe-of-the-day {
     width: 85vw;
     height: auto;
   }
+  #user-search {
+    min-width: 130px;
+  }
+}
+
+@media(max-width: 550px) {
+  .nav-bar {
+    flex-direction: column-reverse;
+  }
+  .main-title {
+    order: 1;
+  }
+  .nav-pages {
+    align-items: center;
+  }
+  #user-initials {
+    height: 15%;
+}
 }
