@@ -5,7 +5,7 @@
 import { getRecipeById, getAllTags, filterRecipes, getRandomItem } from './recipes';
 import { renderRecipeInfo, renderRecipeOfTheDay, renderRecipes, renderResults, populateTags, renderUser, hideAllPages, displayAllRecipes, viewSavedRecipes } from './domUpdates';
 import './styles.css';
-import { getAllData, getData } from './apiCalls';
+import { getAllData, getData, postData } from './apiCalls';
 
 let currentRecipe;
 let recipeOfTheDay;
@@ -189,8 +189,11 @@ const retrieveSavedInput = () => {
 }
 
 const saveRecipe = () => {
-  const i = user.recipesToCook.indexOf(currentRecipe)
-  !user.recipesToCook.includes(currentRecipe) ? user.recipesToCook.push(currentRecipe) : user.recipesToCook.splice(i, 1)
+  const recipeToCook = { "userID": user.id, "recipeID": currentRecipe.id };
+  console.log(recipeToCook)
+  postData(recipeToCook);
+  // const i = user.recipesToCook.indexOf(currentRecipe)
+  // !user.recipesToCook.includes(currentRecipe) ? user.recipesToCook.push(currentRecipe) : user.recipesToCook.splice(i, 1)
   renderHeartColor()
 }
 
