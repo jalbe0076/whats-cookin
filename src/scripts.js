@@ -2,7 +2,7 @@
 // ======================  IMPORTS AND VARIABLES  ======================
 // =====================================================================
 
-import { getRecipeById, getAllTags, filterRecipes, getRandomItem } from './recipes';
+import { getRecipeById, getAllTags, filterRecipes, getRandomItem, getGroceryIngredients } from './recipes';
 import { renderRecipeInfo, renderRecipeOfTheDay, renderRecipes, renderResults, populateTags, renderUser, hideAllPages, displayAllRecipes, viewSavedRecipes } from './domUpdates';
 import './styles.css';
 import { getAllData, getData } from './apiCalls';
@@ -35,6 +35,7 @@ const featured = document.querySelector('.featured')
 // =====================================================================
 // =========================  EVENT LISTENERS  =========================
 // =====================================================================
+
 
 window.addEventListener('load', function() {
   setData();
@@ -80,6 +81,7 @@ allRecipesButton.addEventListener('click', function() {
 
 addToSaved.addEventListener('click', function() {
   saveRecipe()
+  console.log(getGroceryIngredients(user.recipesToCook, ingredientsData))
 })
 
 dropdownCategories.addEventListener('click', (e) => {

@@ -53,6 +53,18 @@ const getIngredients = (currentRecipe, allIngredients) => {
   },[]);
 };
 
+const getGroceryIngredients = (recipesToCook, data) => {
+  console.log(recipesToCook)
+  return  recipesToCook.reduce((grocList, recipe) => {
+    const ingredientsPerRecipe = getIngredients(recipe, data)
+    console.log(ingredientsPerRecipe)
+    ingredientsPerRecipe.forEach(ingredient => {
+      grocList[ingredient.name] = 'Woo'
+    })
+    return grocList
+  }, {})
+}
+
 const getItems = (list, key) => {
   if(!list.length){
     return 'Sorry, no list given!'
@@ -117,5 +129,6 @@ export {
   calculateRecipeCost,
   getItems,
   getAllTags,
-  alphabetizeData
+  alphabetizeData,
+  getGroceryIngredients
 };
