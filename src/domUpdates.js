@@ -139,7 +139,7 @@ const viewSavedRecipes = (user) => {
 const populateTags = (tags, category) => {
   category.innerHTML = '';
   tags.forEach(tag => {
-    category.innerHTML += `<p class="${tag}">${tag}</p>`;
+    category.innerHTML += `<button class="${tag}" aria-label="filter for ${tag}">${tag}</button>`;
   });
 };
 
