@@ -194,7 +194,7 @@ figure {
 .category-position:hover .dropdown-categories,
 .category-position:focus-within .dropdown-categories,
 .category-position:hover .saved-dropdown-categories,
-.category-position:focus-within .saved-ropdown-categories {
+.category-position:focus-within .saved-dropdown-categories {
   visibility: visible;
   opacity: 1;
 }
