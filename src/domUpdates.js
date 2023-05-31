@@ -125,7 +125,7 @@ const viewSavedRecipes = (user) => {
       <nav class="delete-btn">
         <button id="${recipe.id}" class="delete">✖️</button>
       </nav>
-      <figure id="${recipe.id}" class="recipe-box">
+      <figure id="${recipe.id}" class="recipe-box" tabindex="0">
         <img src="${recipe.image}" alt="${recipe.name}">
         <figcaption>${recipe.name}</figcaption>
       </figure>
@@ -146,7 +146,7 @@ const populateTags = (tags, category) => {
 const renderRecipes = (recipes, section) => {
   recipes.forEach(recipe => {
     section.innerHTML += `
-    <figure id="${recipe.id}" class="recipe-box">
+    <figure id="${recipe.id}" class="recipe-box" tabindex="0" >
       <img src="${recipe.image}" alt="${recipe.name}">
       <figcaption>${recipe.name}</figcaption>
     </figure>`
