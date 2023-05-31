@@ -23,7 +23,6 @@ const allRecipesView = document.querySelector('#all-recipes-view');
 const allRecipesSection = document.querySelector('#all-recipes');
 const savedDropdownCategories = document.querySelector('.saved-dropdown-categories');
 const dropdownPosition = document.querySelectorAll('.category-position');
-const featured = document.querySelector('.featured')
 
 // =====================================================================
 // ============================  FUNCTIONS  ============================
@@ -60,13 +59,7 @@ const showSearchResults = (userValue, searchResults, currentHeader, currentRecip
     currentHeader.innerHTML += `<h1>Sorry, no results for "${userValue}"!</h1>`
   } else {
     currentHeader.innerHTML += `<h1>Showing results for "${userValue}"...</h1>`
-    searchResults.forEach((recipe) => {
-      currentRecipeResults.innerHTML += `
-      <figure id="${recipe.id}" class="recipe-box">
-        <img src="${recipe.image}" alt="image of ${recipe.name}">
-        <figcaption>${recipe.name}</figcaption>
-      </figure>`
-    })
+    renderRecipes(searchResults, currentRecipeResults)
     selectRecipe()
   }
 }
@@ -76,16 +69,7 @@ const displayAllRecipes = (recipeData) => {
   allRecipesView.classList.remove("hidden")
   allRecipesSection.innerHTML = ''
   const recipeDataAlpha = alphabetizeData(recipeData)
-  const recipeIds = getItems(recipeDataAlpha, 'id')
-  const recipeNames = getItems(recipeDataAlpha, 'name')
-  const recipeImages = getItems(recipeDataAlpha, 'image')
-  recipeData.forEach((_, i) => {
-    allRecipesSection.innerHTML += `
-      <figure id="${recipeIds[i]}" class="recipe-box">
-      <img src="${recipeImages[i]}" alt="image of ${recipeNames[i]}">
-      <figcaption>${recipeNames[i]}</figcaption>
-      </figure>`
-    });
+  renderRecipes(recipeDataAlpha, allRecipesSection)
   selectRecipe();
 }
 
@@ -118,17 +102,6 @@ const renderRecipeOfTheDay = (recipe) => {
         <h1>Recipe of the Day: ${recipe.name}</h1>
       </figcaption>`
   homeBanner.id = `${recipe.id}`
-}
-
-const renderFeaturedRecipes = (featuredRecipes) => {
-  featuredRecipes.forEach(recipe => {
-    featured.innerHTML += `
-    <figure id="${recipe.id}" class="recipe-box">
-      <img src="${recipe.image}" alt="${recipe.name}">
-      <figcaption>${recipe.name}</figcaption>
-    </figure>
-    `
-  })
 }
 
 const viewSavedRecipes = (user) => {
@@ -170,6 +143,16 @@ const populateTags = (tags, category) => {
   });
 };
 
+const renderRecipes = (recipes, section) => {
+  recipes.forEach(recipe => {
+    section.innerHTML += `
+    <figure id="${recipe.id}" class="recipe-box">
+      <img src="${recipe.image}" alt="${recipe.name}">
+      <figcaption>${recipe.name}</figcaption>
+    </figure>`
+  })
+}
+
 export {
   showSearchResults,
   renderResults,
@@ -179,6 +162,6 @@ export {
   renderUser,
   populateTags,
   hideAllPages,
-  renderFeaturedRecipes,
-  displayAllRecipes
+  displayAllRecipes,
+  renderRecipes
 }

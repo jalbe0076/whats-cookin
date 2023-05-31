@@ -3,7 +3,7 @@
 // =====================================================================
 
 import { getRecipeById, getAllTags, filterRecipes, getRandomItem } from './recipes';
-import { renderRecipeInfo, renderRecipeOfTheDay, renderFeaturedRecipes, renderResults, populateTags, renderUser, hideAllPages, displayAllRecipes, viewSavedRecipes } from './domUpdates';
+import { renderRecipeInfo, renderRecipeOfTheDay, renderRecipes, renderResults, populateTags, renderUser, hideAllPages, displayAllRecipes, viewSavedRecipes } from './domUpdates';
 import './styles.css';
 import { getAllData, getData } from './apiCalls';
 
@@ -30,6 +30,7 @@ let featuredTitle = document.querySelector('.featured-title')
 const savedDropdownCategories = document.querySelector('.saved-dropdown-categories');
 let recipeResults = document.querySelectorAll('.recipe-box');
 const allRecipesButton = document.querySelector('#all-recipes-btn');
+const featured = document.querySelector('.featured')
 
 // =====================================================================
 // =========================  EVENT LISTENERS  =========================
@@ -150,7 +151,7 @@ const updateFeaturedRecipes = () => {
   } else {
     const capitalTag = tag.split(' ').map(substring => substring[0].toUpperCase() + substring.slice(1)).join(' ')
     featuredTitle.innerText = `Featured Category: ${capitalTag}`
-    renderFeaturedRecipes(featuredRecipes) 
+    renderRecipes(featuredRecipes, featured) 
   }
 }
 
@@ -169,14 +170,7 @@ const searchForRecipes = (recipes, retrieved, container) => {
     return
   }
 
-	const formattedRecipes = foundRecipes.map(recipe => {
-		return {
-			id: recipe.id,
-			name: recipe.name,
-			image: recipe.image
-		}
-	})
-  renderResults(retrieved, formattedRecipes, container)
+  renderResults(retrieved, foundRecipes, container)
 }
 
 const searchSavedRecipes = (recipes) => {
