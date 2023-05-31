@@ -12,7 +12,7 @@
       <nav class="nav-bar">
         <section id="user-search">
             <input type="text" id="search-input" placeholder="Search all recipes"/>
-            <button type="button" id="search-btn"></button>
+            <button type="button" id="search-btn" aria-label="Submit Search"></button>
             <div id="user-initials">
               <h1 class="initials">
                 <!-- Initials will go here! -->
@@ -21,11 +21,11 @@
         </section>
         <section class="main-title">What's Cookin</section>
         <section class="nav-pages">
-          <button type="button" id="home-icon" alt="What's Cookin Chef"></button>
-          <button type="button" class="nav-btn" id="view-saved-btn">Saved Recipes</button>
-          <button type="button" class="nav-btn" id="all-recipes-btn">All Recipes</button>
+          <button type="button" id="home-icon" alt="What's Cookin Chef" aria-label="Home"></button>
+          <button type="button" class="nav-btn" id="view-saved-btn" aria-label="View Saved Recipes">Saved Recipes</button>
+          <button type="button" class="nav-btn" id="all-recipes-btn" aria-label="View All Recipes">All Recipes</button>
           <div class="category-position">
-            <button type="button" class="nav-btn" id="all-categories-btn">All Categories</button>
+            <button type="button" class="nav-btn" id="all-categories-btn" aria-label="View All Categories Dropdown">All Categories</button>
             <ul class="dropdown-categories">
               <!-- tag items get populated here -->
             </ul>

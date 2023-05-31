@@ -123,7 +123,7 @@ const viewSavedRecipes = (user) => {
   recipeDataAlpha.forEach(recipe => {
     recipesToCook.innerHTML += `<article class="whole-recipe-box">
       <nav class="delete-btn">
-        <button id="${recipe.id}" class="delete">✖️</button>
+        <button type="button" id="${recipe.id}" class="delete" aria-label="Delete">✖️</button>
       </nav>
       <figure id="${recipe.id}" class="recipe-box">
         <img src="${recipe.image}" alt="${recipe.name}">
