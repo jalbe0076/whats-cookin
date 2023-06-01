@@ -23,7 +23,6 @@ const allRecipesView = document.querySelector('#all-recipes-view');
 const allRecipesSection = document.querySelector('#all-recipes');
 const savedDropdownCategories = document.querySelector('.saved-dropdown-categories');
 const dropdownPosition = document.querySelectorAll('.category-position');
-const featured = document.querySelector('.featured')
 
 // =====================================================================
 // ============================  FUNCTIONS  ============================
@@ -55,18 +54,12 @@ const renderResults = (userValue, formattedRecipes, container) => {
 
 const showSearchResults = (userValue, searchResults, currentHeader, currentRecipeResults) => {
   if (!userValue){
-    currentHeader.innerHTML += `<h1>Please enter a valid search!</h1>`
+    currentHeader.innerHTML += `<h2>Please enter a valid search!</h2>`
   } else if (!searchResults.length) {
-    currentHeader.innerHTML += `<h1>Sorry, no results for "${userValue}"!</h1>`
+    currentHeader.innerHTML += `<h2>Sorry, no results for "${userValue}"!</h2>`
   } else {
-    currentHeader.innerHTML += `<h1>Showing results for "${userValue}"...</h1>`
-    searchResults.forEach((recipe) => {
-      currentRecipeResults.innerHTML += `
-      <figure id="${recipe.id}" class="recipe-box">
-        <img src="${recipe.image}" alt="image of ${recipe.name}">
-        <figcaption>${recipe.name}</figcaption>
-      </figure>`
-    })
+    currentHeader.innerHTML += `<h2>Showing results for "${userValue}"...</h2>`
+    renderRecipes(searchResults, currentRecipeResults)
     selectRecipe()
   }
 }
@@ -76,16 +69,7 @@ const displayAllRecipes = (recipeData) => {
   allRecipesView.classList.remove("hidden")
   allRecipesSection.innerHTML = ''
   const recipeDataAlpha = alphabetizeData(recipeData)
-  const recipeIds = getItems(recipeDataAlpha, 'id')
-  const recipeNames = getItems(recipeDataAlpha, 'name')
-  const recipeImages = getItems(recipeDataAlpha, 'image')
-  recipeData.forEach((_, i) => {
-    allRecipesSection.innerHTML += `
-      <figure id="${recipeIds[i]}" class="recipe-box">
-      <img src="${recipeImages[i]}" alt="image of ${recipeNames[i]}">
-      <figcaption>${recipeNames[i]}</figcaption>
-      </figure>`
-    });
+  renderRecipes(recipeDataAlpha, allRecipesSection)
   selectRecipe();
 }
 
@@ -115,20 +99,9 @@ const renderRecipeOfTheDay = (recipe) => {
   homeBanner.innerHTML = 
       `<img class="recipe-of-the-day" alt=${recipe.name} src=${recipe.image}>
       <figcaption>
-        <h1>Recipe of the Day: ${recipe.name}</h1>
+        <h2>Recipe of the Day: ${recipe.name}</h2>
       </figcaption>`
   homeBanner.id = `${recipe.id}`
-}
-
-const renderFeaturedRecipes = (featuredRecipes) => {
-  featuredRecipes.forEach(recipe => {
-    featured.innerHTML += `
-    <figure id="${recipe.id}" class="recipe-box">
-      <img src="${recipe.image}" alt="${recipe.name}">
-      <figcaption>${recipe.name}</figcaption>
-    </figure>
-    `
-  })
 }
 
 const viewSavedRecipes = (user) => {
@@ -152,7 +125,7 @@ const viewSavedRecipes = (user) => {
       <nav class="delete-btn">
         <button id="${recipe.id}" class="delete">✖️</button>
       </nav>
-      <figure id="${recipe.id}" class="recipe-box">
+      <figure id="${recipe.id}" class="recipe-box" tabindex="0">
         <img src="${recipe.image}" alt="${recipe.name}">
         <figcaption>${recipe.name}</figcaption>
       </figure>
@@ -166,9 +139,19 @@ const viewSavedRecipes = (user) => {
 const populateTags = (tags, category) => {
   category.innerHTML = '';
   tags.forEach(tag => {
-    category.innerHTML += `<p class="${tag}">${tag}</p>`;
+    category.innerHTML += `<button class="${tag}" aria-label="filter for ${tag}">${tag}</button>`;
   });
 };
+
+const renderRecipes = (recipes, section) => {
+  recipes.forEach(recipe => {
+    section.innerHTML += `
+    <figure id="${recipe.id}" class="recipe-box" tabindex="0" >
+      <img src="${recipe.image}" alt="${recipe.name}">
+      <figcaption>${recipe.name}</figcaption>
+    </figure>`
+  })
+}
 
 export {
   showSearchResults,
@@ -179,6 +162,6 @@ export {
   renderUser,
   populateTags,
   hideAllPages,
-  renderFeaturedRecipes,
-  displayAllRecipes
+  displayAllRecipes,
+  renderRecipes
 }
