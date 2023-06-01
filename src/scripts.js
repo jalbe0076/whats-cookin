@@ -44,11 +44,9 @@ window.addEventListener('load', function() {
     updateRecipeOfTheDay();
     updateUser();
     updateFeaturedRecipes();
-    // if (user.recipesToCook.length) {
-    //   user.recipesToCook = userRecipes(user, recipeData)
-    // }
     console.log(user.id)
     console.log(user.recipesToCook)
+    selectRecipe()
   });
 });
 
@@ -59,6 +57,12 @@ homeIcon.addEventListener('click', () => {
 
 homeView.addEventListener('click', function(e) {
   updateCurrentRecipe(e)
+})
+
+homeView.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    updateCurrentRecipe(e)
+  }
 })
 
 searchBtn.addEventListener('click', () => {
@@ -116,6 +120,11 @@ const selectRecipe = () => {
 	recipeResults.forEach(recipe => {
     recipe.addEventListener('click', (e) => {
       updateCurrentRecipe(e)        
+		})
+    recipe.addEventListener('keydown', (e) => {
+      if(e.key === "Enter") {
+        updateCurrentRecipe(e)      
+      }  
 		})
 	})    
 }
