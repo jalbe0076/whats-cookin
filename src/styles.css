@@ -123,7 +123,7 @@ figure {
   height: 40px;
   font-size: 20px;
   border: none;
-  color:black;
+  color: #282828;
   background-color: #FEC5BB;
   margin: 10px;
   border-radius: 5px;
@@ -140,7 +140,7 @@ figure {
   border-style: solid;
   border-right: 10px solid transparent;
   border-left: 10px solid transparent;
-  border-top: 10px solid #000000;
+  border-top: 10px solid #282828;
   border-bottom: 0;
   position: absolute;
   bottom: 13px;
@@ -301,7 +301,7 @@ figure {
   bottom: 0;
   background-color: #ffe5d9e6;
   border-radius: 20px;
-  color: #000000;
+  color: #282828;
   padding: 10px 15px;
   width: auto;
   font-size: 14px;
