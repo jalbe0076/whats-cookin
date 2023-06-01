@@ -17,7 +17,7 @@ h1, .main-title {
 }
 
 .main-title {
-  font-size: 50px;
+  font-size: 3rem;
   margin-top: 5%;
 }
 
@@ -75,8 +75,9 @@ figure {
   border-radius: 50%;
   color: #FEC89A;
   background-color: #F8EDEB;
-  font-size: 40px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 32%;
   margin: 2%;
   box-shadow: 10px 10px 15px -4px rgba(0,0,0,0.2);
@@ -84,6 +85,7 @@ figure {
 
 .initials {
   margin: 0;
+  font-size: 2.125rem;
 }
 
 #search-btn {
@@ -214,6 +216,8 @@ figure {
   justify-content: center;
   position:relative;
   height: 50dvh;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .home-banner {
@@ -292,6 +296,7 @@ figure {
 
 .recipe-name {
   align-self: center;
+  font-size: 2.25rem;
 }
 
 .recipe-view {

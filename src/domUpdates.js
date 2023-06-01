@@ -54,11 +54,11 @@ const renderResults = (userValue, formattedRecipes, container) => {
 
 const showSearchResults = (userValue, searchResults, currentHeader, currentRecipeResults) => {
   if (!userValue){
-    currentHeader.innerHTML += `<h1>Please enter a valid search!</h1>`
+    currentHeader.innerHTML += `<h2>Please enter a valid search!</h2>`
   } else if (!searchResults.length) {
-    currentHeader.innerHTML += `<h1>Sorry, no results for "${userValue}"!</h1>`
+    currentHeader.innerHTML += `<h2>Sorry, no results for "${userValue}"!</h2>`
   } else {
-    currentHeader.innerHTML += `<h1>Showing results for "${userValue}"...</h1>`
+    currentHeader.innerHTML += `<h2>Showing results for "${userValue}"...</h2>`
     renderRecipes(searchResults, currentRecipeResults)
     selectRecipe()
   }
@@ -99,7 +99,7 @@ const renderRecipeOfTheDay = (recipe) => {
   homeBanner.innerHTML = 
       `<img class="recipe-of-the-day" alt=${recipe.name} src=${recipe.image}>
       <figcaption>
-        <h1>Recipe of the Day: ${recipe.name}</h1>
+        <h2>Recipe of the Day: ${recipe.name}</h2>
       </figcaption>`
   homeBanner.id = `${recipe.id}`
 }
