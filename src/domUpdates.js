@@ -97,7 +97,7 @@ const renderRecipeInfo = (recipe, data) => {
 
 const renderRecipeOfTheDay = (recipe) => {
   homeBanner.innerHTML = 
-      `<img class="recipe-of-the-day" alt=${recipe.name} src=${recipe.image}>
+      `<img class="recipe-of-the-day" alt="" src=${recipe.image}>
       <figcaption>
         <h2>Recipe of the Day: ${recipe.name}</h2>
       </figcaption>`
