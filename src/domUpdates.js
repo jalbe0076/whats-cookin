@@ -125,7 +125,7 @@ const viewSavedRecipes = (user) => {
       <nav class="delete-btn">
         <button id="${recipe.id}" class="delete">✖️</button>
       </nav>
-      <figure id="${recipe.id}" class="recipe-box">
+      <figure id="${recipe.id}" class="recipe-box" tabindex="0">
         <img src="${recipe.image}" alt="${recipe.name}">
         <figcaption>${recipe.name}</figcaption>
       </figure>
@@ -139,14 +139,14 @@ const viewSavedRecipes = (user) => {
 const populateTags = (tags, category) => {
   category.innerHTML = '';
   tags.forEach(tag => {
-    category.innerHTML += `<p class="${tag}">${tag}</p>`;
+    category.innerHTML += `<button class="${tag}" aria-label="filter for ${tag}">${tag}</button>`;
   });
 };
 
 const renderRecipes = (recipes, section) => {
   recipes.forEach(recipe => {
     section.innerHTML += `
-    <figure id="${recipe.id}" class="recipe-box">
+    <figure id="${recipe.id}" class="recipe-box" tabindex="0" >
       <img src="${recipe.image}" alt="${recipe.name}">
       <figcaption>${recipe.name}</figcaption>
     </figure>`
