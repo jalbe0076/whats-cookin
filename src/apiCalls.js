@@ -1,6 +1,7 @@
 // =====================================================================
 // =========================  FETCH REQUESTS  ==========================
 // =====================================================================
+import { setData } from './scripts';
 
 const getData = (data) => {
   return fetch(`http://localhost:3001/api/v1/${data}`)
@@ -14,7 +15,9 @@ const postData = (data) => {
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json' }
   })
-    .catch(err => alert(err))
+    .then(response => response.json())
+    .then(resolve => setData())
+    .catch(err => console.log(err));
 };
 
 const getAllData = () => {

@@ -2,7 +2,7 @@
 // ======================  IMPORTS AND VARIABLES  ======================
 // =====================================================================
 
-import { getRecipeById, getAllTags, filterRecipes, getRandomItem } from './recipes';
+import { getRecipeById, getAllTags, filterRecipes, getRandomItem, userRecipes } from './recipes';
 import { renderRecipeInfo, renderRecipeOfTheDay, renderRecipes, renderResults, populateTags, renderUser, hideAllPages, displayAllRecipes, viewSavedRecipes } from './domUpdates';
 import './styles.css';
 import { getAllData, getData, postData } from './apiCalls';
@@ -44,6 +44,11 @@ window.addEventListener('load', function() {
     updateRecipeOfTheDay();
     updateUser();
     updateFeaturedRecipes();
+    // if (user.recipesToCook.length) {
+    //   user.recipesToCook = userRecipes(user, recipeData)
+    // }
+    console.log(user.id)
+    console.log(user.recipesToCook)
   });
 });
 
@@ -68,10 +73,12 @@ searchInput.addEventListener('keydown', (e) => {
 });
 
 savedViewBtn.addEventListener('click', () => {
+  updateUser()
 	hideAllPages()
 	savedView.classList.remove('hidden')
-	viewSavedRecipes(user)
+	viewSavedRecipes(user, recipeData)
   populateSavedTags()
+  console.log(user.recipesToCook)
 })
 
 allRecipesButton.addEventListener('click', function() {
@@ -79,7 +86,9 @@ allRecipesButton.addEventListener('click', function() {
 });
 
 addToSaved.addEventListener('click', function() {
+  console.log('before saved recipes', user)
   saveRecipe()
+  console.log('after saved recipes', user)
 })
 
 dropdownCategories.addEventListener('click', (e) => {
@@ -130,9 +139,15 @@ const updateCurrentRecipe = (e) => {
 }
 
 const updateUser = () => {
-  user = getRandomItem(usersData)
-  !user.recipesToCook ? user.recipesToCook = [] : null
-  renderUser(user)
+  if (!user) {
+    user = getRandomItem(usersData)
+    renderUser(user)
+  } else {
+    const searchById = user.id;
+    user = usersData[searchById - 1];
+  }
+    // console.log('user usert', user.id)
+  // !user.recipesToCook ? user.recipesToCook = [] : null
 }
 
 const updateRecipeOfTheDay = () => {
@@ -191,21 +206,43 @@ const retrieveSavedInput = () => {
 const saveRecipe = () => {
   const recipeToCook = { "userID": user.id, "recipeID": currentRecipe.id };
   console.log(recipeToCook)
-  postData(recipeToCook);
+  postData(recipeToCook, user, recipeData)
+  // .then(()=> {
+  //   setData()
+  //   user = users.find(user2 => user2.id === user.id)
+  //   console.log('USER API LIST!!!!', user.recipesToCook)
+  //   return user;
+  // })
+  // ;
+  // updateUser();
+  console.log('new user' , user)
+
+  // .then(resolve => {
+  //     console.log('resolve', resolve.json())
+  //     // user.recipesToCook = userRecipes(user, recipeData)
+  //   });
+  // console.log('USER LIST!!!!', user.recipesToCook)
+  // user.recipesToCook = userRecipes(user, recipeData)
+  // getData('users').then(result => {
+  //   result.recipesToCook = userRecipes(user, recipeData)
+  // console.log('saved user recipes in get', user.recipesToCook)
+  // });
+  // user.recipesToCook = userRecipes(user, recipeData)
+  // console.log('saved user recipes', user.recipesToCook)
   // const i = user.recipesToCook.indexOf(currentRecipe)
   // !user.recipesToCook.includes(currentRecipe) ? user.recipesToCook.push(currentRecipe) : user.recipesToCook.splice(i, 1)
   renderHeartColor()
 }
 
 const renderHeartColor = () => {
-  return user.recipesToCook.includes(currentRecipe) ? addToSaved.style.color= 'red' : addToSaved.style.color= 'gray'
+  // return user.recipesToCook.includes(currentRecipe) ? addToSaved.style.color= 'red' : addToSaved.style.color= 'gray'
 }
 
 const deletefromSaved = (e) => {
 	const selectedRecipeID = parseInt(e.target.id)
 	const updatedSavedRecipes = user.recipesToCook.filter(recipe => recipe.id !== selectedRecipeID)
 	user.recipesToCook = updatedSavedRecipes
-	viewSavedRecipes(user)
+	viewSavedRecipes(user, recipeData)
   populateSavedTags()
 }
 
@@ -226,5 +263,7 @@ export {
 	addDelete,
 	retrieveInput,
 	saveRecipe,
-  selectRecipe
+  selectRecipe,
+  setData,
+  updateUser
 };
