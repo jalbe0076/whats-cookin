@@ -120,7 +120,7 @@ figure {
 }
 
 .nav-btn {
-  width: 160px;
+  width: 170px;
   height: 40px;
   font-size: 20px;
   border: none;
@@ -137,6 +137,17 @@ figure {
   transition: .2s ease;
 }
 
+.arrow {
+  border-style: solid;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+  border-top: 10px solid #000000;
+  border-bottom: 0;
+  position: absolute;
+  bottom: 13px;
+  right: 4px;
+}
+
 #home-icon:hover, .home-banner:hover, #search-btn:hover, .recipe-box:hover {
   cursor: pointer;
   opacity: 80%;
@@ -148,6 +159,10 @@ figure {
 }
 
 .category-position {
+  position: relative;
+}
+
+#all-categories-dropdown {
   position: relative;
 }
 
