@@ -12,7 +12,8 @@
       <nav class="nav-bar">
         <section id="user-search">
             <input type="text" id="search-input" placeholder="Search all recipes"/>
-            <button type="button" id="search-btn" aria-label="Submit Search"></button>
+            <label for="search-input" class="hidden">Search all recipes</label>
+            <button type="submit" id="search-btn" aria-label="Submit Search"></button>
             <div id="user-initials">
               <h2 class="initials">
                 <!-- Initials will go here -->
@@ -67,6 +68,7 @@
       <section id="saved-view" class="page hidden">
         <header id="saved-recipes-header"><h2>Recipes to Cook:</h2>
           <input type="text" id="search-saved" placeholder="Search saved recipes"/>
+          <label for="search-saved" class="hidden">Search saved recipes</label>
           <div class="category-position hidden">
             <button type="button" class="nav-btn" id="all-categories-btn" aria-label="View Saved Categories">Saved Categories</button>
             <ul class="saved-dropdown-categories">
