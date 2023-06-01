@@ -126,7 +126,7 @@ const viewSavedRecipes = (user) => {
         <button type="button" id="${recipe.id}" class="delete" aria-label="Delete">✖️</button>
       </nav>
       <figure id="${recipe.id}" class="recipe-box" tabindex="0">
-        <img src="${recipe.image}" alt="${recipe.name}">
+        <img src="${recipe.image}" alt="">
         <figcaption>${recipe.name}</figcaption>
       </figure>
     <article>`
@@ -147,7 +147,7 @@ const renderRecipes = (recipes, section) => {
   recipes.forEach(recipe => {
     section.innerHTML += `
     <figure id="${recipe.id}" class="recipe-box" tabindex="0" >
-      <img src="${recipe.image}" alt="${recipe.name}">
+      <img src="${recipe.image}" alt="">
       <figcaption>${recipe.name}</figcaption>
     </figure>`
   })
