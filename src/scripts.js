@@ -80,7 +80,7 @@ savedViewBtn.addEventListener('click', () => {
 	hideAllPages()
 	savedView.classList.remove('hidden')
 	viewSavedRecipes(user, recipeData)
-  populateSavedTags()
+  if(user.recipesToCook.length){ populateSavedTags() }
 })
 
 allRecipesButton.addEventListener('click', function() {
@@ -153,7 +153,6 @@ const updateUser = () => {
     user = usersData[searchById - 1];
     user.recipesToCook = userRecipes(user, recipeData)
   }
-  console.log('update User', user.id)
 }
 
 const updateRecipeOfTheDay = () => {
@@ -211,44 +210,15 @@ const retrieveSavedInput = () => {
 
 const saveRecipe = () => {
   const recipeToCook = { "userID": user.id, "recipeID": currentRecipe.id };
-  // console.log(recipeToCook)
   updateUser();
-console.log('cook', user.recipesToCook)
-console.log(!user.recipesToCook.includes(currentRecipe.id))
-  console.log(!user.recipesToCook.some(recipe => recipe.id === currentRecipe.id))
+
   if (!user.recipesToCook.some(recipe => recipe.id === currentRecipe.id)) {
-    postData(recipeToCook, user, recipeData)
+    postData(recipeToCook)
     addToSaved.style.color= 'red';
   } else {
-    deleteData(recipeToCook, user, recipeData)
+    deleteData(recipeToCook)
     addToSaved.style.color= 'grey';
   }
-  // .then(()=> {
-  //   setData()
-  //   user = users.find(user2 => user2.id === user.id)
-  //   console.log('USER API LIST!!!!', user.recipesToCook)
-  //   return user;
-  // })
-  // ;
-  // updateUser();
-  // console.log('new user' , user)
-
-  // .then(resolve => {
-  //     console.log('resolve', resolve.json())
-  //     // user.recipesToCook = userRecipes(user, recipeData)
-  //   });
-  // console.log('USER LIST!!!!', user.recipesToCook)
-  // user.recipesToCook = userRecipes(user, recipeData)
-  // getData('users').then(result => {
-  //   result.recipesToCook = userRecipes(user, recipeData)
-  // console.log('saved user recipes in get', user.recipesToCook)
-  // });
-  // user.recipesToCook = userRecipes(user, recipeData)
-  // console.log('saved user recipes', user.recipesToCook)
-  // const i = user.recipesToCook.indexOf(currentRecipe)
-  // !user.recipesToCook.includes(currentRecipe) ? user.recipesToCook.push(currentRecipe) : user.recipesToCook.splice(i, 1)
-  
-  // renderHeartColor()
 }
 
 const renderHeartColor = () => {
@@ -257,10 +227,13 @@ const renderHeartColor = () => {
 
 const deletefromSaved = (e) => {
 	const selectedRecipeID = parseInt(e.target.id)
+  const recipeToDelete = { "userID": user.id, "recipeID": selectedRecipeID };
+  deleteData(recipeToDelete);
+  addToSaved.style.color= 'grey';
 	const updatedSavedRecipes = user.recipesToCook.filter(recipe => recipe.id !== selectedRecipeID)
 	user.recipesToCook = updatedSavedRecipes
 	viewSavedRecipes(user, recipeData)
-  populateSavedTags()
+  if(user.recipesToCook.length){ populateSavedTags() }
 }
 
 const setData = () => {

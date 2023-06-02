@@ -78,6 +78,7 @@ const calculateRecipeCost = (ingredients, recipe) => {
 
 const getAllTags = (recipes) => {
   if(!recipes) return `Error`;
+  // if(recipes.length) return;
 
   const availableTags = [];
   const tags = getItems(recipes, 'tags');

@@ -19,7 +19,7 @@ const postData = (data) => {
     .then(resolve => {
       console.log('post')
       setData();
-      updateUser();
+      // updateUser();
     })
     .catch(err => console.log(err));
 };
