@@ -97,7 +97,7 @@ const renderRecipeInfo = (recipe, data) => {
 
 const renderRecipeOfTheDay = (recipe) => {
   homeBanner.innerHTML = 
-      `<img class="recipe-of-the-day" alt=${recipe.name} src=${recipe.image}>
+      `<img class="recipe-of-the-day" alt="" src=${recipe.image}>
       <figcaption>
         <h2>Recipe of the Day: ${recipe.name}</h2>
       </figcaption>`
@@ -123,10 +123,10 @@ const viewSavedRecipes = (user) => {
   recipeDataAlpha.forEach(recipe => {
     recipesToCook.innerHTML += `<article class="whole-recipe-box">
       <nav class="delete-btn">
-        <button id="${recipe.id}" class="delete">✖️</button>
+        <button type="button" id="${recipe.id}" class="delete" aria-label="Delete">✖️</button>
       </nav>
       <figure id="${recipe.id}" class="recipe-box" tabindex="0">
-        <img src="${recipe.image}" alt="${recipe.name}">
+        <img src="${recipe.image}" alt="">
         <figcaption>${recipe.name}</figcaption>
       </figure>
     <article>`
@@ -147,7 +147,7 @@ const renderRecipes = (recipes, section) => {
   recipes.forEach(recipe => {
     section.innerHTML += `
     <figure id="${recipe.id}" class="recipe-box" tabindex="0" >
-      <img src="${recipe.image}" alt="${recipe.name}">
+      <img src="${recipe.image}" alt="">
       <figcaption>${recipe.name}</figcaption>
     </figure>`
   })

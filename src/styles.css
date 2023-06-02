@@ -119,11 +119,11 @@ figure {
 }
 
 .nav-btn {
-  width: 160px;
+  width: 170px;
   height: 40px;
   font-size: 20px;
   border: none;
-  color:black;
+  color: #282828;
   background-color: #FEC5BB;
   margin: 10px;
   border-radius: 5px;
@@ -134,6 +134,17 @@ figure {
   cursor: pointer;
   transform: scale(1.1);
   transition: .2s ease;
+}
+
+.arrow {
+  border-style: solid;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+  border-top: 10px solid #282828;
+  border-bottom: 0;
+  position: absolute;
+  bottom: 13px;
+  right: 4px;
 }
 
 #home-icon:hover, .home-banner:hover, #search-btn:hover, .recipe-box:hover {
@@ -147,6 +158,10 @@ figure {
 }
 
 .category-position {
+  position: relative;
+}
+
+#all-categories-dropdown {
   position: relative;
 }
 
@@ -227,6 +242,7 @@ figure {
 }
 
 .recipe-of-the-day {
+  height: 370px;
   border-radius: 40px;
   box-shadow: 10px 10px 15px -4px rgba(0,0,0,0.25);
 }
@@ -285,7 +301,7 @@ figure {
   bottom: 0;
   background-color: #ffe5d9e6;
   border-radius: 20px;
-  color: #000000;
+  color: #282828;
   padding: 10px 15px;
   width: auto;
   font-size: 14px;
