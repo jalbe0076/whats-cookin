@@ -84,16 +84,16 @@ const getItems = (list, key) => {
 }
 
 const calculateGroceryCost = (groceryList) => {
-  if(!groceryList){
+  if(!Object.keys(groceryList).length){
     return 'Error: no grocery list :('
   }
-
+  
   const ingredients = Object.values(groceryList)
   const groceryCost = ingredients.reduce((totalCost, stats) => {
     totalCost += stats.estimatedCostInCents * stats.amount
     return totalCost
   }, 0) 
-  console.log(`$${(groceryCost / 100).toFixed(2)}`)
+  return `$${(groceryCost / 100).toFixed(2)}`
 }
 
 const calculateRecipeCost = (ingredients, recipe) => {
