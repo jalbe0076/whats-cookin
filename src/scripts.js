@@ -2,10 +2,10 @@
 // ======================  IMPORTS AND VARIABLES  ======================
 // =====================================================================
 
-import { getRecipeById, getAllTags, filterRecipes, getRandomItem } from './recipes';
+import { getRecipeById, getAllTags, filterRecipes, getRandomItem, getUserRecipes } from './recipes';
 import { renderRecipeInfo, renderRecipeOfTheDay, renderRecipes, renderResults, populateTags, renderUser, hideAllPages, displayAllRecipes, viewSavedRecipes } from './domUpdates';
 import './styles.css';
-import { getAllData, getData } from './apiCalls';
+import { getAllData, getData, postData, deleteData } from './apiCalls';
 
 let currentRecipe;
 let recipeOfTheDay;
@@ -75,10 +75,11 @@ searchInput.addEventListener('keydown', (e) => {
 });
 
 savedViewBtn.addEventListener('click', () => {
+  updateUser()
 	hideAllPages()
 	savedView.classList.remove('hidden')
-	viewSavedRecipes(user)
-  populateSavedTags()
+	viewSavedRecipes(user, recipeData)
+  if(user.recipesToCook.length){ populateSavedTags() }
 })
 
 allRecipesButton.addEventListener('click', function() {
@@ -142,9 +143,14 @@ const updateCurrentRecipe = (e) => {
 }
 
 const updateUser = () => {
-  user = getRandomItem(usersData)
-  !user.recipesToCook ? user.recipesToCook = [] : null
-  renderUser(user)
+  if (!user) {
+    user = getRandomItem(usersData)
+    renderUser(user)
+  } else {
+    const searchById = user.id;
+    user = usersData[searchById - 1];
+    user.recipesToCook = getUserRecipes(user, recipeData)
+  }
 }
 
 const updateRecipeOfTheDay = () => {
@@ -201,21 +207,32 @@ const retrieveSavedInput = () => {
 }
 
 const saveRecipe = () => {
-  const i = user.recipesToCook.indexOf(currentRecipe)
-  !user.recipesToCook.includes(currentRecipe) ? user.recipesToCook.push(currentRecipe) : user.recipesToCook.splice(i, 1)
-  renderHeartColor()
+  const recipeToCook = { "userID": user.id, "recipeID": currentRecipe.id };
+  updateUser();
+
+  if (!user.recipesToCook.some(recipe => recipe.id === currentRecipe.id)) {
+    postData(recipeToCook)
+    addToSaved.style.color= 'red';
+  } else {
+    deleteData(recipeToCook)
+    addToSaved.style.color= 'grey';
+  }
 }
 
 const renderHeartColor = () => {
+  updateUser();
   return user.recipesToCook.includes(currentRecipe) ? addToSaved.style.color= 'red' : addToSaved.style.color= 'gray'
 }
 
 const deletefromSaved = (e) => {
 	const selectedRecipeID = parseInt(e.target.id)
+  const recipeToDelete = { "userID": user.id, "recipeID": selectedRecipeID };
+  deleteData(recipeToDelete);
+  addToSaved.style.color= 'grey';
 	const updatedSavedRecipes = user.recipesToCook.filter(recipe => recipe.id !== selectedRecipeID)
 	user.recipesToCook = updatedSavedRecipes
-	viewSavedRecipes(user)
-  populateSavedTags()
+	viewSavedRecipes(user, recipeData)
+  if(user.recipesToCook.length){ populateSavedTags() }
 }
 
 const setData = () => {
@@ -235,5 +252,7 @@ export {
 	addDelete,
 	retrieveInput,
 	saveRecipe,
-  selectRecipe
+  selectRecipe,
+  setData,
+  updateUser
 };
