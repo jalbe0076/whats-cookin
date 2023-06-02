@@ -108,7 +108,7 @@ const alphabetizeData = (data) => {
   return data;
 }
 
-const userRecipes = (user, recipes) => {
+const getUserRecipes = (user, recipes) => {
   return user.recipesToCook.map(element => {
     if( typeof element !== 'object') {
       return recipes.find(recipe => recipe.id === element)
@@ -128,5 +128,5 @@ export {
   getItems,
   getAllTags,
   alphabetizeData,
-  userRecipes
+  getUserRecipes
 };

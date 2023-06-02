@@ -2,7 +2,7 @@
 // ======================  IMPORTS AND VARIABLES  ======================
 // =====================================================================
 
-import { getRecipeById, getAllTags, filterRecipes, getRandomItem, userRecipes } from './recipes';
+import { getRecipeById, getAllTags, filterRecipes, getRandomItem, getUserRecipes } from './recipes';
 import { renderRecipeInfo, renderRecipeOfTheDay, renderRecipes, renderResults, populateTags, renderUser, hideAllPages, displayAllRecipes, viewSavedRecipes } from './domUpdates';
 import './styles.css';
 import { getAllData, getData, postData, deleteData } from './apiCalls';
@@ -15,8 +15,8 @@ let usersData;
 let ingredientsData;
 let recipeData;
 
-const searchInput = document.querySelector('#search-input');
-const searchSaved = document.querySelector('#search-saved');
+let searchInput = document.querySelector('#search-input');
+let searchSaved = document.querySelector('#search-saved');
 const currSavedRecipes = document.querySelector('#recipes-to-cook')
 const searchBtn = document.querySelector('#search-btn');
 const searchView = document.querySelector('#search-results-view')
@@ -26,7 +26,7 @@ const savedView = document.querySelector('#saved-view')
 const savedViewBtn = document.querySelector('#view-saved-btn')
 const addToSaved = document.querySelector(".add-to-saved")
 const dropdownCategories = document.querySelector('.dropdown-categories');
-const featuredTitle = document.querySelector('.featured-title')
+let featuredTitle = document.querySelector('.featured-title')
 const savedDropdownCategories = document.querySelector('.saved-dropdown-categories');
 let recipeResults = document.querySelectorAll('.recipe-box');
 const allRecipesButton = document.querySelector('#all-recipes-btn');
@@ -149,7 +149,7 @@ const updateUser = () => {
   } else {
     const searchById = user.id;
     user = usersData[searchById - 1];
-    user.recipesToCook = userRecipes(user, recipeData)
+    user.recipesToCook = getUserRecipes(user, recipeData)
   }
 }
 
