@@ -64,6 +64,16 @@ const getItems = (list, key) => {
   return allValues;
 }
 
+// groceryList object
+// keys are the ingredient names
+// values are: amount, unit, estimatedCostInCents
+
+
+const calculateGroceryCost = (groceryList) => {
+  const ingredients = Object.keys(groceryList)
+  const groceryCost = ingredients.forEach(item => item.estimatedCostInCents * item.amount)
+}
+
 const calculateRecipeCost = (ingredients, recipe) => {
   if(!ingredients.length){
     return 'Error: no ingredients :('
