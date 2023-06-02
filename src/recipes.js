@@ -53,14 +53,19 @@ const getIngredients = (currentRecipe, allIngredients) => {
   },[]);
 };
 
-const getGroceryIngredients = (recipesToCook, data) => {
-  console.log(recipesToCook)
+const getGroceryIngredients = (recipesToCook, ingredientsData) => {
   return  recipesToCook.reduce((grocList, recipe) => {
-    const ingredientsPerRecipe = getIngredients(recipe, data)
-    console.log(ingredientsPerRecipe)
-    ingredientsPerRecipe.forEach(ingredient => {
-      grocList[ingredient.name] = 'Woo'
+    const ingredientsPerRecipe = getIngredients(recipe, ingredientsData)
+    ingredientsPerRecipe.forEach( (ingredient, i) => {
+      if(!grocList[ingredient.name]) {
+        grocList[ingredient.name] = {}
+        grocList[ingredient.name].amount = 0
+        grocList[ingredient.name].unit = recipesToCook.find(r => r.id === recipe.id).ingredients[i].quantity.unit
+        grocList[ingredient.name].estimatedCostInCents = ingredient.estimatedCostInCents
+      } 
+      grocList[ingredient.name].amount += recipesToCook.find(r => r.id === recipe.id).ingredients[i].quantity.amount
     })
+    console.log(grocList)
     return grocList
   }, {})
 }

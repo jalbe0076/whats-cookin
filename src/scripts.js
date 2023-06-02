@@ -81,7 +81,6 @@ allRecipesButton.addEventListener('click', function() {
 
 addToSaved.addEventListener('click', function() {
   saveRecipe()
-  console.log(getGroceryIngredients(user.recipesToCook, ingredientsData))
 })
 
 dropdownCategories.addEventListener('click', (e) => {
