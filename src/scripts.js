@@ -220,6 +220,7 @@ const saveRecipe = () => {
 }
 
 const renderHeartColor = () => {
+  updateUser();
   return user.recipesToCook.includes(currentRecipe) ? addToSaved.style.color= 'red' : addToSaved.style.color= 'gray'
 }
 
