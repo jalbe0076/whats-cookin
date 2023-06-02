@@ -264,5 +264,10 @@ describe('get grocery list', () => {
         'wheat flour': {amount: 1.5, unit: 'c', estimatedCostInCents: 142}
       })
     });
+
+    it('should return a message if no recipes are saved', () => {
+      const grocList = getGroceryIngredients([], sampleIngredientsData)
+      expect(grocList).to.equal('Please save some recipes!')
+    });
   })
 });

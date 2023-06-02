@@ -54,6 +54,9 @@ const getIngredients = (currentRecipe, allIngredients) => {
 };
 
 const getGroceryIngredients = (recipesToCook, ingredientsData) => {
+  if(!recipesToCook.length) {
+    return 'Please save some recipes!'
+  }
   return  recipesToCook.reduce((grocList, recipe) => {
     const ingredientsPerRecipe = getIngredients(recipe, ingredientsData)
     ingredientsPerRecipe.forEach( (ingredient, i) => {
