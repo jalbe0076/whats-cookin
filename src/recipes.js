@@ -63,10 +63,10 @@ const getGroceryIngredients = (recipesToCook, ingredientsData) => {
       if(!grocList[ingredient.name]) {
         grocList[ingredient.name] = {}
         grocList[ingredient.name].amount = 0
-        grocList[ingredient.name].unit = recipesToCook.find(r => r.id === recipe.id).ingredients[i].quantity.unit
+        grocList[ingredient.name].unit = recipe.ingredients[i].quantity.unit
         grocList[ingredient.name].estimatedCostInCents = ingredient.estimatedCostInCents
       } 
-      grocList[ingredient.name].amount += recipesToCook.find(r => r.id === recipe.id).ingredients[i].quantity.amount
+      grocList[ingredient.name].amount += recipe.ingredients[i].quantity.amount
     })
     return grocList
   }, {})
