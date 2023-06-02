@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getItems, calculateRecipeCost, getRandomItem, getAllTags, userRecipes, getGroceryIngredients } from '../src/recipes.js'
+import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getItems, calculateRecipeCost, getRandomItem, getAllTags, userRecipes, getGroceryIngredients, calculateGroceryCost } from '../src/recipes.js'
 import { sampleRecipeData } from '../src/data/sample-recipes.js';
 import { sampleIngredientsData } from '../src/data/sample-ingredients.js';
 import { sampleUsersData } from '../src/data/sample-users.js';
@@ -169,7 +169,9 @@ describe('ingredients', () => {
   })
 })
 
-describe('calculate cost of ingredients', () => {
+
+
+describe('calculate cost of recipe ingredients', () => {
   let recipe, ingredients, recipe2, ingredients2;
 
   beforeEach(() => {

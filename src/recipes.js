@@ -83,14 +83,17 @@ const getItems = (list, key) => {
   return allValues;
 }
 
-// groceryList object
-// keys are the ingredient names
-// values are: amount, unit, estimatedCostInCents
-
-
 const calculateGroceryCost = (groceryList) => {
-  const ingredients = Object.keys(groceryList)
-  const groceryCost = ingredients.forEach(item => item.estimatedCostInCents * item.amount)
+  if(!groceryList){
+    return 'Error: no grocery list :('
+  }
+
+  const ingredients = Object.values(groceryList)
+  const groceryCost = ingredients.reduce((totalCost, stats) => {
+    totalCost += stats.estimatedCostInCents * stats.amount
+    return totalCost
+  }, 0) 
+  console.log(`$${(groceryCost / 100).toFixed(2)}`)
 }
 
 const calculateRecipeCost = (ingredients, recipe) => {
@@ -158,5 +161,6 @@ export {
   getAllTags,
   alphabetizeData,
   getGroceryIngredients,
+  calculateGroceryCost,
   getUserRecipes
 };
