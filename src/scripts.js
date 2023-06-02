@@ -6,6 +6,8 @@ import { getRecipeById, getAllTags, filterRecipes, getRandomItem, getGroceryIngr
 import { renderRecipeInfo, renderRecipeOfTheDay, renderRecipes, renderResults, populateTags, renderUser, hideAllPages, displayAllRecipes, viewSavedRecipes } from './domUpdates';
 import './styles.css';
 import { getAllData, getData } from './apiCalls';
+import { sampleRecipeData } from './data/sample-recipes';
+import { sampleIngredientsData } from './data/sample-ingredients';
 
 let currentRecipe;
 let recipeOfTheDay;

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getItems, calculateRecipeCost, getRandomItem, getAllTags } from '../src/recipes.js'
+import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getItems, calculateRecipeCost, getRandomItem, getAllTags, getGroceryIngredients } from '../src/recipes.js'
 import { sampleRecipeData } from '../src/data/sample-recipes.js';
 import { sampleIngredientsData } from '../src/data/sample-ingredients.js';
 import { sampleUsersData } from '../src/data/sample-users.js';
@@ -244,4 +244,25 @@ describe('Should get tags from recipes', () => {
     const newTagList = getAllTags();
     expect(newTagList).to.equal(`Error`);
   });
+
+describe('get grocery list', () => {
+    
+  let recipesInList;
+  
+    beforeEach(() => {
+      recipesInList = [sampleRecipeData[0], sampleRecipeData[1]]
+    });
+  
+    it('should return a grocery list object with keys of ingredients and values of amounts, unit, and estiamted cost per unit', () => {
+      const grocList = getGroceryIngredients(recipesInList, sampleIngredientsData)
+      expect(grocList).to.deep.equal({
+        'apple': {amount: 2, unit: '', estimatedCostInCents: 207},
+        'apple cider': {amount: 1.5, unit: 'cups', estimatedCostInCents: 468},
+        'bicarbonate of soda': {amount: 0.5, unit: 'tsp', estimatedCostInCents: 582},
+        'corn starch': {amount: 1, unit: 'tablespoon', estimatedCostInCents: 236},
+        'eggs': {amount: 1, unit: 'large', estimatedCostInCents: 472},
+        'wheat flour': {amount: 1.5, unit: 'c', estimatedCostInCents: 142}
+      })
+    });
+  })
 });
