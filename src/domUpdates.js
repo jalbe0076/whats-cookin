@@ -2,7 +2,7 @@
 // ======================  IMPORTS AND VARIABLES  ======================
 // =====================================================================
 
-import { getIngredients, getRecipeInstructions, calculateRecipeCost, getItems, alphabetizeData } from "./recipes"
+import { getIngredients, getRecipeInstructions, calculateRecipeCost, alphabetizeData } from "./recipes"
 import { selectRecipe, addDelete } from "./scripts"
 
 const recipeName = document.querySelector(".recipe-name")
@@ -97,20 +97,20 @@ const renderRecipeInfo = (recipe, data) => {
 
 const renderRecipeOfTheDay = (recipe) => {
   homeBanner.innerHTML = 
-      `<img class="recipe-of-the-day" alt=${recipe.name} src=${recipe.image}>
+      `<img class="recipe-of-the-day" alt="" src=${recipe.image}>
       <figcaption>
         <h2>Recipe of the Day: ${recipe.name}</h2>
       </figcaption>`
   homeBanner.id = `${recipe.id}`
 }
 
-const viewSavedRecipes = (user) => {
+const viewSavedRecipes = (user, recipes) => {
   recipesToCook.classList.remove('hidden')
   searchHeader[0].innerHTML = '';
   recipeBoxes[0].innerHTML = '';
   recipesToCook.innerHTML = '';
   savedDropdownCategories.innerHTML = '';
-  
+
   if (!user.recipesToCook.length){
     recipesToCook.innerHTML = `<p>Save a recipe to view it here!</p>`
     dropdownPosition[1].classList.add('hidden')
@@ -119,18 +119,20 @@ const viewSavedRecipes = (user) => {
     dropdownPosition[1].classList.remove('hidden')
   }
 
-  const recipeDataAlpha = alphabetizeData(user.recipesToCook)
+const recipeDataAlpha = alphabetizeData(user.recipesToCook)
   recipeDataAlpha.forEach(recipe => {
-    recipesToCook.innerHTML += `<article class="whole-recipe-box">
+    recipesToCook.innerHTML += 
+    `<article class="whole-recipe-box">
       <nav class="delete-btn">
-        <button id="${recipe.id}" class="delete">✖️</button>
+        <button type="button" id="${recipe.id}" class="delete" aria-label="Delete">✖️</button>
       </nav>
-      <figure id="${recipe.id}" class="recipe-box">
-        <img src="${recipe.image}" alt="${recipe.name}">
+      <figure id="${recipe.id}" class="recipe-box" tabindex="0">
+        <img src="${recipe.image}" alt="">
         <figcaption>${recipe.name}</figcaption>
       </figure>
     <article>`
   }) 
+
   let deleteBtn = document.querySelectorAll('.delete-btn')
   addDelete(deleteBtn)
   selectRecipe()
@@ -139,15 +141,15 @@ const viewSavedRecipes = (user) => {
 const populateTags = (tags, category) => {
   category.innerHTML = '';
   tags.forEach(tag => {
-    category.innerHTML += `<p class="${tag}">${tag}</p>`;
+    category.innerHTML += `<button class="${tag}" aria-label="filter for ${tag}">${tag}</button>`;
   });
 };
 
 const renderRecipes = (recipes, section) => {
   recipes.forEach(recipe => {
     section.innerHTML += `
-    <figure id="${recipe.id}" class="recipe-box">
-      <img src="${recipe.image}" alt="${recipe.name}">
+    <figure id="${recipe.id}" class="recipe-box" tabindex="0" >
+      <img src="${recipe.image}" alt="">
       <figcaption>${recipe.name}</figcaption>
     </figure>`
   })

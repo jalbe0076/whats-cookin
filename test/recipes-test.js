@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getItems, calculateRecipeCost, getRandomItem, getAllTags, getGroceryIngredients } from '../src/recipes.js'
+import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getItems, calculateRecipeCost, getRandomItem, getAllTags, userRecipes, getGroceryIngredients } from '../src/recipes.js'
 import { sampleRecipeData } from '../src/data/sample-recipes.js';
 import { sampleIngredientsData } from '../src/data/sample-ingredients.js';
 import { sampleUsersData } from '../src/data/sample-users.js';
@@ -270,4 +270,32 @@ describe('get grocery list', () => {
       expect(grocList).to.equal('Please save some recipes!')
     });
   })
+});
+
+describe(`Should return a recipe from an ID`, () => {
+  let user;
+
+  beforeEach(() => {
+    user = getRandomItem(sampleUsersData);
+  });
+  
+  it('Should grab a recipe object from an ID', () => {
+    user.recipesToCook = [ 595736 ];
+    const userCookList = userRecipes(user, sampleRecipeData)
+    expect(userCookList[0]).to.be.an('object');
+    expect(userCookList).to.have.lengthOf(1);
+  });
+  
+  it('Each recipe should have an id, picture, ingredients, instructions, a name and tags', () => {
+    user.recipesToCook = [ 595736 ];
+    const userCookList = userRecipes(user, sampleRecipeData)
+    expect(userCookList[0]).to.have.keys(['id', 'image', 'ingredients', 'instructions', 'name', 'tags']);
+  });
+
+  it('Should grab a list of recipe objects from an ID list', () => {
+    user.recipesToCook = [ 595736, 678353 ];
+    const userCookList = userRecipes(user, sampleRecipeData)
+    expect(userCookList[1]).to.be.an('object');
+    expect(userCookList).to.have.lengthOf(2);
+  });
 });
