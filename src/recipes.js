@@ -68,7 +68,6 @@ const getGroceryIngredients = (recipesToCook, ingredientsData) => {
       } 
       grocList[ingredient.name].amount += recipesToCook.find(r => r.id === recipe.id).ingredients[i].quantity.amount
     })
-    console.log(grocList)
     return grocList
   }, {})
 }
