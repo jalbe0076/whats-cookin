@@ -53,6 +53,25 @@ const getIngredients = (currentRecipe, allIngredients) => {
   },[]);
 };
 
+const getGroceryIngredients = (recipesToCook, ingredientsData) => {
+  if(!recipesToCook.length) {
+    return 'Please save some recipes!'
+  }
+  return  recipesToCook.reduce((grocList, recipe) => {
+    const ingredientsPerRecipe = getIngredients(recipe, ingredientsData)
+    ingredientsPerRecipe.forEach( (ingredient, i) => {
+      if(!grocList[ingredient.name]) {
+        grocList[ingredient.name] = {}
+        grocList[ingredient.name].amount = 0
+        grocList[ingredient.name].unit = recipe.ingredients[i].quantity.unit
+        grocList[ingredient.name].estimatedCostInCents = ingredient.estimatedCostInCents
+      } 
+      grocList[ingredient.name].amount += recipe.ingredients[i].quantity.amount
+    })
+    return grocList
+  }, {})
+}
+
 const getItems = (list, key) => {
   if(!list.length){
     return 'Sorry, no list given!'
@@ -138,5 +157,6 @@ export {
   getItems,
   getAllTags,
   alphabetizeData,
+  getGroceryIngredients,
   getUserRecipes
 };
