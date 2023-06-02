@@ -105,15 +105,15 @@ const renderRecipeOfTheDay = (recipe) => {
 }
 
 const viewSavedRecipes = (user, recipes) => {
-  const recipesToCookList = userRecipes(user, recipes)
+  // const recipesToCookList = userRecipes(user, recipes)
 
   recipesToCook.classList.remove('hidden')
   searchHeader[0].innerHTML = '';
   recipeBoxes[0].innerHTML = '';
   recipesToCook.innerHTML = '';
   savedDropdownCategories.innerHTML = '';
-  
-  if (!recipesToCookList.length){
+
+  if (!user.recipesToCook.length){
     recipesToCook.innerHTML = `<p>Save a recipe to view it here!</p>`
     dropdownPosition[1].classList.add('hidden')
     return
@@ -121,7 +121,7 @@ const viewSavedRecipes = (user, recipes) => {
     dropdownPosition[1].classList.remove('hidden')
   }
 
-  const recipeDataAlpha = alphabetizeData(recipesToCookList)
+  const recipeDataAlpha = alphabetizeData(user.recipesToCook)
   console.log('data alpha', recipeDataAlpha)
   recipeDataAlpha.forEach(recipe => {
     recipesToCook.innerHTML += `<article class="whole-recipe-box">

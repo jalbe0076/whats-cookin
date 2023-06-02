@@ -44,8 +44,6 @@ window.addEventListener('load', function() {
     updateRecipeOfTheDay();
     updateUser();
     updateFeaturedRecipes();
-    console.log(user.id)
-    console.log(user.recipesToCook)
     selectRecipe()
   });
 });
@@ -82,7 +80,6 @@ savedViewBtn.addEventListener('click', () => {
 	savedView.classList.remove('hidden')
 	viewSavedRecipes(user, recipeData)
   populateSavedTags()
-  console.log(user.recipesToCook)
 })
 
 allRecipesButton.addEventListener('click', function() {
@@ -90,9 +87,8 @@ allRecipesButton.addEventListener('click', function() {
 });
 
 addToSaved.addEventListener('click', function() {
-  console.log('before saved recipes', user)
+  // updateUser()
   saveRecipe()
-  console.log('after saved recipes', user)
 })
 
 dropdownCategories.addEventListener('click', (e) => {
@@ -154,9 +150,8 @@ const updateUser = () => {
   } else {
     const searchById = user.id;
     user = usersData[searchById - 1];
+    user.recipesToCook = userRecipes(user, recipeData)
   }
-    // console.log('user usert', user.id)
-  // !user.recipesToCook ? user.recipesToCook = [] : null
 }
 
 const updateRecipeOfTheDay = () => {
@@ -214,7 +209,7 @@ const retrieveSavedInput = () => {
 
 const saveRecipe = () => {
   const recipeToCook = { "userID": user.id, "recipeID": currentRecipe.id };
-  console.log(recipeToCook)
+  // console.log(recipeToCook)
   postData(recipeToCook, user, recipeData)
   // .then(()=> {
   //   setData()
@@ -224,7 +219,7 @@ const saveRecipe = () => {
   // })
   // ;
   // updateUser();
-  console.log('new user' , user)
+  // console.log('new user' , user)
 
   // .then(resolve => {
   //     console.log('resolve', resolve.json())
@@ -240,11 +235,12 @@ const saveRecipe = () => {
   // console.log('saved user recipes', user.recipesToCook)
   // const i = user.recipesToCook.indexOf(currentRecipe)
   // !user.recipesToCook.includes(currentRecipe) ? user.recipesToCook.push(currentRecipe) : user.recipesToCook.splice(i, 1)
-  renderHeartColor()
+  addToSaved.style.color= 'red';
+  // renderHeartColor()
 }
 
 const renderHeartColor = () => {
-  // return user.recipesToCook.includes(currentRecipe) ? addToSaved.style.color= 'red' : addToSaved.style.color= 'gray'
+  return user.recipesToCook.includes(currentRecipe) ? addToSaved.style.color= 'red' : addToSaved.style.color= 'gray'
 }
 
 const deletefromSaved = (e) => {
