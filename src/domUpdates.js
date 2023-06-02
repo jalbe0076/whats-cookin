@@ -2,7 +2,7 @@
 // ======================  IMPORTS AND VARIABLES  ======================
 // =====================================================================
 
-import { getIngredients, getRecipeInstructions, calculateRecipeCost, alphabetizeData, userRecipes } from "./recipes"
+import { getIngredients, getRecipeInstructions, calculateRecipeCost, alphabetizeData } from "./recipes"
 import { selectRecipe, addDelete } from "./scripts"
 
 const recipeName = document.querySelector(".recipe-name")
@@ -105,8 +105,6 @@ const renderRecipeOfTheDay = (recipe) => {
 }
 
 const viewSavedRecipes = (user, recipes) => {
-  // const recipesToCookList = userRecipes(user, recipes)
-
   recipesToCook.classList.remove('hidden')
   searchHeader[0].innerHTML = '';
   recipeBoxes[0].innerHTML = '';
@@ -121,10 +119,10 @@ const viewSavedRecipes = (user, recipes) => {
     dropdownPosition[1].classList.remove('hidden')
   }
 
-  const recipeDataAlpha = alphabetizeData(user.recipesToCook)
-  console.log('data alpha', recipeDataAlpha)
+const recipeDataAlpha = alphabetizeData(user.recipesToCook)
   recipeDataAlpha.forEach(recipe => {
-    recipesToCook.innerHTML += `<article class="whole-recipe-box">
+    recipesToCook.innerHTML += 
+    `<article class="whole-recipe-box">
       <nav class="delete-btn">
         <button id="${recipe.id}" class="delete">✖️</button>
       </nav>
@@ -134,6 +132,7 @@ const viewSavedRecipes = (user, recipes) => {
       </figure>
     <article>`
   }) 
+
   let deleteBtn = document.querySelectorAll('.delete-btn')
   addDelete(deleteBtn)
   selectRecipe()

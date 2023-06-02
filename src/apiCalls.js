@@ -16,12 +16,8 @@ const postData = (data) => {
     headers: { 'Content-Type': 'application/json' }
   })
     .then(response => response.json())
-    .then(resolve => {
-      console.log('post')
-      setData();
-      // updateUser();
-    })
-    .catch(err => console.log(err));
+    .then(resolve => setData())
+    .catch(err => console.log("ERROR", err));
 };
 
 const deleteData = (data) => {
@@ -32,7 +28,7 @@ const deleteData = (data) => {
   })
     .then(response => response.json())
     .then(resolve => setData())
-    .catch(err => console.log(err));
+    .catch(err => console.log("ERROR", err));
 };
 
 const getAllData = () => {

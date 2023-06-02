@@ -15,8 +15,8 @@ let usersData;
 let ingredientsData;
 let recipeData;
 
-let searchInput = document.querySelector('#search-input');
-let searchSaved = document.querySelector('#search-saved');
+const searchInput = document.querySelector('#search-input');
+const searchSaved = document.querySelector('#search-saved');
 const currSavedRecipes = document.querySelector('#recipes-to-cook')
 const searchBtn = document.querySelector('#search-btn');
 const searchView = document.querySelector('#search-results-view')
@@ -26,7 +26,7 @@ const savedView = document.querySelector('#saved-view')
 const savedViewBtn = document.querySelector('#view-saved-btn')
 const addToSaved = document.querySelector(".add-to-saved")
 const dropdownCategories = document.querySelector('.dropdown-categories');
-let featuredTitle = document.querySelector('.featured-title')
+const featuredTitle = document.querySelector('.featured-title')
 const savedDropdownCategories = document.querySelector('.saved-dropdown-categories');
 let recipeResults = document.querySelectorAll('.recipe-box');
 const allRecipesButton = document.querySelector('#all-recipes-btn');
@@ -45,7 +45,6 @@ window.addEventListener('load', function() {
     updateUser();
     updateFeaturedRecipes();
     selectRecipe()
-    console.log(user.id)
   });
 });
 
@@ -88,7 +87,6 @@ allRecipesButton.addEventListener('click', function() {
 });
 
 addToSaved.addEventListener('click', function() {
-  // updateUser()
   saveRecipe()
 })
 

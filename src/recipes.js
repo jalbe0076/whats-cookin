@@ -78,7 +78,6 @@ const calculateRecipeCost = (ingredients, recipe) => {
 
 const getAllTags = (recipes) => {
   if(!recipes) return `Error`;
-  // if(recipes.length) return;
 
   const availableTags = [];
   const tags = getItems(recipes, 'tags');
@@ -110,16 +109,14 @@ const alphabetizeData = (data) => {
 }
 
 const userRecipes = (user, recipes) => {
-  console.log(recipes)
-    return user.recipesToCook.map(element => {
-      if( typeof element !== 'object') {
-        return recipes.find(recipe => recipe.id === element)
-      } else {
-        return recipes.find(recipe => recipe.id === element.id)
-      }
-    })
+  return user.recipesToCook.map(element => {
+    if( typeof element !== 'object') {
+      return recipes.find(recipe => recipe.id === element)
+    } else {
+      return recipes.find(recipe => recipe.id === element.id)
+    }
+  })
 }
-
 
 export { 
   filterRecipes, 
