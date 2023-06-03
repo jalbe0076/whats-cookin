@@ -2,7 +2,7 @@
 // ======================  IMPORTS AND VARIABLES  ======================
 // =====================================================================
 
-import { getRecipeById, getAllTags, filterRecipes, getRandomItem, getUserRecipes, getGroceryIngredients } from './recipes';
+import { getRecipeById, getAllTags, filterRecipes, getRandomItem, getUserRecipes } from './recipes';
 import { renderRecipeInfo, renderRecipeOfTheDay, renderRecipes, renderResults, populateTags, renderUser, hideAllPages, displayAllRecipes, viewSavedRecipes } from './domUpdates';
 import './styles.css';
 import { getAllData, getData, postData, deleteData } from './apiCalls';
@@ -79,7 +79,7 @@ savedViewBtn.addEventListener('click', () => {
   updateUser()
 	hideAllPages()
 	savedView.classList.remove('hidden')
-	viewSavedRecipes(user, recipeData)
+	viewSavedRecipes(user, ingredientsData)
   if(user.recipesToCook.length){ populateSavedTags() }
 })
 
@@ -89,7 +89,6 @@ allRecipesButton.addEventListener('click', function() {
 
 addToSaved.addEventListener('click', function() {
   saveRecipe()
-  console.log(getGroceryIngredients(user.recipesToCook, ingredientsData))
 })
 
 dropdownCategories.addEventListener('click', (e) => {
@@ -233,7 +232,7 @@ const deletefromSaved = (e) => {
   addToSaved.style.color= 'grey';
 	const updatedSavedRecipes = user.recipesToCook.filter(recipe => recipe.id !== selectedRecipeID)
 	user.recipesToCook = updatedSavedRecipes
-	viewSavedRecipes(user, recipeData)
+	viewSavedRecipes(user, ingredientsData)
   if(user.recipesToCook.length){ populateSavedTags() }
 }
 

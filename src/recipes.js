@@ -83,6 +83,19 @@ const getItems = (list, key) => {
   return allValues;
 }
 
+const calculateGroceryCost = (groceryList) => {
+  if(!Object.keys(groceryList).length){
+    return 'Error: no grocery list :('
+  }
+  
+  const ingredients = Object.values(groceryList)
+  const groceryCost = ingredients.reduce((totalCost, stats) => {
+    totalCost += stats.estimatedCostInCents * stats.amount
+    return totalCost
+  }, 0) 
+  return `$${(groceryCost / 100).toFixed(2)}`
+}
+
 const calculateRecipeCost = (ingredients, recipe) => {
   if(!ingredients.length){
     return 'Error: no ingredients :('
@@ -148,5 +161,6 @@ export {
   getAllTags,
   alphabetizeData,
   getGroceryIngredients,
+  calculateGroceryCost,
   getUserRecipes
 };

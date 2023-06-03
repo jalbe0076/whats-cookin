@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getItems, calculateRecipeCost, getRandomItem, getAllTags, userRecipes, getGroceryIngredients } from '../src/recipes.js'
+import { getRecipeInstructions, getRecipeById, filterRecipes, getIngredients, getItems, calculateRecipeCost, getRandomItem, getAllTags, getUserRecipes, getGroceryIngredients, calculateGroceryCost } from '../src/recipes.js'
 import { sampleRecipeData } from '../src/data/sample-recipes.js';
 import { sampleIngredientsData } from '../src/data/sample-ingredients.js';
 import { sampleUsersData } from '../src/data/sample-users.js';
@@ -169,7 +169,7 @@ describe('ingredients', () => {
   })
 })
 
-describe('calculate cost of ingredients', () => {
+describe('calculate cost of recipe ingredients', () => {
   let recipe, ingredients, recipe2, ingredients2;
 
   beforeEach(() => {
@@ -244,33 +244,61 @@ describe('Should get tags from recipes', () => {
     const newTagList = getAllTags();
     expect(newTagList).to.equal(`Error`);
   });
+});
 
-describe('get grocery list', () => {
-    
+describe('Get a grocery list', () => {
   let recipesInList;
   
-    beforeEach(() => {
-      recipesInList = [sampleRecipeData[0], sampleRecipeData[1]]
-    });
-  
-    it('should return a grocery list object with keys of ingredients and values of amounts, unit, and estiamted cost per unit', () => {
-      const grocList = getGroceryIngredients(recipesInList, sampleIngredientsData)
-      expect(grocList).to.deep.equal({
-        'apple': {amount: 2, unit: '', estimatedCostInCents: 207},
-        'apple cider': {amount: 1.5, unit: 'cups', estimatedCostInCents: 468},
-        'bicarbonate of soda': {amount: 0.5, unit: 'tsp', estimatedCostInCents: 582},
-        'corn starch': {amount: 1, unit: 'tablespoon', estimatedCostInCents: 236},
-        'eggs': {amount: 1, unit: 'large', estimatedCostInCents: 472},
-        'wheat flour': {amount: 1.5, unit: 'c', estimatedCostInCents: 142}
-      })
-    });
+  beforeEach(() => {
+    recipesInList = [sampleRecipeData[0], sampleRecipeData[1]]
+  });
 
-    it('should return a message if no recipes are saved', () => {
-      const grocList = getGroceryIngredients([], sampleIngredientsData)
-      expect(grocList).to.equal('Please save some recipes!')
-    });
+  it('should return a grocery list object with keys of ingredients and values of amounts, unit, and estiamted cost per unit', () => {
+    const grocList = getGroceryIngredients(recipesInList, sampleIngredientsData)
+    expect(grocList).to.deep.equal({
+      'apple': {amount: 2, unit: '', estimatedCostInCents: 207},
+      'apple cider': {amount: 1.5, unit: 'cups', estimatedCostInCents: 468},
+      'bicarbonate of soda': {amount: 0.5, unit: 'tsp', estimatedCostInCents: 582},
+      'corn starch': {amount: 1, unit: 'tablespoon', estimatedCostInCents: 236},
+      'eggs': {amount: 1, unit: 'large', estimatedCostInCents: 472},
+      'wheat flour': {amount: 1.5, unit: 'c', estimatedCostInCents: 142}
+    })
+  });
+
+  it('should return a message if no recipes are saved', () => {
+    const grocList = getGroceryIngredients([], sampleIngredientsData)
+    expect(grocList).to.equal('Please save some recipes!')
+  });
+})
+
+describe('calculate cost of grocery list ingredients', () => {
+  let recipesInList, recipe;
+  
+  beforeEach(() => {
+    recipesInList = [sampleRecipeData[0], sampleRecipeData[1]]
+    recipe = [sampleRecipeData[0]];
+  });
+
+  it('should calculate the total cost given one item in a grocery list', () => {
+    const grocList = getGroceryIngredients(recipe, sampleIngredientsData)
+    const totalCost = calculateGroceryCost(grocList)
+
+    expect(totalCost).to.equal('$9.76')
   })
-});
+
+  it('should calculate the total cost of a given grocery list', () => {
+    const grocList = getGroceryIngredients(recipesInList, sampleIngredientsData)
+    const totalCost = calculateGroceryCost(grocList)
+
+    expect(totalCost).to.equal('$23.28')
+  })
+
+  it('should have an error if no given grocery list is given', () => {
+    const totalCost = calculateGroceryCost({})
+
+    expect(totalCost).to.equal('Error: no grocery list :(')
+  })
+})
 
 describe(`Should return a recipe from an ID`, () => {
   let user;
@@ -281,20 +309,20 @@ describe(`Should return a recipe from an ID`, () => {
   
   it('Should grab a recipe object from an ID', () => {
     user.recipesToCook = [ 595736 ];
-    const userCookList = userRecipes(user, sampleRecipeData)
+    const userCookList = getUserRecipes(user, sampleRecipeData)
     expect(userCookList[0]).to.be.an('object');
     expect(userCookList).to.have.lengthOf(1);
   });
   
   it('Each recipe should have an id, picture, ingredients, instructions, a name and tags', () => {
     user.recipesToCook = [ 595736 ];
-    const userCookList = userRecipes(user, sampleRecipeData)
+    const userCookList = getUserRecipes(user, sampleRecipeData)
     expect(userCookList[0]).to.have.keys(['id', 'image', 'ingredients', 'instructions', 'name', 'tags']);
   });
 
   it('Should grab a list of recipe objects from an ID list', () => {
     user.recipesToCook = [ 595736, 678353 ];
-    const userCookList = userRecipes(user, sampleRecipeData)
+    const userCookList = getUserRecipes(user, sampleRecipeData)
     expect(userCookList[1]).to.be.an('object');
     expect(userCookList).to.have.lengthOf(2);
   });
