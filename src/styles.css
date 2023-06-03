@@ -449,15 +449,15 @@ figure {
   }
 }
 
+#saved-view {
+  position: relative;
+}
+
 .grocery-list-and-cost {
-  /* border: solid black 1px; */
+  position: absolute;
+  top: 0;
   right: 0;
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  bottom: 0;
   height: 75vh;
   width: 18vw;
-  /* padding-bottom: 50%; */
   background-color: #D8E2DC;
 }
