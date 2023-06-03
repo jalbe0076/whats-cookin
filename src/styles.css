@@ -464,7 +464,7 @@ figure {
 .grocery-list-and-cost {
   text-align: center;
   position: absolute;
-  top: 0;
+  top: 4vh;
   right: 0;
   width: 18vw;
   height: auto;
