@@ -23,6 +23,7 @@ const allRecipesView = document.querySelector('#all-recipes-view');
 const allRecipesSection = document.querySelector('#all-recipes');
 const savedDropdownCategories = document.querySelector('.saved-dropdown-categories');
 const dropdownPosition = document.querySelectorAll('.category-position');
+const greoceryListCost = document.querySelector('.grocery-list-ingredients-cost')
 
 // =====================================================================
 // ============================  FUNCTIONS  ============================
@@ -137,6 +138,15 @@ const viewSavedRecipes = (user, ingredientsData) => {
   let deleteBtn = document.querySelectorAll('.delete-btn')
   addDelete(deleteBtn)
   selectRecipe()
+  displayGroceryListCost()
+}
+
+const displayGroceryListCost = () => {
+    greoceryListCost.innerHTML = `
+    <article>
+      ${groceryList}
+      ${totalGrocCost}
+    </article>`
 }
 
 const populateTags = (tags, category) => {
