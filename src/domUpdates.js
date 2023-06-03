@@ -150,7 +150,7 @@ const viewSavedRecipes = (user, ingredientsData) => {
 
 const displayGroceryList = (groceryList, groceryKeys) => {
   const ingredients = groceryKeys.map((ingredient) => {
-    return `${groceryList[ingredient].amount} ${groceryList[ingredient].unit} ${groceryList[ingredient].estimatedCostInCents}`
+    return `${ingredient}: ${groceryList[ingredient].amount} ${groceryList[ingredient].unit} ${groceryList[ingredient].estimatedCostInCents}`
     })
   groceryListArticle.innerText = `All Ingredients: \n ${ingredients.join('\n')}`
 }

@@ -1,5 +1,5 @@
 * {
-  border: solid black 1px;
+  /* border: solid black 1px; */
   font-family: 'Kalam', cursive;
 }
 
@@ -373,7 +373,8 @@ figure {
   border-radius: 45%;
 }
 
-.whole-recipe-box {
+.whole-recipe-box,
+.grocery-list-and-cost {
   margin: 10px;
   background-color: #D8E2DC;
   border-radius: 20px;
@@ -459,5 +460,4 @@ figure {
   right: 0;
   height: 75vh;
   width: 18vw;
-  background-color: #D8E2DC;
 }
