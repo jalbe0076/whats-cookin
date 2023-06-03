@@ -140,17 +140,14 @@ const viewSavedRecipes = (user, ingredientsData) => {
   let deleteBtn = document.querySelectorAll('.delete-btn')
   addDelete(deleteBtn)
   selectRecipe()
-  let groceryKeys = Object.keys(groceryList)
-  // console.log('groceryList', groceryList)
-  // console.log('groceryKeys', groceryKeys)
-  // console.log('totalGrocCost', totalGrocCost)
-  displayGroceryList(groceryList, groceryKeys)
+  let groceryIngredients = Object.keys(groceryList)
+  displayGroceryList(groceryList, groceryIngredients)
   displayGroceryCost(totalGrocCost)
 }
 
-const displayGroceryList = (groceryList, groceryKeys) => {
-  const ingredients = groceryKeys.map((ingredient) => {
-    return `${ingredient}: ${groceryList[ingredient].amount} ${groceryList[ingredient].unit} ${groceryList[ingredient].estimatedCostInCents}`
+const displayGroceryList = (groceryList, groceryIngredients) => {
+  const ingredients = groceryIngredients.map((ingredient) => {
+    return `¤ ${ingredient}: ${groceryList[ingredient].amount} ${groceryList[ingredient].unit}\n ‣ $${groceryList[ingredient].estimatedCostInCents / 100}`
     })
   groceryListArticle.innerText = `All Ingredients: \n ${ingredients.join('\n')}`
 }
