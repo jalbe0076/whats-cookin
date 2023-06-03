@@ -454,10 +454,10 @@ figure {
   right: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   position: fixed;
   bottom: 0;
   height: 75vh;
-  width: 32vh;
-  background: white;
+  width: 18vw;
+  /* padding-bottom: 50%; */
+  background-color: #D8E2DC;
 }
