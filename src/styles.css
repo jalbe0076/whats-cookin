@@ -281,6 +281,13 @@ figure {
   flex-direction: row;
   justify-content: space-around;
   flex-wrap: wrap;
+}
+
+.recipe-results, #recipes-to-cook, #all-recipes {
+  margin: 2% 13% 6% 13%;
+}
+
+#recipes-to-cook {
   margin: 2% 23% 6% 13%;
 }
 
@@ -455,9 +462,16 @@ figure {
 }
 
 .grocery-list-and-cost {
+  text-align: center;
   position: absolute;
   top: 0;
   right: 0;
-  height: 75vh;
   width: 18vw;
+  height: auto;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.grocery-list {
+  text-align: left;
 }

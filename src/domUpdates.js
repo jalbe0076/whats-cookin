@@ -23,7 +23,6 @@ const allRecipesView = document.querySelector('#all-recipes-view');
 const allRecipesSection = document.querySelector('#all-recipes');
 const savedDropdownCategories = document.querySelector('.saved-dropdown-categories');
 const dropdownPosition = document.querySelectorAll('.category-position');
-const groceryListCostAside = document.querySelector('.grocery-list-and-cost');
 const groceryListArticle = document.querySelector('.grocery-list');
 const groceryCostArticle = document.querySelector('.grocery-cost');
 
@@ -149,7 +148,7 @@ const displayGroceryList = (groceryList, groceryIngredients) => {
   const ingredients = groceryIngredients.map((ingredient) => {
     return `¤ ${ingredient}: ${groceryList[ingredient].amount} ${groceryList[ingredient].unit}\n ‣ $${groceryList[ingredient].estimatedCostInCents / 100}`
     })
-  groceryListArticle.innerText = `All Ingredients: \n ${ingredients.join('\n')}`
+  groceryListArticle.innerText = `${ingredients.join('\n')}`
 }
 
 const displayGroceryCost = (totalGrocCost) => {
