@@ -449,8 +449,8 @@ figure {
   }
 }
 
-.grocery-list-ingredients-cost {
-  border: solid black 1px;
+.grocery-list-and-cost {
+  /* border: solid black 1px; */
   right: 0;
   display: flex;
   flex-direction: column;

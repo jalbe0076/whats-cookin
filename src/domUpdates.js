@@ -23,7 +23,9 @@ const allRecipesView = document.querySelector('#all-recipes-view');
 const allRecipesSection = document.querySelector('#all-recipes');
 const savedDropdownCategories = document.querySelector('.saved-dropdown-categories');
 const dropdownPosition = document.querySelectorAll('.category-position');
-const groceryListCost = document.querySelector('.grocery-list-ingredients-cost')
+const groceryListCostAside = document.querySelector('.grocery-list-and-cost');
+const groceryListArticle = document.querySelector('.grocery-list');
+const groceryCostArticle = document.querySelector('.grocery-cost');
 
 // =====================================================================
 // ============================  FUNCTIONS  ============================
@@ -144,7 +146,7 @@ const viewSavedRecipes = (user, ingredientsData) => {
 }
 
 const displayGroceryListCost = (totalGrocCost) => {
-    groceryListCost.innerHTML = totalGrocCost
+    groceryCostArticle.innerHTML = totalGrocCost
 }
 
 const populateTags = (tags, category) => {
