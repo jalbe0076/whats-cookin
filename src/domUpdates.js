@@ -25,6 +25,7 @@ const savedDropdownCategories = document.querySelector('.saved-dropdown-categori
 const dropdownPosition = document.querySelectorAll('.category-position');
 const groceryListArticle = document.querySelector('.grocery-list');
 const groceryCostArticle = document.querySelector('.grocery-cost');
+const groceryListCostAside = document.querySelector('.grocery-list-and-cost')
 
 // =====================================================================
 // ============================  FUNCTIONS  ============================
@@ -116,9 +117,11 @@ const viewSavedRecipes = (user, ingredientsData) => {
   if (!user.recipesToCook.length){
     recipesToCook.innerHTML = `<p>Save a recipe to view it here!</p>`
     dropdownPosition[1].classList.add('hidden')
+    groceryListCostAside.classList.add('hidden')
     return
   }
   dropdownPosition[1].classList.remove('hidden')
+  groceryListCostAside.classList.remove('hidden')
   const groceryList = getGroceryIngredients(user.recipesToCook, ingredientsData)
   const totalGrocCost = calculateGroceryCost(groceryList)
 
@@ -152,7 +155,7 @@ const displayGroceryList = (groceryList, groceryIngredients) => {
 }
 
 const displayGroceryCost = (totalGrocCost) => {
-  groceryCostArticle.innerHTML = `Total Cost for All Ingredients: ${totalGrocCost}`
+  groceryCostArticle.innerHTML = `Total Cost: ${totalGrocCost}`
 }
 
 const populateTags = (tags, category) => {
