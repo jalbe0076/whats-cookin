@@ -2,7 +2,7 @@
 // ======================  IMPORTS AND VARIABLES  ======================
 // =====================================================================
 
-import { getIngredients, getRecipeInstructions, calculateRecipeCost, alphabetizeData } from "./recipes"
+import { getIngredients, getRecipeInstructions, calculateRecipeCost, alphabetizeData, getGroceryIngredients, calculateGroceryCost } from "./recipes"
 import { selectRecipe, addDelete } from "./scripts"
 
 const recipeName = document.querySelector(".recipe-name")
@@ -104,7 +104,7 @@ const renderRecipeOfTheDay = (recipe) => {
   homeBanner.id = `${recipe.id}`
 }
 
-const viewSavedRecipes = (user, recipes) => {
+const viewSavedRecipes = (user, ingredientsData) => {
   recipesToCook.classList.remove('hidden')
   searchHeader[0].innerHTML = '';
   recipeBoxes[0].innerHTML = '';
@@ -115,22 +115,23 @@ const viewSavedRecipes = (user, recipes) => {
     recipesToCook.innerHTML = `<p>Save a recipe to view it here!</p>`
     dropdownPosition[1].classList.add('hidden')
     return
-  } else {
-    dropdownPosition[1].classList.remove('hidden')
   }
+  dropdownPosition[1].classList.remove('hidden')
+  const groceryList = getGroceryIngredients(user.recipesToCook, ingredientsData)
+  const totalGrocCost = calculateGroceryCost(groceryList)
 
-const recipeDataAlpha = alphabetizeData(user.recipesToCook)
-  recipeDataAlpha.forEach(recipe => {
-    recipesToCook.innerHTML += 
-    `<article class="whole-recipe-box">
-      <nav class="delete-btn">
-        <button type="button" id="${recipe.id}" class="delete" aria-label="Delete">✖️</button>
-      </nav>
-      <figure id="${recipe.id}" class="recipe-box" tabindex="0">
-        <img src="${recipe.image}" alt="">
-        <figcaption>${recipe.name}</figcaption>
-      </figure>
-    <article>`
+  const recipeDataAlpha = alphabetizeData(user.recipesToCook)
+    recipeDataAlpha.forEach(recipe => {
+      recipesToCook.innerHTML += 
+      `<article class="whole-recipe-box">
+        <nav class="delete-btn">
+          <button type="button" id="${recipe.id}" class="delete" aria-label="Delete">✖️</button>
+        </nav>
+        <figure id="${recipe.id}" class="recipe-box" tabindex="0">
+          <img src="${recipe.image}" alt="">
+          <figcaption>${recipe.name}</figcaption>
+        </figure>
+      <article>`
   }) 
 
   let deleteBtn = document.querySelectorAll('.delete-btn')
