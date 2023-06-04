@@ -12,7 +12,7 @@ body {
   margin: 0px;
 }
 
-h1, .main-title, h2 {
+h1, .main-title, h2, .initials {
   font-family: 'Mogra', cursive;
   text-shadow: 1px 0px 1px #CCCCCC, 0px 1px 1px #EEEEEE, 2px 1px 1px #CCCCCC, 1px 2px 1px #EEEEEE, 3px 2px 1px #CCCCCC, 2px 3px 1px #EEEEEE, 4px 3px 1px #CCCCCC, 3px 4px 1px #EEEEEE, 5px 4px 1px #CCCCCC, 4px 5px 1px #EEEEEE, 6px 5px 1px #CCCCCC, 5px 6px 1px #EEEEEE, 7px 6px 1px #CCCCCC;
   text-align: center;
@@ -119,7 +119,7 @@ figure {
 }
 
 .nav-btn {
-  width: 170px;
+  width: 180px;
   height: 40px;
   font-size: 20px;
   border: none;
@@ -280,7 +280,14 @@ figure {
   flex-direction: row;
   justify-content: space-around;
   flex-wrap: wrap;
+}
+
+.recipe-results, #recipes-to-cook, #all-recipes {
   margin: 2% 13% 6% 13%;
+}
+
+#recipes-to-cook {
+  margin: 2% 23% 6% 13%;
 }
 
 .recipe-box {
@@ -372,7 +379,8 @@ figure {
   border-radius: 45%;
 }
 
-.whole-recipe-box {
+.whole-recipe-box,
+.grocery-list-and-cost {
   margin: 10px;
   background-color: #D8E2DC;
   border-radius: 20px;
@@ -446,4 +454,23 @@ figure {
   .nav-pages {
     align-items: center;
   }
+}
+
+#saved-view {
+  position: relative;
+}
+
+.grocery-list-and-cost {
+  text-align: center;
+  position: absolute;
+  top: 4vh;
+  right: 0;
+  width: 18vw;
+  height: auto;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.grocery-list {
+  text-align: left;
 }

@@ -23,6 +23,9 @@ const allRecipesView = document.querySelector('#all-recipes-view');
 const allRecipesSection = document.querySelector('#all-recipes');
 const savedDropdownCategories = document.querySelector('.saved-dropdown-categories');
 const dropdownPosition = document.querySelectorAll('.category-position');
+const groceryListArticle = document.querySelector('.grocery-list');
+const groceryCostArticle = document.querySelector('.grocery-cost');
+const groceryListCostAside = document.querySelector('.grocery-list-and-cost')
 
 // =====================================================================
 // ============================  FUNCTIONS  ============================
@@ -114,9 +117,11 @@ const viewSavedRecipes = (user, ingredientsData) => {
   if (!user.recipesToCook.length){
     recipesToCook.innerHTML = `<p>Save a recipe to view it here!</p>`
     dropdownPosition[1].classList.add('hidden')
+    groceryListCostAside.classList.add('hidden')
     return
   }
   dropdownPosition[1].classList.remove('hidden')
+  groceryListCostAside.classList.remove('hidden')
   const groceryList = getGroceryIngredients(user.recipesToCook, ingredientsData)
   const totalGrocCost = calculateGroceryCost(groceryList)
 
@@ -137,6 +142,20 @@ const viewSavedRecipes = (user, ingredientsData) => {
   let deleteBtn = document.querySelectorAll('.delete-btn')
   addDelete(deleteBtn)
   selectRecipe()
+  let groceryIngredients = Object.keys(groceryList)
+  displayGroceryList(groceryList, groceryIngredients)
+  displayGroceryCost(totalGrocCost)
+}
+
+const displayGroceryList = (groceryList, groceryIngredients) => {
+  const ingredients = groceryIngredients.map((ingredient) => {
+    return `¤ ${ingredient}: ${groceryList[ingredient].amount} ${groceryList[ingredient].unit} \n ‣ $${((groceryList[ingredient].estimatedCostInCents * groceryList[ingredient].amount) / 100).toFixed(2)}`
+    })
+  groceryListArticle.innerText = `${ingredients.join('\n')}`
+}
+
+const displayGroceryCost = (totalGrocCost) => {
+  groceryCostArticle.innerHTML = `Total Cost: ${totalGrocCost}`
 }
 
 const populateTags = (tags, category) => {
