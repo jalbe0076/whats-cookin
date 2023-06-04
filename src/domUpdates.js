@@ -149,7 +149,7 @@ const viewSavedRecipes = (user, ingredientsData) => {
 
 const displayGroceryList = (groceryList, groceryIngredients) => {
   const ingredients = groceryIngredients.map((ingredient) => {
-    return `¤ ${ingredient}: ${groceryList[ingredient].amount} ${groceryList[ingredient].unit} \n ‣ $${groceryList[ingredient].estimatedCostInCents / 100}`
+    return `¤ ${ingredient}: ${groceryList[ingredient].amount} ${groceryList[ingredient].unit} \n ‣ $${((groceryList[ingredient].estimatedCostInCents * groceryList[ingredient].amount) / 100).toFixed(2)}`
     })
   groceryListArticle.innerText = `${ingredients.join('\n')}`
 }
