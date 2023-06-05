@@ -9,7 +9,7 @@
 * [Technologies Used](#Technologies-Used)
 
 ## Description
-Welcome to What's Cookin! - your go-to website for cooking and baking inspiration. Discover a wide range of dinner ideas and delightful desserts. On our home page, you'll find the Recipe of the Day and a featured category. Feel free to use the search bar, browse by category, or explore all recipes. Each recipe provides a list of ingredients, total price, and directions. Save your recipes to cook by clicking the ❤️ icon in the top right corner and visiting your saved recipes on the "Saved Recipes" page. Once saved, a grocery list is displayed on the "Saved Recipes" page showing quantities of the required ingredients to cool all your saved recipes along with a total budget. 
+Welcome to What's Cookin! - your go-to website for cooking and baking inspiration. Discover a wide range of dinner ideas and delightful desserts. On our home page, you'll find the Recipe of the Day and a featured category. Feel free to use the search bar, browse by category, or explore all recipes. Each recipe provides a list of ingredients, total price, and directions. Save your recipes to cook by clicking the ❤️ icon in the top right corner and visiting your saved recipes on the "Saved Recipes" page. Once saved, a grocery list is displayed on the "Saved Recipes" page showing quantities of the required ingredients to cook all your saved recipes along with a total budget. 
 
 ## Learning Goals
 - Use object and array prototype methods to perform data manipulation
