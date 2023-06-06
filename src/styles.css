@@ -137,14 +137,10 @@ figure {
 }
 
 .arrow {
-  border-style: solid;
-  border-right: 10px solid transparent;
-  border-left: 10px solid transparent;
-  border-top: 10px solid #282828;
-  border-bottom: 0;
+  width: 20px;
   position: absolute;
-  bottom: 13px;
-  right: 4px;
+  bottom: 11px;
+  right: 8px;
 }
 
 #home-icon:hover, .home-banner:hover, #search-btn:hover, .recipe-box:hover {
@@ -161,8 +157,12 @@ figure {
   position: relative;
 }
 
-#all-categories-dropdown {
+#all-categories-dropdown, #all-categories-btn {
   position: relative;
+}
+
+#all-categories-btn {
+  width: 200px;
 }
 
 .dropdown-categories, .saved-dropdown-categories {
@@ -392,6 +392,25 @@ figure {
   align-self: flex-end;
 }
 
+#saved-view {
+  position: relative;
+}
+
+.grocery-list-and-cost {
+  text-align: center;
+  position: absolute;
+  top: 8vh;
+  right: 0;
+  width: 18vw;
+  height: auto;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.grocery-list {
+  text-align: left;
+}
+
 .hidden {
   display: none !important;
 }
@@ -413,6 +432,9 @@ figure {
   #search-btn {
     width: 50px;
     height: 40px;
+  }
+  .recipe-view {
+    min-width:auto;
   }
 }
 
@@ -442,6 +464,9 @@ figure {
   #user-search {
     min-width: 130px;
   }
+  #saved-recipes-header {
+    flex-direction: column;
+  }
 }
 
 @media(max-width: 550px) {
@@ -454,23 +479,4 @@ figure {
   .nav-pages {
     align-items: center;
   }
-}
-
-#saved-view {
-  position: relative;
-}
-
-.grocery-list-and-cost {
-  text-align: center;
-  position: absolute;
-  top: 4vh;
-  right: 0;
-  width: 18vw;
-  height: auto;
-  max-height: 60vh;
-  overflow-y: auto;
-}
-
-.grocery-list {
-  text-align: left;
 }
