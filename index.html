@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../src/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Mogra&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">    
+    <title>Whats Cookin</title>
+  </head>
+  <body>
+    <header>
+      <nav class="nav-bar">
+        <section id="user-search">
+            <input type="text" id="search-input" placeholder="Search all recipes"/>
+            <label for="search-input" class="hidden">Search all recipes</label>
+            <button type="submit" id="search-btn" aria-label="Submit Search"></button>
+            <div id="user-initials">
+              <span class="initials">
+                <!-- Initials will go here -->
+              </span>
+            </div>
+        </section>
+        <h1 class="main-title">What's Cookin</h1>
+        <section class="nav-pages">
+          <button type="button" id="home-icon" alt="What's Cookin Chef" aria-label="Home"></button>
+          <button type="button" id="view-saved-btn" class="nav-btn" aria-label="View Saved Recipes">Saved Recipes</button>
+          <button type="button" id="all-recipes-btn" class="nav-btn" aria-label="View All Recipes">All Recipes</button>
+          <div class="category-position">
+            <button type="button" id="all-categories-dropdown" class="nav-btn" aria-label="View All Categories Dropdown">All Categories <img src="./images/arrowhead.png" class="arrow" alt="down arrowhead"> </button>
+            <ul class="dropdown-categories">
+              <!-- tag items get populated here -->
+            </ul>
+          </div>
+        </section>
+      </nav>
+    </header>
+    <main>
+      <section class="home-view page">
+        <div class='banner-container'>
+          <figure class="home-banner" tabindex="0">
+            <!-- Random recipe will appear here -->
+          </figure>
+        </div>
+        <article id="featured-recipes">
+          <h2 class="featured-title">Featured Recipes</h2>
+          <div class="featured">
+          </div>
+        </article>
+      </section>
+      <section class="recipe-view page hidden">
+        <button type="button" class="add-to-saved" aria-label="Add to Saved Recipes">&#9829</button>
+        <h2 class="recipe-name">Your Recipe here</h2>
+        <section class="recipe-info-row">
+          <section class="info-box">
+            <p class="recipe-ingredients">
+              <!-- Current ingredients go here -->
+            </p>
+            <p class="recipe-cost">
+              <!-- Total cost goes here -->
+            </p>
+          </section>
+          <img class="info-box recipe-image" alt="current recipe" src="https://spoonacular.com/recipeImages/595736-556x370.jpg">
+        </section>
+        <section class="instructions-section">
+          <!-- Instructions go here -->
+        </section>
+      </section>
+      <section id="saved-view" class="page hidden">
+        <header id="saved-recipes-header">
+          <h2>Recipes to Cook:</h2>
+          <input type="text" id="search-saved" placeholder="Search saved recipes"/>
+          <label for="search-saved" class="hidden">Search saved recipes</label>
+          <div class="category-position hidden">
+            <button type="button" class="nav-btn" id="all-categories-btn" aria-label="View Saved Categories">Saved Categories <img src="./images/arrowhead.png" class="arrow" alt="down arrowhead"></button>
+            <ul class="saved-dropdown-categories">
+              <!-- Saved recipe tags go here  -->
+            </ul>
+          </div>
+        </header>
+        <aside class="grocery-list-and-cost">
+          <h2>Grocery List:</h2>
+          <article class="grocery-list">
+          <!-- Recipes to Cook Ingredients go here  -->
+          </article>
+          <article class="grocery-cost">
+          <!-- Recipes to Cook Total Cost goes here  -->
+          </article>
+        </aside>
+        <article id="recipes-to-cook">
+          <!-- Recipes to Cook will go here -->
+        </article>
+        <section id="saved-recipes-search-results">
+          <header class="recipe-results-header">
+            <!-- Showing search results for...-->
+          </header>
+          <article class="recipe-results">
+            <!-- recipe results go here -->
+          </article>
+        </section>
+      </section>
+      <section id="all-recipes-view" class="page hidden">
+        <h2>All Recipes</h2>
+        <article id="all-recipes">
+          <!-- all recipes go here -->
+        </article>
+      </section>
+      <section id="all-categories-view" class="page hidden">
+        <h2>All Categories</h2>
+      </section>
+      <section id="search-results-view" class="page hidden">
+        <header class="recipe-results-header">
+          <!-- Showing search results for...-->
+        </header>
+        <article class="recipe-results">
+          <!-- recipe results go here -->
+        </article>
+      </section>
+    </main>
+  </body>
+  <!-- Do not include the scripts.js file here - it is done automatically by the webpack server -->
+  <script src="bundle.js"></script>
+</html>
