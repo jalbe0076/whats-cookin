@@ -4,13 +4,13 @@
 import { setData, updateUser } from './scripts';
 
 const getData = (data) => {
-  return fetch(`http://localhost:3001/api/v1/${data}`)
+  return fetch(`https://whats-cooking-api.vercel.app/api/v1/${data}`)
       .then(response => response.json())
       .catch(error => console.log("ERROR", error));
 };
 
 const postData = (data) => {
-  fetch('http://localhost:3001/api/v1/usersRecipes', {
+  fetch('https://whats-cooking-api.vercel.app/api/v1/usersRecipes', {
     method: 'POST',
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json' }
@@ -21,7 +21,7 @@ const postData = (data) => {
 };
 
 const deleteData = (data) => {
-  fetch('http://localhost:3001/api/v1/usersRecipes', {
+  fetch('https://whats-cooking-api.vercel.app/api/v1/usersRecipes', {
     method: 'DELETE',
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json' }
