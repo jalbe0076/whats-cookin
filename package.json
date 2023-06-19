@@ -1,4 +1,5 @@
 {
+  "homepage": "http://jalbe0076.github.io/whats-cookin",
   "name": "whats-cookin",
   "version": "1.0.0",
   "description": "Starter kit for Turing FE2 paired project",
@@ -6,7 +7,9 @@
   "scripts": {
     "start": "webpack serve",
     "build": "webpack",
-    "test": "mochapack 'test/**/*.js'"
+    "test": "mochapack 'test/**/*.js'",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "author": "Turing School of Software and Design",
   "license": "MIT",
@@ -14,6 +17,7 @@
     "chai": "^4.3.4",
     "css-loader": "^5.2.6",
     "file-loader": "^6.2.0",
+    "gh-pages": "^5.0.0",
     "mocha": "^8.4.0",
     "mochapack": "^2.1.2",
     "sass": "^1.34.0",

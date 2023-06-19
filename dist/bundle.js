@@ -9,7 +9,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "addDelete": () => (/* binding */ addDelete),
 /* harmony export */   "retrieveInput": () => (/* binding */ retrieveInput),
 /* harmony export */   "saveRecipe": () => (/* binding */ saveRecipe),
-/* harmony export */   "selectRecipe": () => (/* binding */ selectRecipe)
+/* harmony export */   "selectRecipe": () => (/* binding */ selectRecipe),
+/* harmony export */   "setData": () => (/* binding */ setData),
+/* harmony export */   "updateUser": () => (/* binding */ updateUser)
 /* harmony export */ });
 /* harmony import */ var _recipes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _domUpdates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
@@ -47,10 +49,12 @@ let featuredTitle = document.querySelector('.featured-title')
 const savedDropdownCategories = document.querySelector('.saved-dropdown-categories');
 let recipeResults = document.querySelectorAll('.recipe-box');
 const allRecipesButton = document.querySelector('#all-recipes-btn');
+const featured = document.querySelector('.featured')
 
 // =====================================================================
 // =========================  EVENT LISTENERS  =========================
 // =====================================================================
+
 
 window.addEventListener('load', function() {
   setData();
@@ -60,6 +64,7 @@ window.addEventListener('load', function() {
     updateRecipeOfTheDay();
     updateUser();
     updateFeaturedRecipes();
+    selectRecipe()
   });
 });
 
@@ -70,6 +75,12 @@ homeIcon.addEventListener('click', () => {
 
 homeView.addEventListener('click', function(e) {
   updateCurrentRecipe(e)
+})
+
+homeView.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    updateCurrentRecipe(e)
+  }
 })
 
 searchBtn.addEventListener('click', () => {
@@ -84,10 +95,11 @@ searchInput.addEventListener('keydown', (e) => {
 });
 
 savedViewBtn.addEventListener('click', () => {
-	(0,_domUpdates__WEBPACK_IMPORTED_MODULE_1__.hideAllPages)()
+  updateUser()
+	;(0,_domUpdates__WEBPACK_IMPORTED_MODULE_1__.hideAllPages)()
 	savedView.classList.remove('hidden')
-	;(0,_domUpdates__WEBPACK_IMPORTED_MODULE_1__.viewSavedRecipes)(user)
-  populateSavedTags()
+	;(0,_domUpdates__WEBPACK_IMPORTED_MODULE_1__.viewSavedRecipes)(user, ingredientsData)
+  if(user.recipesToCook.length){ populateSavedTags() }
 })
 
 allRecipesButton.addEventListener('click', function() {
@@ -124,6 +136,11 @@ const selectRecipe = () => {
     recipe.addEventListener('click', (e) => {
       updateCurrentRecipe(e)        
 		})
+    recipe.addEventListener('keydown', (e) => {
+      if(e.key === "Enter") {
+        updateCurrentRecipe(e)      
+      }  
+		})
 	})    
 }
 
@@ -146,9 +163,14 @@ const updateCurrentRecipe = (e) => {
 }
 
 const updateUser = () => {
-  user = (0,_recipes__WEBPACK_IMPORTED_MODULE_0__.getRandomItem)(usersData)
-  !user.recipesToCook ? user.recipesToCook = [] : null
-  ;(0,_domUpdates__WEBPACK_IMPORTED_MODULE_1__.renderUser)(user)
+  if (!user) {
+    user = (0,_recipes__WEBPACK_IMPORTED_MODULE_0__.getRandomItem)(usersData)
+    ;(0,_domUpdates__WEBPACK_IMPORTED_MODULE_1__.renderUser)(user)
+  } else {
+    const searchById = user.id;
+    user = usersData[searchById - 1];
+    user.recipesToCook = (0,_recipes__WEBPACK_IMPORTED_MODULE_0__.getUserRecipes)(user, recipeData)
+  }
 }
 
 const updateRecipeOfTheDay = () => {
@@ -166,8 +188,8 @@ const updateFeaturedRecipes = () => {
     updateFeaturedRecipes()
   } else {
     const capitalTag = tag.split(' ').map(substring => substring[0].toUpperCase() + substring.slice(1)).join(' ')
-    featuredTitle.innerText = `${capitalTag}`
-    ;(0,_domUpdates__WEBPACK_IMPORTED_MODULE_1__.renderFeaturedRecipes)(featuredRecipes) 
+    featuredTitle.innerText = `Featured Category: ${capitalTag}`
+    ;(0,_domUpdates__WEBPACK_IMPORTED_MODULE_1__.renderRecipes)(featuredRecipes, featured) 
   }
 }
 
@@ -186,14 +208,7 @@ const searchForRecipes = (recipes, retrieved, container) => {
     return
   }
 
-	const formattedRecipes = foundRecipes.map(recipe => {
-		return {
-			id: recipe.id,
-			name: recipe.name,
-			image: recipe.image
-		}
-	})
-  ;(0,_domUpdates__WEBPACK_IMPORTED_MODULE_1__.renderResults)(retrieved, formattedRecipes, container)
+  (0,_domUpdates__WEBPACK_IMPORTED_MODULE_1__.renderResults)(retrieved, foundRecipes, container)
 }
 
 const searchSavedRecipes = (recipes) => {
@@ -212,21 +227,32 @@ const retrieveSavedInput = () => {
 }
 
 const saveRecipe = () => {
-  const i = user.recipesToCook.indexOf(currentRecipe)
-  !user.recipesToCook.includes(currentRecipe) ? user.recipesToCook.push(currentRecipe) : user.recipesToCook.splice(i, 1)
-  renderHeartColor()
+  const recipeToCook = { "userID": user.id, "recipeID": currentRecipe.id };
+  updateUser();
+
+  if (!user.recipesToCook.some(recipe => recipe.id === currentRecipe.id)) {
+    (0,_apiCalls__WEBPACK_IMPORTED_MODULE_3__.postData)(recipeToCook)
+    addToSaved.style.color= 'red';
+  } else {
+    (0,_apiCalls__WEBPACK_IMPORTED_MODULE_3__.deleteData)(recipeToCook)
+    addToSaved.style.color= 'grey';
+  }
 }
 
 const renderHeartColor = () => {
+  updateUser();
   return user.recipesToCook.includes(currentRecipe) ? addToSaved.style.color= 'red' : addToSaved.style.color= 'gray'
 }
 
 const deletefromSaved = (e) => {
 	const selectedRecipeID = parseInt(e.target.id)
+  const recipeToDelete = { "userID": user.id, "recipeID": selectedRecipeID };
+  (0,_apiCalls__WEBPACK_IMPORTED_MODULE_3__.deleteData)(recipeToDelete);
+  addToSaved.style.color= 'grey';
 	const updatedSavedRecipes = user.recipesToCook.filter(recipe => recipe.id !== selectedRecipeID)
 	user.recipesToCook = updatedSavedRecipes
-	;(0,_domUpdates__WEBPACK_IMPORTED_MODULE_1__.viewSavedRecipes)(user)
-  populateSavedTags()
+	;(0,_domUpdates__WEBPACK_IMPORTED_MODULE_1__.viewSavedRecipes)(user, ingredientsData)
+  if(user.recipesToCook.length){ populateSavedTags() }
 }
 
 const setData = () => {
@@ -252,14 +278,17 @@ const populateSavedTags= () => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "alphabetizeData": () => (/* binding */ alphabetizeData),
+/* harmony export */   "calculateGroceryCost": () => (/* binding */ calculateGroceryCost),
 /* harmony export */   "calculateRecipeCost": () => (/* binding */ calculateRecipeCost),
 /* harmony export */   "filterRecipes": () => (/* binding */ filterRecipes),
 /* harmony export */   "getAllTags": () => (/* binding */ getAllTags),
+/* harmony export */   "getGroceryIngredients": () => (/* binding */ getGroceryIngredients),
 /* harmony export */   "getIngredients": () => (/* binding */ getIngredients),
 /* harmony export */   "getItems": () => (/* binding */ getItems),
 /* harmony export */   "getRandomItem": () => (/* binding */ getRandomItem),
 /* harmony export */   "getRecipeById": () => (/* binding */ getRecipeById),
-/* harmony export */   "getRecipeInstructions": () => (/* binding */ getRecipeInstructions)
+/* harmony export */   "getRecipeInstructions": () => (/* binding */ getRecipeInstructions),
+/* harmony export */   "getUserRecipes": () => (/* binding */ getUserRecipes)
 /* harmony export */ });
 const getRecipeById = (recipes, id) => {
   if(!recipes) { return 'Cannot find recipe'; }
@@ -316,6 +345,25 @@ const getIngredients = (currentRecipe, allIngredients) => {
   },[]);
 };
 
+const getGroceryIngredients = (recipesToCook, ingredientsData) => {
+  if(!recipesToCook.length) {
+    return 'Please save some recipes!'
+  }
+  return  recipesToCook.reduce((grocList, recipe) => {
+    const ingredientsPerRecipe = getIngredients(recipe, ingredientsData)
+    ingredientsPerRecipe.forEach( (ingredient, i) => {
+      if(!grocList[ingredient.name]) {
+        grocList[ingredient.name] = {}
+        grocList[ingredient.name].amount = 0
+        grocList[ingredient.name].unit = recipe.ingredients[i].quantity.unit
+        grocList[ingredient.name].estimatedCostInCents = ingredient.estimatedCostInCents
+      } 
+      grocList[ingredient.name].amount += recipe.ingredients[i].quantity.amount
+    })
+    return grocList
+  }, {})
+}
+
 const getItems = (list, key) => {
   if(!list.length){
     return 'Sorry, no list given!'
@@ -325,6 +373,19 @@ const getItems = (list, key) => {
   list.forEach(item => allValues.push(item[key]))
 
   return allValues;
+}
+
+const calculateGroceryCost = (groceryList) => {
+  if(!Object.keys(groceryList).length){
+    return 'Error: no grocery list :('
+  }
+  
+  const ingredients = Object.values(groceryList)
+  const groceryCost = ingredients.reduce((totalCost, stats) => {
+    totalCost += stats.estimatedCostInCents * stats.amount
+    return totalCost
+  }, 0) 
+  return `$${(groceryCost / 100).toFixed(2)}`
 }
 
 const calculateRecipeCost = (ingredients, recipe) => {
@@ -371,6 +432,15 @@ const alphabetizeData = (data) => {
   return data;
 }
 
+const getUserRecipes = (user, recipes) => {
+  return user.recipesToCook.map(element => {
+    if( typeof element !== 'object') {
+      return recipes.find(recipe => recipe.id === element)
+    } else {
+      return recipes.find(recipe => recipe.id === element.id)
+    }
+  })
+}
 
 
 
@@ -383,9 +453,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "displayAllRecipes": () => (/* binding */ displayAllRecipes),
 /* harmony export */   "hideAllPages": () => (/* binding */ hideAllPages),
 /* harmony export */   "populateTags": () => (/* binding */ populateTags),
-/* harmony export */   "renderFeaturedRecipes": () => (/* binding */ renderFeaturedRecipes),
 /* harmony export */   "renderRecipeInfo": () => (/* binding */ renderRecipeInfo),
 /* harmony export */   "renderRecipeOfTheDay": () => (/* binding */ renderRecipeOfTheDay),
+/* harmony export */   "renderRecipes": () => (/* binding */ renderRecipes),
 /* harmony export */   "renderResults": () => (/* binding */ renderResults),
 /* harmony export */   "renderUser": () => (/* binding */ renderUser),
 /* harmony export */   "showSearchResults": () => (/* binding */ showSearchResults),
@@ -418,7 +488,9 @@ const allRecipesView = document.querySelector('#all-recipes-view');
 const allRecipesSection = document.querySelector('#all-recipes');
 const savedDropdownCategories = document.querySelector('.saved-dropdown-categories');
 const dropdownPosition = document.querySelectorAll('.category-position');
-const featured = document.querySelector('.featured')
+const groceryListArticle = document.querySelector('.grocery-list');
+const groceryCostArticle = document.querySelector('.grocery-cost');
+const groceryListCostAside = document.querySelector('.grocery-list-and-cost')
 
 // =====================================================================
 // ============================  FUNCTIONS  ============================
@@ -450,18 +522,12 @@ const renderResults = (userValue, formattedRecipes, container) => {
 
 const showSearchResults = (userValue, searchResults, currentHeader, currentRecipeResults) => {
   if (!userValue){
-    currentHeader.innerHTML += `<h1>Please enter a valid search!</h1>`
+    currentHeader.innerHTML += `<h2>Please enter a valid search!</h2>`
   } else if (!searchResults.length) {
-    currentHeader.innerHTML += `<h1>Sorry, no results for "${userValue}"!</h1>`
+    currentHeader.innerHTML += `<h2>Sorry, no results for "${userValue}"!</h2>`
   } else {
-    currentHeader.innerHTML += `<h1>Showing results for "${userValue}"...</h1>`
-    searchResults.forEach((recipe) => {
-      currentRecipeResults.innerHTML += `
-      <figure id="${recipe.id}" class="recipe-box">
-        <img src="${recipe.image}" alt="image of ${recipe.name}">
-        <figcaption>${recipe.name}</figcaption>
-      </figure>`
-    })
+    currentHeader.innerHTML += `<h2>Showing results for "${userValue}"...</h2>`
+    renderRecipes(searchResults, currentRecipeResults)
     ;(0,_scripts__WEBPACK_IMPORTED_MODULE_1__.selectRecipe)()
   }
 }
@@ -471,17 +537,8 @@ const displayAllRecipes = (recipeData) => {
   allRecipesView.classList.remove("hidden")
   allRecipesSection.innerHTML = ''
   const recipeDataAlpha = (0,_recipes__WEBPACK_IMPORTED_MODULE_0__.alphabetizeData)(recipeData)
-  const recipeIds = (0,_recipes__WEBPACK_IMPORTED_MODULE_0__.getItems)(recipeDataAlpha, 'id')
-  const recipeNames = (0,_recipes__WEBPACK_IMPORTED_MODULE_0__.getItems)(recipeDataAlpha, 'name')
-  const recipeImages = (0,_recipes__WEBPACK_IMPORTED_MODULE_0__.getItems)(recipeDataAlpha, 'image')
-  recipeData.forEach((_, i) => {
-    allRecipesSection.innerHTML += `
-      <figure id="${recipeIds[i]}" class="recipe-box">
-      <img src="${recipeImages[i]}" alt="image of ${recipeNames[i]}">
-      <figcaption>${recipeNames[i]}</figcaption>
-      </figure>`
-    });
-  (0,_scripts__WEBPACK_IMPORTED_MODULE_1__.selectRecipe)();
+  renderRecipes(recipeDataAlpha, allRecipesSection)
+  ;(0,_scripts__WEBPACK_IMPORTED_MODULE_1__.selectRecipe)();
 }
 
 const renderRecipeInfo = (recipe, data) => {
@@ -494,7 +551,7 @@ const renderRecipeInfo = (recipe, data) => {
     return ingredient.quantity.unit
   })
   const ingredientDisplays = ingredients.map((ingredient, i) => {
-    return `${amounts[i]} ${units[i]} ${ingredient.name}`
+    return `${amounts[i].toFixed(2)} ${units[i]} ${ingredient.name}`
   })
 
   recipeIngredientList.innerText = `Ingredients: \n ${ingredientDisplays.join('\n')}`
@@ -508,62 +565,80 @@ const renderRecipeInfo = (recipe, data) => {
 
 const renderRecipeOfTheDay = (recipe) => {
   homeBanner.innerHTML = 
-      `<img class="recipe-of-the-day" alt=${recipe.name} src=${recipe.image}>
+      `<img class="recipe-of-the-day" alt="" src=${recipe.image}>
       <figcaption>
-        <h1>${recipe.name}</h1>
+        <h2>Recipe of the Day: ${recipe.name}</h2>
       </figcaption>`
   homeBanner.id = `${recipe.id}`
 }
 
-const renderFeaturedRecipes = (featuredRecipes) => {
-  featuredRecipes.forEach(recipe => {
-    featured.innerHTML += `
-    <figure id="${recipe.id}" class="recipe-box">
-      <img src="${recipe.image}" alt="image of ${recipe.name}">
-      <figcaption>${recipe.name}</figcaption>
-    </figure>
-    `
-  })
-}
-
-const viewSavedRecipes = (user) => {
+const viewSavedRecipes = (user, ingredientsData) => {
   recipesToCook.classList.remove('hidden')
   searchHeader[0].innerHTML = '';
   recipeBoxes[0].innerHTML = '';
   recipesToCook.innerHTML = '';
   savedDropdownCategories.innerHTML = '';
-  
+
   if (!user.recipesToCook.length){
     recipesToCook.innerHTML = `<p>Save a recipe to view it here!</p>`
     dropdownPosition[1].classList.add('hidden')
+    groceryListCostAside.classList.add('hidden')
     return
-  } else {
-    dropdownPosition[1].classList.remove('hidden')
   }
+  dropdownPosition[1].classList.remove('hidden')
+  groceryListCostAside.classList.remove('hidden')
+  const groceryList = (0,_recipes__WEBPACK_IMPORTED_MODULE_0__.getGroceryIngredients)(user.recipesToCook, ingredientsData)
+  const totalGrocCost = (0,_recipes__WEBPACK_IMPORTED_MODULE_0__.calculateGroceryCost)(groceryList)
 
   const recipeDataAlpha = (0,_recipes__WEBPACK_IMPORTED_MODULE_0__.alphabetizeData)(user.recipesToCook)
-  recipeDataAlpha.forEach(recipe => {
-    recipesToCook.innerHTML += `<article class="whole-recipe-box">
-      <nav class="delete-btn">
-        <button id="${recipe.id}" class="delete">✖️</button>
-      </nav>
-      <figure id="${recipe.id}" class="recipe-box">
-        <img src="${recipe.image}" alt="image of ${recipe.name}">
-        <figcaption>${recipe.name}</figcaption>
-      </figure>
-    <article>`
+    recipeDataAlpha.forEach(recipe => {
+      recipesToCook.innerHTML += 
+      `<article class="whole-recipe-box">
+        <nav class="delete-btn">
+          <button type="button" id="${recipe.id}" class="delete" aria-label="Delete">✖️</button>
+        </nav>
+        <figure id="${recipe.id}" class="recipe-box" tabindex="0">
+          <img src="${recipe.image}" alt="">
+          <figcaption>${recipe.name}</figcaption>
+        </figure>
+      <article>`
   }) 
+
   let deleteBtn = document.querySelectorAll('.delete-btn')
   ;(0,_scripts__WEBPACK_IMPORTED_MODULE_1__.addDelete)(deleteBtn)
   ;(0,_scripts__WEBPACK_IMPORTED_MODULE_1__.selectRecipe)()
+  let groceryIngredients = Object.keys(groceryList)
+  displayGroceryList(groceryList, groceryIngredients)
+  displayGroceryCost(totalGrocCost)
+}
+
+const displayGroceryList = (groceryList, groceryIngredients) => {
+  const ingredients = groceryIngredients.map((ingredient) => {
+    return `¤ ${ingredient}: ${groceryList[ingredient].amount} ${groceryList[ingredient].unit} \n ‣ $${((groceryList[ingredient].estimatedCostInCents * groceryList[ingredient].amount) / 100).toFixed(2)}`
+    })
+  groceryListArticle.innerText = `${ingredients.join('\n')}`
+}
+
+const displayGroceryCost = (totalGrocCost) => {
+  groceryCostArticle.innerHTML = `Total Cost: ${totalGrocCost}`
 }
 
 const populateTags = (tags, category) => {
   category.innerHTML = '';
   tags.forEach(tag => {
-    category.innerHTML += `<p class="${tag}">${tag}</p>`;
+    category.innerHTML += `<button class="${tag}" aria-label="filter for ${tag}">${tag}</button>`;
   });
 };
+
+const renderRecipes = (recipes, section) => {
+  recipes.forEach(recipe => {
+    section.innerHTML += `
+    <figure id="${recipe.id}" class="recipe-box" tabindex="0" >
+      <img src="${recipe.image}" alt="">
+      <figcaption>${recipe.name}</figcaption>
+    </figure>`
+  })
+}
 
 
 
@@ -892,7 +967,7 @@ var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBP
 var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_images_search_png__WEBPACK_IMPORTED_MODULE_3__["default"]);
 var ___CSS_LOADER_URL_REPLACEMENT_1___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(_images_chef_png__WEBPACK_IMPORTED_MODULE_4__["default"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "html, body {\n  min-height: 100vh;\n}\n\nbody {\n  font-family: \"Kalam\", cursive;\n  background-color: #F8EDEB;\n  margin: 0px;\n}\n\nh1 {\n  font-family: \"Mogra\", cursive;\n  text-align: center;\n}\n\nmain {\n  display: flex;\n  flex-direction: column;\n}\n\n/* NAV BAR */\n.nav-bar {\n  display: flex;\n  flex-direction: row-reverse;\n  justify-content: space-between;\n}\n\n#user-search {\n  display: flex;\n  justify-content: flex-end;\n  align-items: center;\n  padding: 20px;\n}\n\n#search-input, #search-saved {\n  font-family: \"Kalam\", cursive;\n  height: fit-content;\n  align-self: center;\n  border: none;\n  background: #FFD7BA;\n  border-radius: 15px;\n  width: 50%;\n  text-align: center;\n  padding: 5px;\n}\n\nfigure {\n  position: relative;\n  display: inline-block;\n  margin: 0;\n}\n\n#user {\n  width: 100px;\n  height: 100px;\n}\n\n#user-initials {\n  padding: 5%;\n  border: 8px solid #D8E2DC;\n  border-radius: 50%;\n  color: #FEC89A;\n  font-size: 40px;\n  text-align: center;\n  height: 32%;\n  margin: 2%;\n}\n\n.initials {\n  margin: 0;\n}\n\n#search-btn {\n  width: 80px;\n  height: 50px;\n  border: none;\n  padding: 0px;\n  margin-top: 15px;\n  margin-left: 15px;\n  background: transparent;\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-size: contain;\n  background-repeat: no-repeat;\n}\n\n.nav-pages {\n  display: flex;\n  align-items: flex-end;\n  margin: 20px;\n}\n\n#home-icon {\n  width: 150px;\n  height: 150px;\n  border-radius: 30px;\n  background-color: #FFD7BA;\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ");\n  background-size: cover;\n}\n\n.nav-btn {\n  width: 160px;\n  height: 40px;\n  font-size: 20px;\n  border: none;\n  color: #F8EDEB;\n  background-color: #FEC5BB;\n  margin: 10px;\n  border-radius: 5px;\n  font-family: \"Kalam\", cursive;\n}\n\n.nav-btn:hover, .dropdown-categories p:hover, .delete:hover, .saved-dropdown-categories p:hover {\n  cursor: pointer;\n  transform: scale(1.1);\n  transition: 0.2s ease;\n}\n\n#home-icon:hover, .home-banner:hover, #search-btn:hover, .recipe-box:hover {\n  cursor: pointer;\n  opacity: 80%;\n  transition: 0.2s ease;\n}\n\n.category-position {\n  position: relative;\n}\n\n.dropdown-categories, .saved-dropdown-categories {\n  position: absolute;\n  top: 3.5rem;\n  left: 10px;\n  background-color: rgb(254, 197, 187);\n  visibility: hidden;\n  opacity: 0;\n  transition: all 0.5s ease;\n  font-size: 1.3rem;\n  z-index: 1;\n  width: 125px;\n  margin: 10px 0;\n  padding: 10px 0 10px 25px;\n}\n\n.dropdown-categories:after,\n.saved-dropdown-categories:after {\n  position: absolute;\n  content: \"\";\n  width: 16px;\n  height: 16px;\n  bottom: 100%;\n  left: 50%;\n  margin-left: -8px;\n  transform: rotate(45deg);\n  margin-bottom: -8px;\n  background-color: rgb(254, 197, 187);\n}\n\n.dropdown-categories p,\n.saved-dropdown-categories p {\n  margin: 0;\n  padding: 0;\n  text-align: left;\n}\n\n.category-position:hover .dropdown-categories,\n.category-position:focus-within .dropdown-categories,\n.category-position:hover .saved-dropdown-categories,\n.category-position:focus-within .saved-ropdown-categories {\n  visibility: visible;\n  opacity: 1;\n}\n\n/* HOME VIEW */\n.home-view {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.banner-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  position: relative;\n  height: 50dvh;\n}\n\n.home-banner {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column;\n}\n\n.recipe-of-the-day {\n  border-radius: 40px;\n}\n\n.featured {\n  display: flex;\n  justify-content: space-around;\n  width: 75%;\n}\n\n#featured-recipes {\n  width: 100%;\n  height: 50dvh;\n  background-color: #D8E2DC;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n}\n\n/* SEARCH VIEW */\n#search-results-view, .recipe-results-header, #saved-view, .whole-recipe-box {\n  display: flex;\n  align-content: center;\n  flex-direction: column;\n  text-align: center;\n  align-items: center;\n}\n\n.recipe-results, #recipes-to-cook, #all-recipes {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n  flex-wrap: wrap;\n  margin: 2% 13% 6% 13%;\n}\n\n.recipe-box {\n  position: relative;\n  display: inline-block;\n}\n\n.recipe-box > img {\n  border-radius: 10px;\n  height: 20vh;\n  width: fit-content;\n}\n\n.recipe-box > figcaption {\n  position: absolute;\n  bottom: 0;\n  background-color: rgba(255, 229, 217, 0.9019607843);\n  border-radius: 20px;\n  color: #000000;\n  padding: 10px 15px;\n  width: auto;\n  font-size: 14px;\n}\n\n/* RECIPE VIEW */\n.recipe-name {\n  align-self: center;\n}\n\n.recipe-view {\n  align-self: center;\n  width: 60%;\n  min-width: 1200px;\n  display: flex;\n  flex-direction: column;\n  padding: 2em;\n  margin: 2em;\n  border-radius: 1em;\n  background-color: #E8E8E4;\n}\n\n.add-to-saved {\n  align-self: end;\n  cursor: pointer;\n  font-size: 3em;\n  border: none;\n  height: 40px;\n  width: 40px;\n  color: gray;\n  background-color: #E8E8E4;\n}\n\n.recipe-info-row {\n  display: flex;\n  justify-content: space-between;\n  margin-bottom: 2em;\n}\n\n.info-box {\n  height: auto;\n  width: 48%;\n  border-radius: 1em;\n}\n\n.instructions-section {\n  margin-top: 4em;\n}\n\n/* RECIPES TO COOK / SAVED RECIPES VIEW */\n#saved-recipes-header {\n  display: flex;\n  text-align: center;\n  width: fit-content;\n}\n\n#search-saved {\n  width: 150px;\n  margin: 10px;\n}\n\n.delete {\n  background-color: rgba(254, 197, 187, 0.9411764706);\n  border: none;\n  border-radius: 45%;\n}\n\n.whole-recipe-box {\n  margin: 10px;\n  background-color: #D8E2DC;\n  border-radius: 20px;\n  padding: 5px 25px 20px;\n}\n\n.delete-btn {\n  align-self: flex-end;\n}\n\n.hidden {\n  display: none !important;\n}", "",{"version":3,"sources":["webpack://./src/styles.css"],"names":[],"mappings":"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","sourcesContent":["html, body {\n  min-height: 100vh;\n}\n\nbody {\n  font-family: 'Kalam', cursive;\n  background-color: #F8EDEB;\n  margin: 0px;\n}\n\nh1 {\n  font-family: 'Mogra', cursive;\n  text-align: center;\n}\n\nmain {\n  display: flex;\n  flex-direction: column;\n}\n\n/* NAV BAR */\n\n.nav-bar {\n  display: flex;\n  flex-direction: row-reverse;\n  justify-content: space-between;\n}\n\n#user-search {\n  display: flex;\n  justify-content: flex-end;\n  align-items: center;\n  padding: 20px;\n}\n\n#search-input, #search-saved {\n  font-family: 'Kalam', cursive;\n  height: fit-content;\n  align-self: center;\n  border: none;\n  background: #FFD7BA;\n  border-radius: 15px;\n  width: 50%;\n  text-align: center;\n  padding: 5px;\n}\n\nfigure {\n  position: relative;\n  display: inline-block;\n  margin: 0;\n}\n\n#user {\n  width: 100px;\n  height: 100px;\n}\n\n#user-initials {\n  padding: 5%;\n  border: 8px solid #D8E2DC;\n  border-radius: 50%;\n  color: #FEC89A;\n  font-size: 40px;\n  text-align: center;\n  height: 32%;\n  margin: 2%;\n}\n\n.initials {\n  margin: 0;\n}\n\n#search-btn {\n  width: 80px;\n  height: 50px;\n  border: none;\n  padding: 0px;\n  margin-top: 15px;\n  margin-left: 15px;\n  background: transparent;\n  background-image: url(images/search.png);\n  background-size: contain;\n  background-repeat: no-repeat;\n}\n\n.nav-pages {\n  display: flex;\n  align-items: flex-end;\n  margin: 20px;\n}\n\n#home-icon {\n  width: 150px;\n  height: 150px;\n  border-radius: 30px;\n  background-color: #FFD7BA;\n  background-image: url('images/chef.png');\n  background-size: cover;\n}\n\n.nav-btn {\n  width: 160px;\n  height: 40px;\n  font-size: 20px;\n  border: none;\n  color:#F8EDEB;\n  background-color: #FEC5BB;\n  margin: 10px;\n  border-radius: 5px;\n  font-family: 'Kalam', cursive;\n}\n\n.nav-btn:hover, .dropdown-categories p:hover, .delete:hover, .saved-dropdown-categories p:hover {\n  cursor: pointer;\n  transform: scale(1.1);\n  transition: .2s ease;\n}\n\n#home-icon:hover, .home-banner:hover, #search-btn:hover, .recipe-box:hover {\n  cursor: pointer;\n  opacity: 80%;\n  transition: .2s ease;\n}\n\n.category-position {\n  position: relative;\n}\n\n.dropdown-categories, .saved-dropdown-categories {\n  position: absolute;\n  top: 3.5rem;\n  left: 10px;\n  background-color: rgb(254, 197, 187);\n  visibility: hidden;\n  opacity: 0;\n  transition: all 0.5s ease;\n  font-size: 1.3rem;\n  z-index: 1;\n  width: 125px;\n  margin: 10px 0;\n  padding: 10px 0 10px 25px;\n}\n\n.dropdown-categories:after,\n.saved-dropdown-categories:after \n {\n  position: absolute;\n  content: '';\n  width: 16px;\n  height: 16px; \n  bottom: 100%;\n  left: 50%;\n  margin-left: -8px;\n  transform: rotate(45deg);\n  margin-bottom: -8px;\n  background-color: rgb(254, 197, 187);\n}\n\n.dropdown-categories p,\n.saved-dropdown-categories p {\n  margin: 0;\n  padding: 0;\n  text-align: left;\n}\n\n.category-position:hover .dropdown-categories,\n.category-position:focus-within .dropdown-categories,\n.category-position:hover .saved-dropdown-categories,\n.category-position:focus-within .saved-ropdown-categories {\n  visibility: visible;\n  opacity: 1;\n}\n\n/* HOME VIEW */\n\n.home-view {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.banner-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  position:relative;\n  height: 50dvh;\n}\n\n.home-banner {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column;\n}\n\n.recipe-of-the-day {\n  border-radius: 40px;\n}\n\n.featured {\n  display: flex;\n  justify-content: space-around;\n  width: 75%;\n}\n\n#featured-recipes {\n  width: 100%;\n  height: 50dvh;\n  background-color: #D8E2DC;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n}\n\n/* SEARCH VIEW */\n\n#search-results-view, .recipe-results-header, #saved-view, .whole-recipe-box {\n  display: flex;\n  align-content: center;\n  flex-direction: column;\n  text-align: center;\n  align-items: center;\n}\n\n.recipe-results, #recipes-to-cook, #all-recipes {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n  flex-wrap: wrap;\n  margin: 2% 13% 6% 13%;\n}\n\n.recipe-box {\n  position: relative;\n  display: inline-block;\n}\n\n.recipe-box > img {\n  border-radius: 10px;\n  height: 20vh;\n  width: fit-content;\n}\n\n.recipe-box > figcaption {\n  position: absolute;\n  bottom: 0;\n  background-color: #ffe5d9e6;\n  border-radius: 20px;\n  color: #000000;\n  padding: 10px 15px;\n  width: auto;\n  font-size: 14px;\n}\n\n/* RECIPE VIEW */\n\n.recipe-name {\n  align-self: center;\n}\n\n.recipe-view {\n  align-self: center;\n  width: 60%;\n  min-width: 1200px;\n  display: flex;\n  flex-direction: column;\n  padding: 2em;\n  margin: 2em;\n  border-radius: 1em;\n  background-color: #E8E8E4;\n}\n\n.add-to-saved {\n align-self: end;\n cursor: pointer;\n font-size: 3em;\n border: none;\n height: 40px;\n width: 40px;\n color: gray;\n background-color: #E8E8E4;\n}\n\n.recipe-info-row {\n  display: flex;\n  justify-content: space-between;\n  margin-bottom: 2em;\n}\n\n.info-box {\n  height: auto;\n  width: 48%;\n  border-radius: 1em;\n}\n\n.instructions-section {\n  margin-top: 4em;\n}\n\n/* RECIPES TO COOK / SAVED RECIPES VIEW */\n\n#saved-recipes-header {\n  display: flex;\n  text-align: center;\n  width: fit-content;\n}\n\n#search-saved {\n  width: 150px;\n  margin: 10px;\n}\n\n.delete {\n  background-color: #fec5bbf0;\n  border: none;\n  border-radius: 45%;\n}\n\n.whole-recipe-box {\n  margin: 10px;\n  background-color: #D8E2DC;\n  border-radius: 20px;\n  padding: 5px 25px 20px;\n}\n\n.delete-btn {\n  align-self: flex-end;\n}\n\n.hidden {\n  display: none !important;\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\n  font-family: \"Kalam\", cursive;\n}\n\nhtml, body {\n  min-height: 100vh;\n}\n\nbody {\n  background-color: #F8EDEB;\n  background-image: url(\"data:image/svg+xml,%3Csvg width='84' height='84' viewBox='0 0 84 84' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fec5bb' fill-opacity='0.49'%3E%3Cpath d='M84 23c-4.417 0-8-3.584-8-7.998V8h-7.002C64.58 8 61 4.42 61 0H23c0 4.417-3.584 8-7.998 8H8v7.002C8 19.42 4.42 23 0 23v38c4.417 0 8 3.584 8 7.998V76h7.002C19.42 76 23 79.58 23 84h38c0-4.417 3.584-8 7.998-8H76v-7.002C76 64.58 79.58 61 84 61V23zM59.05 83H43V66.95c5.054-.5 9-4.764 9-9.948V52h5.002c5.18 0 9.446-3.947 9.95-9H83v16.05c-5.054.5-9 4.764-9 9.948V74h-5.002c-5.18 0-9.446 3.947-9.95 9zm-34.1 0H41V66.95c-5.053-.502-9-4.768-9-9.948V52h-5.002c-5.184 0-9.447-3.946-9.95-9H1v16.05c5.053.502 9 4.768 9 9.948V74h5.002c5.184 0 9.447 3.946 9.95 9zm0-82H41v16.05c-5.054.5-9 4.764-9 9.948V32h-5.002c-5.18 0-9.446 3.947-9.95 9H1V24.95c5.054-.5 9-4.764 9-9.948V10h5.002c5.18 0 9.446-3.947 9.95-9zm34.1 0H43v16.05c5.053.502 9 4.768 9 9.948V32h5.002c5.184 0 9.447 3.946 9.95 9H83V24.95c-5.053-.502-9-4.768-9-9.948V10h-5.002c-5.184 0-9.447-3.946-9.95-9zM50 50v7.002C50 61.42 46.42 65 42 65c-4.417 0-8-3.584-8-7.998V50h-7.002C22.58 50 19 46.42 19 42c0-4.417 3.584-8 7.998-8H34v-7.002C34 22.58 37.58 19 42 19c4.417 0 8 3.584 8 7.998V34h7.002C61.42 34 65 37.58 65 42c0 4.417-3.584 8-7.998 8H50z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\");\n  margin: 0px;\n}\n\nh1, .main-title, h2, .initials {\n  font-family: \"Mogra\", cursive;\n  text-shadow: 1px 0px 1px #CCCCCC, 0px 1px 1px #EEEEEE, 2px 1px 1px #CCCCCC, 1px 2px 1px #EEEEEE, 3px 2px 1px #CCCCCC, 2px 3px 1px #EEEEEE, 4px 3px 1px #CCCCCC, 3px 4px 1px #EEEEEE, 5px 4px 1px #CCCCCC, 4px 5px 1px #EEEEEE, 6px 5px 1px #CCCCCC, 5px 6px 1px #EEEEEE, 7px 6px 1px #CCCCCC;\n  text-align: center;\n}\n\n.main-title {\n  font-size: 3rem;\n  margin-top: 5%;\n  color: #282828;\n}\n\nmain {\n  display: flex;\n  flex-direction: column;\n}\n\n/* NAV BAR */\n.nav-bar {\n  display: flex;\n  flex-direction: row-reverse;\n  justify-content: space-between;\n  text-align: center;\n}\n\n#user-search {\n  display: flex;\n  justify-content: flex-end;\n  align-items: center;\n  padding: 20px;\n}\n\n#search-input, #search-saved {\n  height: fit-content;\n  align-self: center;\n  border: none;\n  background: #FFD7BA;\n  border-radius: 15px;\n  width: 50%;\n  text-align: center;\n  padding: 5px;\n  box-shadow: 10px 10px 15px -4px rgba(0, 0, 0, 0.22);\n}\n\nfigure {\n  position: relative;\n  display: inline-block;\n  margin: 0;\n}\n\n#user {\n  width: 100px;\n  height: 100px;\n}\n\n#user-initials {\n  padding: 5%;\n  border: 8px solid #D8E2DC;\n  border-radius: 50%;\n  color: #444444;\n  background-color: #F8EDEB;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 42px;\n  margin: 2%;\n  box-shadow: 10px 10px 15px -4px rgba(0, 0, 0, 0.2);\n}\n\n.initials {\n  margin: 0;\n  font-size: 2.125rem;\n}\n\n#search-btn {\n  width: 80px;\n  height: 50px;\n  border: none;\n  padding: 0px;\n  margin-top: 15px;\n  margin-left: 15px;\n  background-color: #F8EDEB;\n  border-radius: 20px 20px 20px 0px;\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  background-size: contain;\n  background-repeat: no-repeat;\n}\n\n.nav-pages {\n  display: flex;\n  align-items: flex-end;\n  margin: 20px;\n}\n\n#home-icon {\n  width: 140px;\n  height: 140px;\n  margin: 10px 20px 10px 10px;\n  border-radius: 30px;\n  background-color: #FEC5BB;\n  background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ");\n  background-size: cover;\n  box-shadow: 10px 10px 15px -4px rgba(0, 0, 0, 0.22);\n}\n\n.nav-btn {\n  width: 180px;\n  height: 40px;\n  font-size: 20px;\n  border: none;\n  color: #282828;\n  background-color: #FEC5BB;\n  margin: 10px;\n  border-radius: 5px;\n  box-shadow: 10px 10px 15px -4px rgba(0, 0, 0, 0.22);\n}\n\n.nav-btn:hover, .nav-btn:focus, .dropdown-categories button:hover, .dropdown-categories button:focus, .delete:hover, .delete:focus, .saved-dropdown-categories button:hover, .saved-dropdown-categories button:focus {\n  cursor: pointer;\n  transform: scale(1.1);\n  transition: 0.2s ease;\n}\n\n.arrow {\n  width: 20px;\n  position: absolute;\n  bottom: 11px;\n  right: 8px;\n}\n\n#home-icon:hover, .home-banner:hover, #search-btn:hover, .recipe-box:hover {\n  cursor: pointer;\n  opacity: 80%;\n  transition: 0.2s ease;\n}\n\n#home-icon:hover, #home-icon:focus {\n  background-color: #f8bfb5;\n}\n\n.category-position {\n  position: relative;\n}\n\n#all-categories-dropdown, #all-categories-btn {\n  position: relative;\n}\n\n#all-categories-btn {\n  width: 200px;\n}\n\n.dropdown-categories, .saved-dropdown-categories {\n  position: absolute;\n  border-radius: 10px;\n  top: 3.5rem;\n  left: 10px;\n  background-color: rgb(254, 197, 187);\n  visibility: hidden;\n  opacity: 0;\n  transition: all 0.5s ease;\n  font-size: 1.3rem;\n  z-index: 1;\n  width: 125px;\n  margin: 10px 0;\n  padding: 10px 0 10px 25px;\n}\n\n.dropdown-categories:after,\n.saved-dropdown-categories:after {\n  position: absolute;\n  content: \"\";\n  width: 16px;\n  height: 16px;\n  bottom: 100%;\n  left: 50%;\n  margin-left: -8px;\n  transform: rotate(45deg);\n  margin-bottom: -8px;\n  background-color: rgb(254, 197, 187);\n}\n\n.dropdown-categories button,\n.saved-dropdown-categories button {\n  margin: 0;\n  padding: 0;\n  text-align: left;\n  display: block;\n  background-color: transparent;\n  border: none;\n  font-size: 1.2rem;\n}\n\n.category-position:hover .dropdown-categories,\n.category-position:focus-within .dropdown-categories,\n.category-position:hover .saved-dropdown-categories,\n.category-position:focus-within .saved-dropdown-categories {\n  visibility: visible;\n  opacity: 1;\n}\n\n/* HOME VIEW */\n.home-view {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.banner-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  position: relative;\n  height: 50dvh;\n  margin-top: 5px;\n  margin-bottom: 5px;\n}\n\n.home-banner {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column;\n}\n\n.recipe-of-the-day {\n  height: 370px;\n  border-radius: 40px;\n  box-shadow: 10px 10px 15px -4px rgba(0, 0, 0, 0.25);\n}\n\n.featured {\n  display: flex;\n  justify-content: space-around;\n  width: 75%;\n}\n\n#featured-recipes {\n  width: 100vw;\n  height: auto;\n  border-top: 6px solid #FCD5CE;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  background-color: #d8e2dc;\n  background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='44' viewBox='0 0 34 44'%3E%3Cg fill='%23e8e8e4' fill-opacity='1'%3E%3Cpath fill-rule='evenodd' d='M1 6.2C.72 5.55.38 4.94 0 4.36v13.28c.38-.58.72-1.2 1-1.84A12.04 12.04 0 0 0 7.2 22 12.04 12.04 0 0 0 1 28.2c-.28-.65-.62-1.26-1-1.84v13.28c.38-.58.72-1.2 1-1.84A12.04 12.04 0 0 0 7.2 44h21.6a12.05 12.05 0 0 0 5.2-4.36V26.36A12.05 12.05 0 0 0 28.8 22a12.05 12.05 0 0 0 5.2-4.36V4.36A12.05 12.05 0 0 0 28.8 0H7.2A12.04 12.04 0 0 0 1 6.2zM17.36 23H12a10 10 0 1 0 0 20h5.36a11.99 11.99 0 0 1 0-20zm1.28-2H24a10 10 0 1 0 0-20h-5.36a11.99 11.99 0 0 1 0 20zM12 1a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 14a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-3.46-2a2 2 0 1 0-3.47 2 2 2 0 0 0 3.47-2zm0-4a2 2 0 1 0-3.47-2 2 2 0 0 0 3.47 2zM12 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3.46 2a2 2 0 1 0 3.47-2 2 2 0 0 0-3.47 2zm0 4a2 2 0 1 0 3.47 2 2 2 0 0 0-3.47-2zM24 43a10 10 0 1 0 0-20 10 10 0 0 0 0 20zm0-14a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3.46 2a2 2 0 1 0 3.47-2 2 2 0 0 0-3.47 2zm0 4a2 2 0 1 0 3.47 2 2 2 0 0 0-3.47-2zM24 37a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-3.46-2a2 2 0 1 0-3.47 2 2 2 0 0 0 3.47-2zm0-4a2 2 0 1 0-3.47-2 2 2 0 0 0 3.47 2z'/%3E%3C/g%3E%3C/svg%3E\");\n}\n\n/* SEARCH VIEW */\n#search-results-view, .recipe-results-header, #saved-view, .whole-recipe-box {\n  display: flex;\n  align-content: center;\n  flex-direction: column;\n  text-align: center;\n  align-items: center;\n}\n\n.recipe-results, #recipes-to-cook, #all-recipes {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n  flex-wrap: wrap;\n}\n\n.recipe-results, #recipes-to-cook, #all-recipes {\n  margin: 2% 13% 6% 13%;\n}\n\n#recipes-to-cook {\n  margin: 2% 23% 6% 13%;\n}\n\n.recipe-box {\n  position: relative;\n  display: inline-block;\n  margin: 10px;\n}\n\n.recipe-box > img {\n  border-radius: 10px;\n  height: 20vh;\n  width: fit-content;\n  box-shadow: 10px 10px 15px -4px rgba(0, 0, 0, 0.25);\n}\n\n.recipe-box > figcaption {\n  position: absolute;\n  bottom: 0;\n  background-color: rgba(255, 229, 217, 0.9019607843);\n  border-radius: 20px;\n  color: #282828;\n  padding: 10px 15px;\n  width: auto;\n  font-size: 14px;\n}\n\n/* RECIPE VIEW */\n.recipe-name {\n  align-self: center;\n  font-size: 2.25rem;\n}\n\n.recipe-view {\n  align-self: center;\n  width: 60%;\n  min-width: 1200px;\n  display: flex;\n  flex-direction: column;\n  padding: 2em;\n  margin: 2em;\n  border-radius: 1em;\n  background-color: #E8E8E4;\n}\n\n.add-to-saved {\n  align-self: end;\n  cursor: pointer;\n  font-size: 3em;\n  border: none;\n  height: 40px;\n  width: 40px;\n  color: gray;\n  background-color: #E8E8E4;\n}\n\n.recipe-info-row {\n  display: flex;\n  justify-content: space-between;\n  margin-bottom: 2em;\n}\n\n.info-box {\n  height: auto;\n  width: 48%;\n  border-radius: 1em;\n}\n\n.instructions-section {\n  margin-top: 4em;\n}\n\n/* RECIPES TO COOK / SAVED RECIPES VIEW */\n#saved-recipes-header {\n  display: flex;\n  text-align: center;\n  width: fit-content;\n}\n\n#search-saved {\n  width: 150px;\n  margin: 10px;\n}\n\n.delete {\n  background-color: rgba(254, 197, 187, 0.9411764706);\n  border: none;\n  border-radius: 45%;\n}\n\n.whole-recipe-box,\n.grocery-list-and-cost {\n  margin: 10px;\n  background-color: #D8E2DC;\n  border-radius: 20px;\n  padding: 5px 25px 20px;\n  box-shadow: 10px 10px 15px -4px rgba(0, 0, 0, 0.25);\n}\n\n.delete-btn {\n  align-self: flex-end;\n}\n\n#saved-view {\n  position: relative;\n}\n\n.grocery-list-and-cost {\n  text-align: center;\n  position: absolute;\n  top: 8vh;\n  right: 0;\n  width: 18vw;\n  height: auto;\n  max-height: 60vh;\n  overflow-y: auto;\n}\n\n.grocery-list {\n  text-align: left;\n}\n\n.hidden {\n  display: none !important;\n}\n\n@media (max-width: 1600px) {\n  .featured {\n    margin-bottom: 5%;\n  }\n}\n@media (max-width: 1300px) {\n  .featured {\n    flex-wrap: wrap;\n  }\n  #user-search {\n    flex-direction: column-reverse;\n    min-width: 230px;\n  }\n  #search-btn {\n    width: 50px;\n    height: 40px;\n  }\n  .recipe-view {\n    min-width: auto;\n  }\n}\n@media (max-width: 1180px) {\n  .nav-pages {\n    flex-direction: column;\n  }\n  #user-input {\n    width: 100%;\n  }\n}\n@media (max-width: 970px) {\n  .recipe-box > img {\n    height: 15vh;\n  }\n  #user-search {\n    min-width: 180px;\n  }\n}\n@media (max-width: 670px) {\n  .recipe-of-the-day {\n    width: 85vw;\n    height: auto;\n  }\n  #user-search {\n    min-width: 130px;\n  }\n  #saved-recipes-header {\n    flex-direction: column;\n  }\n}\n@media (max-width: 550px) {\n  .nav-bar {\n    flex-direction: column-reverse;\n  }\n  .main-title {\n    order: 1;\n  }\n  .nav-pages {\n    align-items: center;\n  }\n}", "",{"version":3,"sources":["webpack://./src/styles.css"],"names":[],"mappings":"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","sourcesContent":["* {\n  font-family: 'Kalam', cursive;\n}\n\nhtml, body {\n  min-height: 100vh;\n}\n\nbody {\n  background-color: #F8EDEB;\n  background-image: url(\"data:image/svg+xml,%3Csvg width='84' height='84' viewBox='0 0 84 84' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fec5bb' fill-opacity='0.49'%3E%3Cpath d='M84 23c-4.417 0-8-3.584-8-7.998V8h-7.002C64.58 8 61 4.42 61 0H23c0 4.417-3.584 8-7.998 8H8v7.002C8 19.42 4.42 23 0 23v38c4.417 0 8 3.584 8 7.998V76h7.002C19.42 76 23 79.58 23 84h38c0-4.417 3.584-8 7.998-8H76v-7.002C76 64.58 79.58 61 84 61V23zM59.05 83H43V66.95c5.054-.5 9-4.764 9-9.948V52h5.002c5.18 0 9.446-3.947 9.95-9H83v16.05c-5.054.5-9 4.764-9 9.948V74h-5.002c-5.18 0-9.446 3.947-9.95 9zm-34.1 0H41V66.95c-5.053-.502-9-4.768-9-9.948V52h-5.002c-5.184 0-9.447-3.946-9.95-9H1v16.05c5.053.502 9 4.768 9 9.948V74h5.002c5.184 0 9.447 3.946 9.95 9zm0-82H41v16.05c-5.054.5-9 4.764-9 9.948V32h-5.002c-5.18 0-9.446 3.947-9.95 9H1V24.95c5.054-.5 9-4.764 9-9.948V10h5.002c5.18 0 9.446-3.947 9.95-9zm34.1 0H43v16.05c5.053.502 9 4.768 9 9.948V32h5.002c5.184 0 9.447 3.946 9.95 9H83V24.95c-5.053-.502-9-4.768-9-9.948V10h-5.002c-5.184 0-9.447-3.946-9.95-9zM50 50v7.002C50 61.42 46.42 65 42 65c-4.417 0-8-3.584-8-7.998V50h-7.002C22.58 50 19 46.42 19 42c0-4.417 3.584-8 7.998-8H34v-7.002C34 22.58 37.58 19 42 19c4.417 0 8 3.584 8 7.998V34h7.002C61.42 34 65 37.58 65 42c0 4.417-3.584 8-7.998 8H50z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\");\n  margin: 0px;\n}\n\nh1, .main-title, h2, .initials {\n  font-family: 'Mogra', cursive;\n  text-shadow: 1px 0px 1px #CCCCCC, 0px 1px 1px #EEEEEE, 2px 1px 1px #CCCCCC, 1px 2px 1px #EEEEEE, 3px 2px 1px #CCCCCC, 2px 3px 1px #EEEEEE, 4px 3px 1px #CCCCCC, 3px 4px 1px #EEEEEE, 5px 4px 1px #CCCCCC, 4px 5px 1px #EEEEEE, 6px 5px 1px #CCCCCC, 5px 6px 1px #EEEEEE, 7px 6px 1px #CCCCCC;\n  text-align: center;\n}\n\n.main-title {\n  font-size: 3rem;\n  margin-top: 5%;\n  color: #282828;\n}\n\nmain {\n  display: flex;\n  flex-direction: column;\n}\n\n/* NAV BAR */\n\n.nav-bar {\n  display: flex;\n  flex-direction: row-reverse;\n  justify-content: space-between;\n  text-align: center;\n}\n\n#user-search {\n  display: flex;\n  justify-content: flex-end;\n  align-items: center;\n  padding: 20px;\n}\n\n#search-input, #search-saved {\n  height: fit-content;\n  align-self: center;\n  border: none;\n  background: #FFD7BA;\n  border-radius: 15px;\n  width: 50%;\n  text-align: center;\n  padding: 5px;\n  box-shadow: 10px 10px 15px -4px rgba(0,0,0,0.22);\n}\n\nfigure {\n  position: relative;\n  display: inline-block;\n  margin: 0;\n}\n\n#user {\n  width: 100px;\n  height: 100px;\n}\n\n#user-initials {\n  padding: 5%;\n  border: 8px solid #D8E2DC;\n  border-radius: 50%;\n  color: #444444;\n  background-color: #F8EDEB;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 42px;\n  margin: 2%;\n  box-shadow: 10px 10px 15px -4px rgba(0,0,0,0.2);\n}\n\n.initials {\n  margin: 0;\n  font-size: 2.125rem;\n}\n\n#search-btn {\n  width: 80px;\n  height: 50px;\n  border: none;\n  padding: 0px;\n  margin-top: 15px;\n  margin-left: 15px;\n  background-color: #F8EDEB;\n  border-radius: 20px 20px 20px 0px;\n  background-image: url(images/search.png);\n  background-size: contain;\n  background-repeat: no-repeat;\n}\n\n.nav-pages {\n  display: flex;\n  align-items: flex-end;\n  margin: 20px;\n}\n\n#home-icon {\n  width: 140px;\n  height: 140px;\n  margin: 10px 20px 10px 10px;\n  border-radius: 30px;\n  background-color: #FEC5BB;\n  background-image: url('images/chef.png');\n  background-size: cover;\n  box-shadow: 10px 10px 15px -4px rgba(0,0,0,0.22);\n}\n\n.nav-btn {\n  width: 180px;\n  height: 40px;\n  font-size: 20px;\n  border: none;\n  color: #282828;\n  background-color: #FEC5BB;\n  margin: 10px;\n  border-radius: 5px;\n  box-shadow: 10px 10px 15px -4px rgba(0,0,0,0.22);\n}\n\n.nav-btn:hover, .nav-btn:focus, .dropdown-categories button:hover, .dropdown-categories button:focus, .delete:hover, .delete:focus, .saved-dropdown-categories button:hover, .saved-dropdown-categories button:focus {\n  cursor: pointer;\n  transform: scale(1.1);\n  transition: .2s ease;\n}\n\n.arrow {\n  width: 20px;\n  position: absolute;\n  bottom: 11px;\n  right: 8px;\n}\n\n#home-icon:hover, .home-banner:hover, #search-btn:hover, .recipe-box:hover {\n  cursor: pointer;\n  opacity: 80%;\n  transition: .2s ease;\n}\n\n#home-icon:hover, #home-icon:focus {\n  background-color: #f8bfb5;\n}\n\n.category-position {\n  position: relative;\n}\n\n#all-categories-dropdown, #all-categories-btn {\n  position: relative;\n}\n\n#all-categories-btn {\n  width: 200px;\n}\n\n.dropdown-categories, .saved-dropdown-categories {\n  position: absolute;\n  border-radius: 10px;\n  top: 3.5rem;\n  left: 10px;\n  background-color: rgb(254, 197, 187);\n  visibility: hidden;\n  opacity: 0;\n  transition: all 0.5s ease;\n  font-size: 1.3rem;\n  z-index: 1;\n  width: 125px;\n  margin: 10px 0;\n  padding: 10px 0 10px 25px;\n}\n\n.dropdown-categories:after,\n.saved-dropdown-categories:after \n {\n  position: absolute;\n  content: '';\n  width: 16px;\n  height: 16px; \n  bottom: 100%;\n  left: 50%;\n  margin-left: -8px;\n  transform: rotate(45deg);\n  margin-bottom: -8px;\n  background-color: rgb(254, 197, 187);\n}\n\n.dropdown-categories button,\n.saved-dropdown-categories button {\n  margin: 0;\n  padding: 0;\n  text-align: left;\n  display: block;\n  background-color: transparent;\n  border: none;\n  font-size: 1.2rem;\n}\n\n.category-position:hover .dropdown-categories,\n.category-position:focus-within .dropdown-categories,\n.category-position:hover .saved-dropdown-categories,\n.category-position:focus-within .saved-dropdown-categories {\n  visibility: visible;\n  opacity: 1;\n}\n\n/* HOME VIEW */\n\n.home-view {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.banner-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  position:relative;\n  height: 50dvh;\n  margin-top: 5px;\n  margin-bottom: 5px;\n}\n\n.home-banner {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column;\n}\n\n.recipe-of-the-day {\n  height: 370px;\n  border-radius: 40px;\n  box-shadow: 10px 10px 15px -4px rgba(0,0,0,0.25);\n}\n\n.featured {\n  display: flex;\n  justify-content: space-around;\n  width: 75%;\n}\n\n#featured-recipes {\n  width: 100vw;\n  height: auto;\n  border-top: 6px solid #FCD5CE;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  background-color: #d8e2dc;\n  background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='44' viewBox='0 0 34 44'%3E%3Cg fill='%23e8e8e4' fill-opacity='1'%3E%3Cpath fill-rule='evenodd' d='M1 6.2C.72 5.55.38 4.94 0 4.36v13.28c.38-.58.72-1.2 1-1.84A12.04 12.04 0 0 0 7.2 22 12.04 12.04 0 0 0 1 28.2c-.28-.65-.62-1.26-1-1.84v13.28c.38-.58.72-1.2 1-1.84A12.04 12.04 0 0 0 7.2 44h21.6a12.05 12.05 0 0 0 5.2-4.36V26.36A12.05 12.05 0 0 0 28.8 22a12.05 12.05 0 0 0 5.2-4.36V4.36A12.05 12.05 0 0 0 28.8 0H7.2A12.04 12.04 0 0 0 1 6.2zM17.36 23H12a10 10 0 1 0 0 20h5.36a11.99 11.99 0 0 1 0-20zm1.28-2H24a10 10 0 1 0 0-20h-5.36a11.99 11.99 0 0 1 0 20zM12 1a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 14a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-3.46-2a2 2 0 1 0-3.47 2 2 2 0 0 0 3.47-2zm0-4a2 2 0 1 0-3.47-2 2 2 0 0 0 3.47 2zM12 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3.46 2a2 2 0 1 0 3.47-2 2 2 0 0 0-3.47 2zm0 4a2 2 0 1 0 3.47 2 2 2 0 0 0-3.47-2zM24 43a10 10 0 1 0 0-20 10 10 0 0 0 0 20zm0-14a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3.46 2a2 2 0 1 0 3.47-2 2 2 0 0 0-3.47 2zm0 4a2 2 0 1 0 3.47 2 2 2 0 0 0-3.47-2zM24 37a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-3.46-2a2 2 0 1 0-3.47 2 2 2 0 0 0 3.47-2zm0-4a2 2 0 1 0-3.47-2 2 2 0 0 0 3.47 2z'/%3E%3C/g%3E%3C/svg%3E\");\n}\n\n/* SEARCH VIEW */\n\n#search-results-view, .recipe-results-header, #saved-view, .whole-recipe-box {\n  display: flex;\n  align-content: center;\n  flex-direction: column;\n  text-align: center;\n  align-items: center;\n}\n\n.recipe-results, #recipes-to-cook, #all-recipes {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n  flex-wrap: wrap;\n}\n\n.recipe-results, #recipes-to-cook, #all-recipes {\n  margin: 2% 13% 6% 13%;\n}\n\n#recipes-to-cook {\n  margin: 2% 23% 6% 13%;\n}\n\n.recipe-box {\n  position: relative;\n  display: inline-block;\n  margin: 10px;\n}\n\n.recipe-box > img {\n  border-radius: 10px;\n  height: 20vh;\n  width: fit-content;\n  box-shadow: 10px 10px 15px -4px rgba(0,0,0,0.25);\n}\n\n.recipe-box > figcaption {\n  position: absolute;\n  bottom: 0;\n  background-color: #ffe5d9e6;\n  border-radius: 20px;\n  color: #282828;\n  padding: 10px 15px;\n  width: auto;\n  font-size: 14px;\n}\n\n/* RECIPE VIEW */\n\n.recipe-name {\n  align-self: center;\n  font-size: 2.25rem;\n}\n\n.recipe-view {\n  align-self: center;\n  width: 60%;\n  min-width: 1200px;\n  display: flex;\n  flex-direction: column;\n  padding: 2em;\n  margin: 2em;\n  border-radius: 1em;\n  background-color: #E8E8E4;\n}\n\n.add-to-saved {\n align-self: end;\n cursor: pointer;\n font-size: 3em;\n border: none;\n height: 40px;\n width: 40px;\n color: gray;\n background-color: #E8E8E4;\n}\n\n.recipe-info-row {\n  display: flex;\n  justify-content: space-between;\n  margin-bottom: 2em;\n}\n\n.info-box {\n  height: auto;\n  width: 48%;\n  border-radius: 1em;\n}\n\n.instructions-section {\n  margin-top: 4em;\n}\n\n/* RECIPES TO COOK / SAVED RECIPES VIEW */\n\n#saved-recipes-header {\n  display: flex;\n  text-align: center;\n  width: fit-content;\n}\n\n#search-saved {\n  width: 150px;\n  margin: 10px;\n}\n\n.delete {\n  background-color: #fec5bbf0;\n  border: none;\n  border-radius: 45%;\n}\n\n.whole-recipe-box,\n.grocery-list-and-cost {\n  margin: 10px;\n  background-color: #D8E2DC;\n  border-radius: 20px;\n  padding: 5px 25px 20px;\n  box-shadow: 10px 10px 15px -4px rgba(0,0,0,0.25);\n}\n\n.delete-btn {\n  align-self: flex-end;\n}\n\n#saved-view {\n  position: relative;\n}\n\n.grocery-list-and-cost {\n  text-align: center;\n  position: absolute;\n  top: 8vh;\n  right: 0;\n  width: 18vw;\n  height: auto;\n  max-height: 60vh;\n  overflow-y: auto;\n}\n\n.grocery-list {\n  text-align: left;\n}\n\n.hidden {\n  display: none !important;\n}\n\n@media (max-width: 1600px) {\n  .featured {\n    margin-bottom: 5%;\n  }\n}\n\n@media (max-width: 1300px){\n  .featured {\n    flex-wrap: wrap;\n  }\n  #user-search {\n    flex-direction: column-reverse;\n    min-width: 230px;\n  }\n  #search-btn {\n    width: 50px;\n    height: 40px;\n  }\n  .recipe-view {\n    min-width:auto;\n  }\n}\n\n@media (max-width: 1180px){\n  .nav-pages {\n    flex-direction: column;\n  }\n  #user-input {\n    width: 100%;\n  }\n}\n\n@media (max-width: 970px) {\n  .recipe-box > img {\n    height: 15vh;\n  }\n  #user-search {\n    min-width: 180px;\n  }\n}\n\n@media(max-width: 670px) {\n  .recipe-of-the-day {\n    width: 85vw;\n    height: auto;\n  }\n  #user-search {\n    min-width: 130px;\n  }\n  #saved-recipes-header {\n    flex-direction: column;\n  }\n}\n\n@media(max-width: 550px) {\n  .nav-bar {\n    flex-direction: column-reverse;\n  }\n  .main-title {\n    order: 1;\n  }\n  .nav-pages {\n    align-items: center;\n  }\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1074,17 +1149,43 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "deleteData": () => (/* binding */ deleteData),
 /* harmony export */   "getAllData": () => (/* binding */ getAllData),
-/* harmony export */   "getData": () => (/* binding */ getData)
+/* harmony export */   "getData": () => (/* binding */ getData),
+/* harmony export */   "postData": () => (/* binding */ postData)
 /* harmony export */ });
+/* harmony import */ var _scripts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 // =====================================================================
 // =========================  FETCH REQUESTS  ==========================
 // =====================================================================
 
+
 const getData = (data) => {
-  return fetch(`https://what-s-cookin-starter-kit.herokuapp.com/api/v1/${data}`)
+  return fetch(`https://whats-cooking-api.vercel.app/api/v1/${data}`)
       .then(response => response.json())
       .catch(error => console.log("ERROR", error));
+};
+
+const postData = (data) => {
+  fetch('https://whats-cooking-api.vercel.app/api/v1/usersRecipes', {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json' }
+  })
+    .then(response => response.json())
+    .then(resolve => (0,_scripts__WEBPACK_IMPORTED_MODULE_0__.setData)())
+    .catch(err => console.log("ERROR", err));
+};
+
+const deleteData = (data) => {
+  fetch('https://whats-cooking-api.vercel.app/api/v1/usersRecipes', {
+    method: 'DELETE',
+    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json' }
+  })
+    .then(response => response.json())
+    .then(resolve => (0,_scripts__WEBPACK_IMPORTED_MODULE_0__.setData)())
+    .catch(err => console.log("ERROR", err));
 };
 
 const getAllData = () => {
